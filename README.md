@@ -37,7 +37,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ### 手动下载获取
 使用从github下载`.zip`文件获取最新的sdk。
 
-[Github: gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk)
+[Github: gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk.zip)
 
 ## 导入SDK
 如果你**不是**使用**添加依赖**, 将获取的`.aar`文件拖拽到工程中的libs文件夹下。
