@@ -7,27 +7,6 @@
 
 ## 获取SDK
 
-### 通过添加依赖获取SDK
-
-首先在工程中的`build.gradle`中添加以下代码
-
-```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-下一步，在项目中的`build.gradle`中添加以下代码
-
-```
-dependencies {
-		compile 'com.github.GeeTeam:gt3-android-sdk'
-	}
-```
-
-
 ### 使用`git`命令从Github获取
 
 ```
