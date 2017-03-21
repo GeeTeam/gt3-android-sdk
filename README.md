@@ -55,8 +55,62 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ```java
        compile(name: 'gt3geetest-sdk', ext: 'aar')
 
+``` 
+## 初始化
+### 由于传出的值要用EventBus接收，所以要添加EventBus的依赖
+```java
+   compile 'org.greenrobot:eventbus:3.0.0'
+
 ```
+### 在AndroidManifest.xml文件中添加权限
+```java
+     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+```
+### 设置服务端URL
+```java
+     // 设置获取id，challenge，success的URL，需替换成自己的服务器URL
+    private static final String captchaURL = "http://192.168.1.208:9977/gt/register1";
+    // 设置二次验证的URL，需替换成自己的服务器URL
+    private static final String validateURL = "http://192.168.1.208:9977/gt/form-validate1";
 
+```
+### 可以自定义设置显示的文字和自定义View的长度
+```java
+    //设置正常显示的文字
+    private static final String normalText = "点击按钮进行验证";
+    //设置失败显示的文字
+    private static final String failText = "请求失败";
+    //设置等待显示的文字
+    private static final String waitText = "请完成上方验证";
+    //设置成功显示的文字
+    private static final String successText = "验证成功";
+    //内部的半径  以下单位都为dp,如果用px的话，本sdk内部有DensityUtil方法px2dip()可以将px转换成dp
+    private static final int internalRadius = 12;
+    //外部的半径
+    private static final int externalRadius = 30;
+    //呼吸内部的半径
+    private static final int BreatheRadius = 25;
+    //完成加载的点的半径
+    private static final int waitRadius = 5;
+    //成功的半径
+    private static final int successRadius = 24;
+    //报错的半径
+    private static final int failRadius = 16;
+    //宕机状态三角的直角边长
+    private static final int downTimePath = 25;
+    //报错内部线的长度的一半
+    private static final int failLine = 6;
+
+```
+### 验证码加载开始
+```java
+     new GT3GeetestUtils(MainActivity.this).getGeetest();
+
+```
 
 可能遇到的错误码请参考后面的列表: [error code list]()
