@@ -1,9 +1,9 @@
 # gt3-android-sdk
-#概述与资源
+# 概述与资源
 
-极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用, SDK不依赖任何第三方库。
+极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
 
-##环境需求
+## 环境需求
 
 条目||
 ----|------
@@ -12,7 +12,7 @@
 系统依赖|无
 sdk三方依赖|无
 
-##资源下载
+## 资源下载
 
 条目||
 -------------|--------------
@@ -22,11 +22,11 @@ SDK接口文档   |[gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk/
 错误码列表   |[http://]()
 Q&A         |[http://]()
 
-#安装
+# 安装
 
-##获取SDK
+## 获取SDK
 
-###通过添加依赖获取SDK
+### 通过添加依赖获取SDK
 
 首先在工程中的`build.gradle`中添加以下代码
 
@@ -47,21 +47,19 @@ dependencies {
 ```
 
 
-###使用`git`命令从Github获取
+### 使用`git`命令从Github获取
 
 ```
 git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ```
 
-###手动下载获取
+### 手动下载获取
 使用从github下载`.zip`文件获取最新的sdk。
 
 [Github: gt3-android-sdk]()
 
-##导入SDK
+## 导入SDK
 如果你**不是**使用**添加依赖**, 将获取的`.aar`文件拖拽到工程中的libs文件夹下。
-
-![import](./img/import.png)
 
 在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
 ```java
@@ -74,13 +72,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ```
 并且要手动将aar包添加依赖：
 ```java
-       compile(name: 'aar文件夹的名字', ext: 'aar')
+       compile(name: 'gt3geetest-sdk', ext: 'aar')
 
 ```
 
-![libraries](./img/libraries.png)
-
-##配置接口
+## 配置接口
 
 Android sdk主要提供以下接口:
 
@@ -145,25 +141,13 @@ Android sdk主要提供以下接口:
     }   
 ```
 
-##编译并运行你的工程
+## 编译并运行你的工程
 
 编译你的工程, 体验全新的极验验证3.0！
 
-![build](./img/build.png)
+# 代码示例
 
-轻轻点击你集成的验证按钮, 如此自此自然, 如此传神。
-
-`1.`未激活
-
-![sample1](./img/sample1.jpg)
-
-`2.`激活后
-
-![sample2](./img/sample2.jpg)
-
-#代码示例
-
-##初始化
+## 初始化
 
 ```java
 GeetestUtils geetestUtils = new GeetestUtils(MainActivity.this);
@@ -171,7 +155,7 @@ geetestUtils.getGeetest();
 
 ```
 
-##激活验证
+## 激活验证
 
 通过**UI操作**点击验证按钮或使用初始化方式激活验证:
 
@@ -180,7 +164,7 @@ GeetestUtils geetestUtils = new GeetestUtils(MainActivity.this);
 geetestUtils.getGeetest();
 ```
 
-##处理验证结果
+## 处理验证结果
 
 只有完成二次验证后, 本次验证才是完整完成。
 
@@ -222,7 +206,7 @@ geetestUtils.getGeetest();
     }
 ```
 
-##处理验证错误
+## 处理验证错误
 
 验证过程中可能发生一些不可避免的错误, 您可以通过在下面的代理方法中进行处理:
 
