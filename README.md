@@ -113,4 +113,16 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ```
 
+### 验证码加载成功
+```java
+      @Subscribe(threadMode = ThreadMode.MAIN)
+    public void test(String a) {
+        if (a.equals("dosuccess")) {
+            //验证码验证成功后的操作
+
+        }
+    }
+
+```
+
 可能遇到的错误码请参考后面的列表: [error code list]()
