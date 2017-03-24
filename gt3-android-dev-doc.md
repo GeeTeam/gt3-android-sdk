@@ -1,4 +1,4 @@
-#Android SDK Documentation
+# Android SDK Documentation
 
 文件名				|说明
 ----------------	|----------
@@ -8,7 +8,7 @@ GT3GeetestUtils.java  |封装的验证码响应工具
 GT3GeetestView.java  |自定义View
 
 
-#GT3Geetest
+# GT3Geetest
 
 **Public Mehtods**
 
@@ -29,95 +29,78 @@ GT3GeetestView.java  |自定义View
 `setTimeout()`	|设置超时时限
 `submitPostData(_, _)`|提交二次验证
 
-##GT3Geetest()
+## GT3Geetest()
 
-###abstract
+**abstract**
 
 GT3Geetest的初始化方法
 
-###declaration
+**declaration**
 
 ~~~java
 
 public GT3Geetest(String captchaURL, String validateURL);
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|---------------------
 `captchaURL`	|`String`		|从网站主服务器获取验证启动数据的接口(api_1)
 `validateURL`	|`String`		|从网站主服务器进行二次验证的接口(api_2)
 
-###returns
+### returns
 
 类型			|说明
 -------------	|----------------------
 `Geetest`		|geetest验证网络管理的实例
 
-##checkServer()
+## checkServer()
 
-###abstract
+**abstract**
 
 检测服务器状态
 
-###declaration
+**declaration**
 
 ~~~java
 
 public JSONObject checkServer();
 ~~~
 
-###parameters
 
-无
 
-###returns
+## checkRealServer()
 
-无
-##checkRealServer()
-
-###abstract
+**abstract**
 
 检测服务器状态
 
-###declaration
+**declaration**
 
 ~~~java
 
 public JSONObject checkRealServer();
 ~~~
 
-###parameters
 
-无
+## getphpServer()
 
-###returns
-
-无
-##getphpServer()
-
-###abstract
+**abstract**
 
 检测get.php状态
 
-###declaration
+**declaration**
 
 ~~~java
 
 public JSONObject getphpServer();
 ~~~
 
-###parameters
 
-无
-
-###returns
-
-无
 ##getajaxServer()
 
-###abstract
+**abstract**
 
 检测get.ajax状态
 
@@ -128,41 +111,35 @@ public JSONObject getphpServer();
 public JSONObject getajaxServer();
 ~~~
 
-###parameters
 
-无
+## setGeetestListener()
 
-###returns
-
-无
-##setGeetestListener()
-
-###abstract
+**abstract**
 
 注册验证网络事件监听
 
-###discussion
+**discussion**
 
 包含两个回调方法
 
-###declaration
+**declaration**
 
 ~~~java
 
 public void setGeetestListener(GeetestListener listener);
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|-------------
 `listener`	|`GeetestListener`|验证的网络监听器
 
-###returns
+### returns
 
 无
 
-###seealso
+### seealso
 
 ~~~java
 
@@ -173,145 +150,145 @@ public interface GeetestListener {
 }
 ~~~
 
-##getGt()
+## getGt()
 
-###abstract
+**abstract**
 
 获取验证id
 
-###discussion
+**discussion**
 
 从极验后台获取的验证id
 
-###declaration
+**declaration**
 
 ~~~java
 
 public String getGt();
 ~~~
 
-###parameters
+### parameters
 
 无
 
-###returns
+### returns
 
 类型			|说明
 -------------	|----------------------
 `String`		|用于启动验证的id
 
-##getChallenge()
+## getChallenge()
 
-###abstract
+**abstract**
 
 获取验证challenge
 
-###discussion
+**discussion**
 
 每个challenge只能用于请求一次验证
 
-###declaration
+**declaration**
 
 ~~~java
 
 public String getChallenge();
 ~~~
 
-###parameters
+### parameters
 
 无
 
-###returns
+### returns
 
 类型			|说明
 -------------	|----------------------
 `String`		|用于启动验证的challenge
 
-##getSuccess()
+## getSuccess()
 
-###abstract
+**abstract**
 
 获取极验验证的服务状态
 
-###discussion
+**discussion**
 
 `ture`/`false` 请求正常验证/静态验证
 
-###declaration
+**declaration**
 
 ~~~java
 
 public boolean getSuccess();
 ~~~
 
-###parameters
+### parameters
 
 无
 
-###returns
+### returns
 
 类型			|说明
 -------------	|----------------------
 `boolean`		|`true`/`false` 验证服务正常/异常
 
-##setTimeout()
+## setTimeout()
 
-###abstract
+**abstract**
 
 配置验证数据请求超时时限
 
-###discussion
+**discussion**
 
 默认10000ms
 
-###declaration
+**declaration**
 
 ~~~java
 
 public void setTimeout(int timeout);
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|-------------
 `timeout`		|`int`			|验证的超时时限
 
-###returns
+### returns
 
 无
 
-##submitPostData()
+## submitPostData()
 
-###abstract
+**abstract**
 
 提交二次验证测数据
 
-###discussion
+**discussion**
 
 此方法包装的请求必须为`POST`类型
 
-###declaration
+**declaration**
 
 ~~~java
 
 public String submitPostData(Map<String, String> params, String encode);
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|-------------
 `params`		|`Map<String, String>`|二次验证参数
 `encode`		|`String`		|编码格式
 
-###returns
+### returns
 
 类型			|说明
 -------------	|----------------------
 `String`		|返回的二次验证结果
 
-#GT3GeetestButton
+# GT3GeetestButton
 
 **Public Mehtods**
 
@@ -320,63 +297,63 @@ public String submitPostData(Map<String, String> params, String encode);
 `isNetworkAvailable(_)`|网络工具
 `test(_)`	|改变整个ViewGroup的状态
 
-##isNetworkAvailable()
+## isNetworkAvailable()
 
-###abstract
+**abstract**
 
 判断网络是否可用
 
-###discussion
+**discussion**
 
 UI请在主线程操作
 
-###declaration
+**declaration**
 
 ~~~java
 
  public static boolean isNetworkAvailable(Context context)；
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|---------------------
 `context`		|`Context`	|activity上下文
 
-###returns
+### returns
 
 类型			|说明
 -------------	|----------------------
 boolean	|true/false
 
-##test()
+## test()
 
-###abstract
+**abstract**
 
 注册验证视图事件监听
 
-###discussion
+**discussion**
 
 ui操作
 
-###declaration
+**declaration**
 
 ~~~java
 
   public void test(String a)；
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|-------------
 `a`	|`String`	|验证的视图监听
 
-###returns
+### returns
 
 无
 
-#GT3GeetestUtils
+# GT3GeetestUtils
 
 **Public Mehtods**
 
@@ -386,88 +363,81 @@ ui操作
 `canWork(_,_)`	|点击进行的操作
 `startDownTime()`	|宕机点击下进行的操作
 
-##getGeetest()
+## getGeetest()
 
-###abstract
+**abstract**
 
 验证加载启动
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void getGeetest() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
 
-###returns
+## canWork()
 
-类型			|说明
--------------	|----------------------
-无	|
-
-##canWork()
-
-###abstract
+**abstract**
 
 点击进行的操作
 
-###discussion
+**discussion**
 
 点击操作
 
-###declaration
+**declaration**
 
 ~~~java
 
   public void canWork(String angle, String getXY)；
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|-------------
 `angle`	|`String`	|滑动轨迹信息
 `getXY`	|`String`	|验证码的坐标
-###returns
+
+### returns
 
 无
 
-##startDownTime()
+## startDownTime()
 
-###abstract
+**abstract**
 
 宕机状态下点击进行的操作
 
-###discussion
+**discussion**
 
 点击操作
 
-###declaration
+**declaration**
 
 ~~~java
 
   public void startDownTime()；
 ~~~
 
-###parameters
+### parameters
 
 参数名			|类型			|说明
 -------------	|------------	|-------------
 无	|	|
 
-###returns
+### returns
 
 无
 
-#GT3GeetestView
+# GT3GeetestView
 
 **Public Mehtods**
 
@@ -481,215 +451,155 @@ ui操作
 `startsfinish()`	|完成等待状态
 `startsuccess()`	|验证成功状态
 `startfail()`	|验证失败状态
-##normal()
 
-###abstract
+## normal()
+
+**abstract**
 
 普通状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void normal() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
 
-###returns
+## start()
 
-类型			|说明
--------------	|----------------------
-无	|
-##start()
-
-###abstract
+**abstract**
 
 开始状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void start() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
 
-###returns
+## startdown()
 
-类型			|说明
--------------	|----------------------
-无	|
-##startdown()
-
-###abstract
+**abstract**
 
 呼吸状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void startdown() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
 
-###returns
+## startcircle()
 
-类型			|说明
--------------	|----------------------
-无	|
-##startcircle()
-
-###abstract
+**abstract**
 
 陀螺仪状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void startcircle() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
 
-###returns
+## startscanning()
 
-类型			|说明
--------------	|----------------------
-无	|
-
-##startscanning()
-
-###abstract
+**abstract**
 
 扫描状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void startscanning() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
 
-###returns
+## startsfinish()
 
-类型			|说明
--------------	|----------------------
-无	|
-
-##startsfinish()
-
-###abstract
+**abstract**
 
 完成等待状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void startfinish() ；
 ~~~
 
-###parameters
-
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
-
-###returns
-
-类型			|说明
--------------	|----------------------
-无	|
 
 
-##startsuccess()
 
-###abstract
+## startsuccess()
+
+**abstract**
 
 验证成功状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void startsuccess() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
+## startfail()
 
-###returns
-
-类型			|说明
--------------	|----------------------
-无	|
-##startfail()
-
-###abstract
+**abstract**
 
 验证失败状态
 
-###discussion
+**discussion**
+
 无
-###declaration
+
+**declaration**
 
 ~~~java
 
   public void startfail() ；
 ~~~
 
-###parameters
 
-参数名			|类型			|说明
--------------	|------------	|---------------------
-无		|	|
-
-###returns
-
-类型			|说明
--------------	|----------------------
-无	|
