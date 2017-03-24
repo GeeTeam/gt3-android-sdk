@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         new GT3GeetestUtils(MainActivity.this).getGeetest();
 
 
-
     }
+
     private void init() {
         new GT3GeetestUrl().setCaptchaURL(captchaURL);
         new GT3GeetestUrl().setValidateURL(validateURL);
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
