@@ -1,7 +1,9 @@
 # gt3-android-sdk
+
 # 概述与资源
 
 极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
+集成极验验证3.0的时，需要先了解极验验证3.0的 [产品结构](http://docs.geetest.com/install/overview/#产品结构)。并且必须要先在您的后端搭建相应的**服务端SDK**，并配置从[极验后台]()获取的`<gt_captcha_id>`和`<geetest_key>`用来配置您集成了极验服务端sdk的后台。
 
 # 安装
 
@@ -14,12 +16,14 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ```
 
 ### 手动下载获取
+
 使用从github下载`.zip`文件获取最新的sdk。
 
 [Github: gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk)
 
-## 导入SDK
-如果你**不是**使用**添加依赖**, 将获取的`.aar`文件拖拽到工程中的libs文件夹下。
+## 手动导入SDK
+从github上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
+[Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/master/app/libs)
 
 在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
 ```java
@@ -36,54 +40,65 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ``` 
 ## 初始化
-### 由于传出的值要用EventBus接收，所以要添加EventBus的依赖
-```java
-   compile 'org.greenrobot:eventbus:3.0.0'
 
-```
 ### 在AndroidManifest.xml文件中添加权限
 ```java
-     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 ```
-### 设置服务端URL
+### 在对应的xml文件中添加控件并在代码中初始化
+
 ```java
-     // 设置获取id，challenge，success的URL，需替换成自己的服务器URL
-    private static final String captchaURL = "http://192.168.1.208:9977/gt/register1";
-    // 设置二次验证的URL，需替换成自己的服务器URL
-    private static final String validateURL = "http://192.168.1.208:9977/gt/form-validate1";
+    <com.example.sdk.GT3GeetestButton
+        android:id="@+id/ll_btn_type"
+        android:layout_width="290dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal" />
 
 ```
-### 可以自定义设置显示的文字和自定义View的长度
 ```java
-    //设置正常显示的文字
-    private static final String normalText = "点击按钮进行验证";
-    //设置失败显示的文字
-    private static final String failText = "请求失败";
-    //设置等待显示的文字
-    private static final String waitText = "请完成上方验证";
-    //设置成功显示的文字
-    private static final String successText = "验证成功";
-    //内部的半径  以下单位都为dp,如果用px的话，本sdk内部有DensityUtil方法px2dip()可以将px转换成dp
-    private static final int internalRadius = 12;
-    //外部的半径
-    private static final int externalRadius = 30;
-    //呼吸内部的半径
-    private static final int BreatheRadius = 25;
-    //完成加载的点的半径
-    private static final int waitRadius = 5;
-    //成功的半径
-    private static final int successRadius = 24;
-    //报错的半径
-    private static final int failRadius = 16;
-    //宕机状态三角的直角边长
-    private static final int downTimePath = 25;
-    //报错内部线的长度的一半
-    private static final int failLine = 6;
+GT3GeetestButton gtbt=（GT3GeetestButton）findViewById(R.id.ll_btn_type);
+```
+
+### 设置服务端URL
+
+| Attribute | Descripion |
+| ------ | ------ |
+| captchaURL|设置获取id，challenge，success的URL，需替换成自己的服务器URL|
+|validateURL|设置二次验证的URL，需替换成自己的服务器URL|
+
+```java
+        new GT3GeetestUrl().setCaptchaURL(captchaURL);
+        new GT3GeetestUrl().setValidateURL(validateURL);
+
+```
+### 注册GT3EventBus及注销
+
+```java
+   compile 'org.greenrobot:eventbus:3.0.0'
+
+```
+在生命周期开始进行初始化，在注销的时候进行销毁
+
+```java
+   @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
 ```
 ### 验证码加载开始
@@ -93,15 +108,15 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ```
 
 ### 验证码加载成功
+
+
 ```java
-      @Subscribe(threadMode = ThreadMode.MAIN)
-    public void test(String a) {
+  
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void text(String a) {
         if (a.equals("dosuccess")) {
             //验证码验证成功后的操作
-
+            Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
         }
     }
-
 ```
-
-可能遇到的错误码请参考后面的列表: [error code list]()
