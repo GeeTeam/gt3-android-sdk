@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         //验证码加载开始
         new GT3GeetestUtils(MainActivity.this).getGeetest();
 
@@ -58,9 +59,4 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 }
