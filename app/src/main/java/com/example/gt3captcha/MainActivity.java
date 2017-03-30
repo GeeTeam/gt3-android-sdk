@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.ll_btn_type)
     GT3GeetestButton linearLayout;
     // 设置获取id，challenge，success的URL，需替换成自己的服务器URL
-    private static final String captchaURL = "http://192.168.1.208:9977/gt/register3";
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
     // 设置二次验证的URL，需替换成自己的服务器URL
-    private static final String validateURL = "http://192.168.1.208:9977/gt/validate3";
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
 
 
     @Override
