@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.example.sdk.GT3GeetestButton;
 import com.example.sdk.GT3GeetestUrl;
 import com.example.sdk.GT3GeetestUtils;
+import com.example.sdk.GT3ViewColor;
 import com.example.sdk.Gt3GeetestTestMsg;
 import com.example.sdk.Gt3GeetestViewPath;
 
@@ -44,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         new GT3GeetestUrl().setCaptchaURL(captchaURL);
         new GT3GeetestUrl().setValidateURL(validateURL);
+        //下面可以自定义显示的文字
+        //new Gt3GeetestTestMsg().setWaitText();
+        //可以自定义显示view的颜色
+        //new GT3ViewColor().setAddColor();
+        //可以自定义显示view的宽度
+        //new Gt3GeetestViewPath().setInternalRadius();
+
+
     }
 
 
@@ -51,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public void text(String a) {
         if (a.equals("dosuccess")) {
             //验证码验证成功后的操作
-           new Gt3GeetestTestMsg().setCandotouch(false);//执行这个方法表示验证成功后不能点击，不执行则表示可以点击
+            new Gt3GeetestTestMsg().setCandotouch(false);//执行这个方法表示验证成功后不能点击，不执行则表示可以点击
             Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
         }
     }
