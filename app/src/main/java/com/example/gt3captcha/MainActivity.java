@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         //验证码加载开始
-        new GT3GeetestUtils(MainActivity.this).getGeetest();
+        GT3GeetestUtils.getInstance(MainActivity.this).getGeetest();
 
 
     }
