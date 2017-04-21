@@ -17,4 +17,10 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="horizontal" />
+    <Button
+        android:layout_below="@+id/ll_btn_type"
+        android:id="@+id/btn_finish"
+        android:text="测试按钮，点击finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

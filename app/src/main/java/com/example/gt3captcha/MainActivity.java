@@ -2,6 +2,7 @@ package com.example.gt3captcha;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -38,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         //验证码加载开始
         GT3GeetestUtils.getInstance(MainActivity.this).getGeetest();
-
+       findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               finish();
+           }
+       });
 
     }
 
