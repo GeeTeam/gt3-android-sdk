@@ -28,6 +28,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.1'
-    compile(name: 'gt3geetest-sdk', ext: 'aar')
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile(name: 'gt3geetest-sdk', ext: 'aar')
 }
