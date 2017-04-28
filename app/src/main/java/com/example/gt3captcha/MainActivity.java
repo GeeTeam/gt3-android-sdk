@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.ll_btn_type)
     GT3GeetestButton linearLayout;
     // 设置获取id，challenge，success的URL，需替换成自己的服务器URL
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
-
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
+    private GT3GeetestUtils gt3GeetestUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +36,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        //验证码加载开始
-        GT3GeetestUtils.getInstance(MainActivity.this).getGeetest();
-       findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               finish();
-           }
-       });
+        //验证码初始化
+        gt3GeetestUtils = GT3GeetestUtils.getInstance(MainActivity.this);
+        gt3GeetestUtils.getGeetest();
+        gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
+            //拿到验证成功之后的结果
+            @Override
+            public void gt3GetDialogResult(String result) {
+
+            }
+
+            @Override
+            public void gt3DialogSuccessResult(String result) {
+                new Gt3GeetestTestMsg().setCandotouch(false);//这里设置验证成功后是否可以关闭
+                Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -61,20 +68,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void text(String a) {
-        if (a.equals("dosuccess")) {
-            //验证码验证成功后的操作
-            new Gt3GeetestTestMsg().setCandotouch(false);//执行这个方法表示验证成功后不能点击，不执行则表示可以点击
-            Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
 
 }
