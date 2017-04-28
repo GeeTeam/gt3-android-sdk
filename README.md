@@ -1,5 +1,5 @@
 # gt3-android-sdk
-
+# 本分支是集成按钮的验证码，如有需要请下载此demo
 # 概述与资源
 
 极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
@@ -79,40 +79,37 @@ GT3GeetestButton gtbt=（GT3GeetestButton）findViewById(R.id.ll_btn_type);
         new GT3GeetestUrl().setValidateURL(validateURL);
 
 ```
-### 注册GT3EventBus及注销
+### 注册GT3EventBus
 
-在生命周期开始进行初始化，在注销的时候进行销毁
 
 ```java
- @Override
-    public void onCreate() {
-        super.onCreate();
-        GT3EventBus.getInstatnce().register(this);
-    }
-    
-  @Override
-    public void onDestroy() {
-        super.onDestroy();
-        GT3EventBus.getInstatnce().unregister(this);
-    }
 
+ compile 'org.greenrobot:eventbus:3.0.0'
 ```
 ### 验证码加载开始
 ```java
-     new GT3GeetestUtils(MainActivity.this).getGeetest();
+       gt3GeetestUtils = GT3GeetestUtils.getInstance(MainActivity.this);
+        gt3GeetestUtils.getGeetest();
 
 ```
 
-### 验证码加载成功
+### 验证码加载的接口
 
 
 ```java
   
-    public void onEventUI(String a) {
-        if (a.equals("dosuccess")) {
-            //验证码验证成功后的操作
+       gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
+            //拿到验证成功之后的结果
+            @Override
+            public void gt3GetDialogResult(String result) {
 
-        }
-    }
+            }
+
+            @Override
+            public void gt3DialogSuccessResult(String result) {
+                new Gt3GeetestTestMsg().setCandotouch(false);//这里设置验证成功后是否可以关闭
+                Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 ```
