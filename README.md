@@ -1,6 +1,8 @@
 # gt3-android-sdk
 
-# master分支为ButtonBind验证码,dv-master分支为带button的验证码，请按需求进行demo下载
+# master分支为不带Button的验证码,dv-master分支为带Button的验证码
+
+# 本分支为不带Button的验证码，请按需求进行demo下载
 
 # 概述与资源
 
