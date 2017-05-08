@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             //拿到验证返回的结果,此时还未进行二次验证
             @Override
             public void gt3GetDialogResult(String result) {
+
             }
 
             //验证码验证成功
