@@ -2,7 +2,10 @@ package com.example.gt3captcha;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     // 设置二次验证的URL，需替换成自己的服务器URL
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private GT3GeetestUtils gt3GeetestUtils;
-
+    private EditText editText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void gt3DialogSuccessResult(String result) {
-                new Gt3GeetestTestMsg().setCandotouch(false);//这里设置验证成功后是否可以关闭
+                Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
                 Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
             }
         });
@@ -64,6 +67,28 @@ public class MainActivity extends AppCompatActivity {
         //new GT3ViewColor().setAddColor();
         //可以自定义显示view的宽度
         //new Gt3GeetestViewPath().setInternalRadius();
+        editText = (EditText) findViewById(R.id.et);
+        Gt3GeetestTestMsg.setCandotouch(false);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (editText.getText().length() != 6) {
+                    Gt3GeetestTestMsg.setCandotouch(false);
+                } else {
+                    Gt3GeetestTestMsg.setCandotouch(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
     }
