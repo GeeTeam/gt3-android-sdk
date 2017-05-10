@@ -14,6 +14,11 @@ import com.example.sdk.GT3GeetestUtils;
 import com.example.sdk.GT3BaseActivity;
 import com.example.sdk.GT3Toast;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
@@ -76,6 +81,20 @@ public class MainActivity extends AppCompatActivity {
             public void gt3DialogReady() {
 
             }
+
+            //拿到第一个url返回的数据
+            @Override
+            public void gt3FirstResult(JSONObject jsonObject) {
+
+            }
+
+            //往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
+            @Override
+            public Map gt3SecondResult() {
+
+                return null;
+            }
+
 
             //拿到验证返回的结果,此时还未进行二次验证
             @Override
