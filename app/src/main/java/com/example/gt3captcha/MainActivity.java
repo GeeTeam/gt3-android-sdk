@@ -19,6 +19,9 @@ import com.example.sdk.Gt3GeetestViewPath;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private GT3GeetestUtils gt3GeetestUtils;
     private EditText editText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            //拿到第一个url返回的数据
+            @Override
+            public void gt3FirstResult(JSONObject jsonObject) {
+
+            }
+
+            //往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
+            @Override
+            public Map gt3SecondResult() {
+                return null;
+            }
+
+            //验证成功
             @Override
             public void gt3DialogSuccessResult(String result) {
                 Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
