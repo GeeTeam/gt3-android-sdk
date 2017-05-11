@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.sdk.GT3GeetestUrl;
 import com.example.sdk.GT3GeetestUtils;
 import com.example.sdk.GT3BaseActivity;
+import com.example.sdk.GT3ReadyMsg;
 import com.example.sdk.GT3Toast;
 
 import org.json.JSONObject;
@@ -128,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         new GT3GeetestUrl().setCaptchaURL(captchaURL);
         new GT3GeetestUrl().setValidateURL(validateURL);
+//        new GT3ReadyMsg().setReadyTextBotColor(0xffcccccc);//设置准备界面底部文字颜色
+//        new GT3ReadyMsg().setReadyTextBot("AAAAAA");//设置准备界面底部文字
+//        new GT3ReadyMsg().setLogoid();//设置准备界面头部的gif图片
+//        new GT3ReadyMsg().setReadyTextMid();//设置准备界面中间的文字
+//        new GT3ReadyMsg().setReadyTextMidColor();//设置准备界面中间的文字的颜色
         gt3GeetestUtils = new GT3GeetestUtils(MainActivity.this);
         gt3GeetestUtils.gtDologo();//加载验证码之前判断有没有logo
     }
