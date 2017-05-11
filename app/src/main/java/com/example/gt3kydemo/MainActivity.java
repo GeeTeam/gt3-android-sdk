@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             //往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
             @Override
             public Map gt3SecondResult() {
-
                 return null;
             }
 
