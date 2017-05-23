@@ -43,6 +43,25 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
        compile(name: 'gt3geetest-sdk', ext: 'aar')
 
 ``` 
+
+### 如需使用依赖, 需要在你的主工程文件里加入一下配置
+
+```java
+<dependency>
+  <groupId>gt3bind.android</groupId>
+  <artifactId>sdk</artifactId>
+  <version>1.1.0</version>
+  <type>pom</type>
+</dependency>
+```
+使用gradle
+
+```java
+dependencies {
+	compile 'gt3bind.android:sdk:1.1.0'
+	}
+        
+        ``` 
 ## 初始化
 
 ### 在AndroidManifest.xml文件中添加权限
