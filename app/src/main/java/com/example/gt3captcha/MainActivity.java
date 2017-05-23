@@ -14,11 +14,7 @@ import com.example.sdk.GT3GeetestUrl;
 import com.example.sdk.GT3GeetestUtils;
 import com.example.sdk.GT3ViewColor;
 import com.example.sdk.Gt3GeetestTestMsg;
-import com.example.sdk.Gt3GeetestViewPath;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -69,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void gt3DialogSuccessResult(String result) {
                 Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
-                Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "这里是验证成功后执行的操作0", Toast.LENGTH_SHORT).show();
             }
         });
 
