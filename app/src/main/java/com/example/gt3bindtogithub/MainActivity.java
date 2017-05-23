@@ -15,9 +15,9 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-fullpage";
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-fullpage";
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private EditText et1;
     private EditText et2;
     private GT3GeetestUtils gt3GeetestUtils;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 if (et2.getText().length() == 6) {
                     GT3Toast.show("验证成功", getApplicationContext());
                 } else {
-                    GT3Toast.show("验证未通过 请重试", getApplicationContext());
+                    GT3Toast.show("验证未通过0 请重试", getApplicationContext());
                 }
             }
 
