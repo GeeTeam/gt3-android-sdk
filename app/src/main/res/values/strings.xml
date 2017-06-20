@@ -1,7 +1,3 @@
 <resources>
-    <string name="app_name">GeetestThr</string>
-    <string name="tv_click_start">Click the button to verify</string>
-    <string name="tv_click_close">Click again to verify</string>
-    <string name="tv_click_success">Verification is successful</string>
-    <string name="tv_click_finish">Please complete the above verification</string>
+    <string name="app_name">GT3BindToGithub</string>
 </resources>
