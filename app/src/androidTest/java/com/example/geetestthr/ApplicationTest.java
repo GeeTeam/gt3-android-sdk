@@ -1,4 +1,4 @@
-package com.example.gt3kydemo;
+package com.example.geetestthr;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

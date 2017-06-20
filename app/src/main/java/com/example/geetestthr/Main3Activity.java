@@ -1,30 +1,32 @@
-package com.example.gt3bindtogithub;
+package com.example.geetestthr;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.sdk.GT3GeetestUrl;
-import com.example.sdk.GT3GeetestUtils;
-import com.example.sdk.GT3Toast;
+import com.example.gt3unbindsdk.unBind.GT3Geetest2Utils;
+import com.example.gt3unbindsdk.unBind.GT3Toast;
 
 import org.json.JSONObject;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+
+public class Main3Activity extends AppCompatActivity {
+
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private EditText et1;
     private EditText et2;
-    private GT3GeetestUtils gt3GeetestUtils;
+    private GT3Geetest2Utils gt3GeetestUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main3);
         init();
         et1 = (EditText) findViewById(R.id.et1);
         et2 = (EditText) findViewById(R.id.et2);
@@ -45,15 +47,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnToSecond).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Demo2Activity.class));
+                startActivity(new Intent(Main3Activity.this, Main4Activity.class));
             }
         });
-        gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
+        gt3GeetestUtils.setGtListener(new GT3Geetest2Utils.GT3Listener() {
             //点击验证码的关闭按钮来关闭验证码
             @Override
             public void gt3CloseDialog() {
                 GT3Toast.show("验证未通过 请重试", getApplicationContext());
             }
+
+            //支持"zh-cn","zh-hk","zh-tw","ko-kr","ja-jp","en-us".默认"zh-cn".
+
 
             //点击屏幕关闭验证码
             @Override
@@ -73,6 +78,16 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
+            @Override
+            public Map<String, String> validateHeaders() {
+                return null;
+            }
+
+            @Override
+            public boolean gtSetIsCustom() {
+                return false;
+            }
+
             //拿到第一个url返回的数据
             @Override
             public void gt3FirstResult(JSONObject jsonObject) {
@@ -82,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
             //拿到验证返回的结果,此时还未进行二次验证
             @Override
             public void gt3GetDialogResult(String result) {
+
+            }
+
+            @Override
+            public void gt3GetDialogResult(boolean b, String s) {
 
             }
 
@@ -108,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void gt3DialogOnError() {
+            public void gt3DialogOnError(String error) {
 
             }
 
@@ -117,13 +137,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-
-        new GT3GeetestUrl().setCaptchaURL(captchaURL);
-        new GT3GeetestUrl().setValidateURL(validateURL);
 //        new GT3ReadyMsg().setLogoid(R.drawable.success);//设置准备界面头部的gif图片
-        gt3GeetestUtils = new GT3GeetestUtils(MainActivity.this);
-        gt3GeetestUtils.gtDologo();//加载验证码之前判断有没有logo
+        gt3GeetestUtils = new GT3Geetest2Utils(Main3Activity.this);
+        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 
     }
 
 }
+
+
