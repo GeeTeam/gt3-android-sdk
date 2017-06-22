@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GT3Bind.iml" filepath="$PROJECT_DIR$/GT3Bind.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/gt3-android-sdk.iml" filepath="$PROJECT_DIR$/gt3-android-sdk.iml" />
     </modules>

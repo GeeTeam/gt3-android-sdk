@@ -1,30 +1,38 @@
-package com.example.gt3bindtogithub;
+package com.example.geetestthr;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.sdk.GT3GeetestUrl;
-import com.example.sdk.GT3GeetestUtils;
-import com.example.sdk.GT3Toast;
+import com.example.gt3unbindsdk.unBind.GT3Geetest2Utils;
+import com.example.gt3unbindsdk.unBind.GT3Gt2Dialog;
+import com.example.gt3unbindsdk.unBind.GT3Toast;
+import com.example.gt3unbindsdk.unBind.NetBroadcastReceiver;
+import com.example.gt3unbindsdk.unBind.NetUtil;
 
 import org.json.JSONObject;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class Main3Activity extends AppCompatActivity implements NetBroadcastReceiver.netEventHandler {
+
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private EditText et1;
     private EditText et2;
-    private GT3GeetestUtils gt3GeetestUtils;
+    private GT3Geetest2Utils gt3GeetestUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main3);
+        NetBroadcastReceiver.mListeners.add(this);
         init();
         et1 = (EditText) findViewById(R.id.et1);
         et2 = (EditText) findViewById(R.id.et2);
@@ -45,15 +53,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnToSecond).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Demo2Activity.class));
+                startActivity(new Intent(Main3Activity.this, Main4Activity.class));
             }
         });
-        gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
+        gt3GeetestUtils.setGtListener(new GT3Geetest2Utils.GT3Listener() {
             //点击验证码的关闭按钮来关闭验证码
             @Override
             public void gt3CloseDialog() {
                 GT3Toast.show("验证未通过 请重试", getApplicationContext());
             }
+
+            //支持"zh-cn","zh-hk","zh-tw","ko-kr","ja-jp","en-us".默认"zh-cn".
+
 
             //点击屏幕关闭验证码
             @Override
@@ -73,6 +84,23 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
+            @Override
+            public Map<String, String> validateHeaders() {
+                return null;
+            }
+
+
+
+
+            //设置是否自定义第二次验证ture为是 默认为false(不自定义)
+            //如果为false这边的的完成走gt3DialogSuccess，后续流程SDK帮忙走完，不需要做操作
+            //如果为true这边的的完成走gt3DialogSuccess，同时需要完成gt3GetDialogResult里面的二次验证，验证完毕记得关闭dialog,调用gt3GeetestUtils.gt3TestFinish();
+            @Override
+            public boolean gtSetIsCustom() {
+                return false;
+            }
+
+
             //拿到第一个url返回的数据
             @Override
             public void gt3FirstResult(JSONObject jsonObject) {
@@ -85,6 +113,31 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @Override
+            public void gt3GetDialogResult(boolean a, String result) {
+
+
+                if (a) {
+                    /**
+                     *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
+                     * //                JSONObject res_json = new JSONObject(result);
+                     //
+                     //                Map<String, String> validateParams = new HashMap<>();
+                     //
+                     //                validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+                     //
+                     //                validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+                     //
+                     //                validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+                     在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
+                     */
+
+
+                    gt3GeetestUtils.gt3TestFinish();
+                }
+
+            }
+
             //往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
             @Override
             public Map<String, String> gt3SecondResult() {
@@ -94,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
             //二次验证请求之后的结果
             @Override
             public void gt3DialogSuccessResult(String result) {
-
+                Log.i("Tagggg",result+"s");
             }
+
 
             //验证码验证成功
             @Override
@@ -108,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void gt3DialogOnError() {
+            public void gt3DialogOnError(String error) {
 
             }
 
@@ -117,13 +171,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-
-        new GT3GeetestUrl().setCaptchaURL(captchaURL);
-        new GT3GeetestUrl().setValidateURL(validateURL);
 //        new GT3ReadyMsg().setLogoid(R.drawable.success);//设置准备界面头部的gif图片
-        gt3GeetestUtils = new GT3GeetestUtils(MainActivity.this);
-        gt3GeetestUtils.gtDologo();//加载验证码之前判断有没有logo
+        gt3GeetestUtils = new GT3Geetest2Utils(Main3Activity.this);
+        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 
     }
 
+
+
+
+    @Override
+    public void onNetChange() {
+        // TODO Auto-generated method stub
+        if (NetUtil.getNetworkState(this) == NetUtil.NETWORN_NONE) {
+
+            GT3Gt2Dialog dialog = gt3GeetestUtils.getDialog();
+            if (dialog != null) {
+                dialog.setErrDialog("网络不给力", "201");
+            }
+        }
+    }
+
+
 }
+
+
