@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void gt3GetDialogResult(String result) {
+        Log.i("Tagggg",result+"d");
 
             }
 
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean gtSetIsCustom() {
 
-                return true;
+                return false;
             }
 
             @Override
