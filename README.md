@@ -1,6 +1,6 @@
 # gt3-android-sdk
 
-# master分支为不带Button的验证码,dv-master分支为带Button的验证码,develop分支为两个整合优化版。
+# master分支为不带Button的验证码,dv-master分支为带Button的验证码,develop分支为两个整合优化稳定版。
 
 # 本分支为不带Button的验证码，请按需求进行demo下载
 
@@ -26,10 +26,12 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 [Github: gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk)
 
 ## 手动导入SDK
+
 从github上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
 [Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/master/app/libs)
 
 在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
+
 ```java
         repositories {
             flatDir {
@@ -38,23 +40,15 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
         }
 
 ```
+
 并且要手动将aar包添加依赖：
+
 ```java
        compile(name: 'gt3geetest-sdk', ext: 'aar')
 
 ``` 
 
 ### 如需使用依赖, 需要在你的主工程文件里加入一下配置
-
-```java
-<dependency>
-  <groupId>gt3bind.android</groupId>
-  <artifactId>sdk</artifactId>
-  <version>1.1.0</version>
-  <type>pom</type>
-</dependency>
-```
-使用gradle
 
 ```java
 dependencies {
