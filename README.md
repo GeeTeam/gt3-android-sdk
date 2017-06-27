@@ -54,11 +54,12 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 dependencies {
 	compile 'gt3bind.android:sdk:1.1.0'
 	}
-        
-        ``` 
+``` 
+ 
 ## 初始化
 
 ### 在AndroidManifest.xml文件中添加权限
+
 ```java
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -88,6 +89,7 @@ dependencies {
 
 ```
 ### 点击按钮验证码加载开始
+
 ```java
     gt3GeetestUtils.getGeetest();
 
