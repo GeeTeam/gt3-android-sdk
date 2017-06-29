@@ -10,12 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.geetestthr.Main3Activity">
 
-    <Button
-        android:id="@+id/btnToSecond"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="点击进入第二个演示demo" />
-
 
     <EditText
         android:id="@+id/et2"

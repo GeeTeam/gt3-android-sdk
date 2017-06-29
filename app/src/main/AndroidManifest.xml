@@ -25,9 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".MainActivity2" />
         <activity android:name=".Main3Activity" />
-        <activity android:name=".Main4Activity"></activity>
 
         <!-- 注册广播 -->
         <receiver android:name="com.example.gt3unbindsdk.unBind.NetBroadcastReceiver">
