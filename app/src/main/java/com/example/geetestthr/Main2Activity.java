@@ -8,7 +8,6 @@ import android.widget.Button;
 
 public class Main2Activity extends AppCompatActivity {
 
-
     Button btn1;
     Button btn2;
 

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        gt3GeetestUtils = GT3GeetestUtils.getInstance(MainActivity.this);
+        gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 
         /**
          * 如果api1也想自己自定义，开放这边的代码gt3GeetestUtils.setISonto(jsoninfo);并给我传递下面格式的json数据

@@ -6,21 +6,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.gt3unbindsdk.unBind.GT3Geetest2Utils;
-import com.example.gt3unbindsdk.unBind.GT3Gt2Dialog;
 import com.example.gt3unbindsdk.unBind.GT3Toast;
-import com.example.gt3unbindsdk.unBind.NetBroadcastReceiver;
-import com.example.gt3unbindsdk.unBind.NetUtil;
 
 import org.json.JSONObject;
 
 import java.util.Map;
 
 
-public class Main3Activity extends AppCompatActivity implements NetBroadcastReceiver.netEventHandler {
+public class Main3Activity extends AppCompatActivity {
 
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private EditText et1;
     private EditText et2;
     private GT3Geetest2Utils gt3GeetestUtils;
@@ -29,7 +26,6 @@ public class Main3Activity extends AppCompatActivity implements NetBroadcastRece
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-        NetBroadcastReceiver.mListeners.add(this);
         init();
         et1 = (EditText) findViewById(R.id.et1);
         et2 = (EditText) findViewById(R.id.et2);
@@ -99,7 +95,7 @@ public class Main3Activity extends AppCompatActivity implements NetBroadcastRece
             /**
              * 当验证码放置10分钟后，重新启动验证码
              */
-
+            @Override
             public void gereg() {
 
             }
@@ -173,6 +169,7 @@ public class Main3Activity extends AppCompatActivity implements NetBroadcastRece
 
             @Override
             public void gt3DialogSuccess() {
+
                     GT3Toast.show("验证成功", getApplicationContext());
 
             }
@@ -194,7 +191,7 @@ public class Main3Activity extends AppCompatActivity implements NetBroadcastRece
                 if (et1.getText() == null || et1.getText().length() == 0 || et2.getText() == null || et2.getText().length() == 0) {
                     GT3Toast.show("请输入账号和密码", getApplicationContext());
                 } else {
-                    gt3GeetestUtils.getGeetest();
+                    gt3GeetestUtils.getGeetest(Main3Activity.this);
                 }
 
             }
@@ -203,7 +200,7 @@ public class Main3Activity extends AppCompatActivity implements NetBroadcastRece
 
     private void init() {
 //        new GT3ReadyMsg().setLogoid(R.drawable.success);//设置准备界面头部的gif图片
-        gt3GeetestUtils = new GT3Geetest2Utils(Main3Activity.this);
+        gt3GeetestUtils =new GT3Geetest2Utils(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 
 
@@ -230,22 +227,6 @@ public class Main3Activity extends AppCompatActivity implements NetBroadcastRece
 
 
 
-
-    /**
-     * 用于网络实时监控的方法，一般是需要照写的，不加的话没网的话不做操作，加了的话无网会出现无网弹框
-     */
-
-    @Override
-    public void onNetChange() {
-        // TODO Auto-generated method stub
-        if (NetUtil.getNetworkState(this) == NetUtil.NETWORN_NONE) {
-
-        GT3Gt2Dialog dialog= gt3GeetestUtils.getDialog();
-        if(dialog!=null){
-            dialog.setErrDialog("网络不给力", "201");
-        }
-        }
-    }
 
 
 }
