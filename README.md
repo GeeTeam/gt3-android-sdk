@@ -76,7 +76,8 @@ dependencies {
 |captchaURL|设置获取id，challenge，success的URL，需替换成自己的服务器URL|
 |validateURL|设置二次验证的URL，需替换成自己的服务器URL|
 
-```java（unband模式下）
+```java
+       （unband模式下）
         gt3GeetestUtils =new GT3Geetest2Utils(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 	//点击调用
