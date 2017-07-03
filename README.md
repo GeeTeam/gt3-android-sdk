@@ -1,8 +1,8 @@
 # gt3-android-sdk
 
-# master分支为不带Button的验证码,dv-master分支为带Button的验证码,develop分支为两个整合优化稳定版。
+# master分支为主分支,dv-master分支为带Button的验证码,develop分支为开发分支。
 
-# 本分支为不带Button的验证码，请按需求进行demo下载
+# 一般是下载主分支或者开发分支
 
 # 概述与资源
 
@@ -73,27 +73,20 @@ dependencies {
 
 | Attribute | Descripion |
 | ------ | ------ |
-| captchaURL|设置获取id，challenge，success的URL，需替换成自己的服务器URL|
+|captchaURL|设置获取id，challenge，success的URL，需替换成自己的服务器URL|
 |validateURL|设置二次验证的URL，需替换成自己的服务器URL|
 
-```java
-        new GT3GeetestUrl().setCaptchaURL(captchaURL);
-        new GT3GeetestUrl().setValidateURL(validateURL);
-        gt3GeetestUtils = new GT3GeetestUtils(MainActivity.this);
-        gt3GeetestUtils.gtDologo();
+```java（unband模式下）
+        gt3GeetestUtils =new GT3Geetest2Utils(Main3Activity.this);
+        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
+	//点击调用
+	gt3GeetestUtils.getGeetest(Main3Activity.this);
+	
+       （按键模式下）
+	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
-### 注册EventBus进行消息分发
 
-```java
- compile 'org.greenrobot:eventbus:3.0.0'
-
-```
-### 点击按钮验证码加载开始
-
-```java
-    gt3GeetestUtils.getGeetest();
-
-```
 
 ### 验证码加载过程中的接口
 
@@ -101,65 +94,168 @@ dependencies {
 ```java
   
    gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
-            //点击验证码的关闭按钮来关闭验证码
+           /**
+             * 点击验证码的关闭按钮来关闭验证码
+             */
             @Override
             public void gt3CloseDialog() {
-             
+                GT3Toast.show("验证未通过 请重试", getApplicationContext());
             }
 
-            //点击屏幕关闭验证码
+
+            /**
+             * 点击屏幕关闭验证码
+             */
             @Override
             public void gt3CancelDialog() {
-               
+                GT3Toast.show("验证未通过 请重试", getApplicationContext());
             }
 
-            //验证码加载失败
-            @Override
-            public void gt3DialogError() {
 
-            }
-
-            //验证码加载准备完成
+            /**
+             * 验证码加载准备完成
+             */
             @Override
             public void gt3DialogReady() {
 
             }
 
-            //拿到验证返回的结果,此时还未进行二次验证
+
+            /**
+             * 往API1请求中添加参数
+             */
+            @Override
+            public Map<String, String> captchaHeaders() {
+                return null;
+            }
+
+
+            /**
+             * 设置网络的头部信息
+             */
+            @Override
+            public Map<String, String> validateHeaders() {
+                return null;
+            }
+
+
+
+            /**
+             * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
+             * 如果为false这边的的完成走gt3GetDialogResult(String result) ，后续流程SDK帮忙走完，不需要做操作
+             * 如果为true这边的的完成走gt3GetDialogResult(boolean a, String result)，同时需要完成gt3GetDialogResult里面的二次验证，验证完毕记得关闭dialog,调用gt3GeetestUtils.gt3TestFinish();
+             * 完成方法统一是gt3DialogSuccess
+             */
+
+            @Override
+            public boolean gtSetIsCustom() {
+                return false;
+            }
+
+            /**
+             * 当验证码放置10分钟后，重新启动验证码
+             */
+            @Override
+            public void gereg() {
+
+            }
+
+
+            /**
+             * 拿到第一个url返回的数据
+             */
+            @Override
+            public void gt3FirstResult(JSONObject jsonObject) {
+
+            }
+
+            /**
+             * 拿到二次验证需要的数据
+             */
             @Override
             public void gt3GetDialogResult(String result) {
 
             }
 
-            //验证码验证成功
+
+            /**
+             * 自定义二次验证，当gtSetIsCustom为ture时执行这里面的代码
+             */
             @Override
-            public void gt3DialogSuccess() {
-            
+            public void gt3GetDialogResult(boolean a, String result) {
+
+                if (a) {
+
+                    /**
+                     *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
+                     * //                JSONObject res_json = new JSONObject(result);
+                     //
+                     //                Map<String, String> validateParams = new HashMap<>();
+                     //
+                     //                validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+                     //
+                     //                validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+                     //
+                     //                validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+                     在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
+                     */
+                    gt3GeetestUtils.gt3TestFinish();
+
+                }
             }
 
-            //验证码验证失败
-            @Override
-            public void gt3DialogFail() {
 
+            /**
+             * 往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
+             */
+            @Override
+            public Map<String, String> gt3SecondResult() {
+                return null;
             }
 
-            //二次验证请求之后的结果
+
+            /**
+             * 验证全部走完的回调，result为验证后的数据
+             */
             @Override
             public void gt3DialogSuccessResult(String result) {
 
             }
+
+
+            /**
+             * 验证全部走完的回调，用于弹出完成框
+             */
+
+            @Override
+            public void gt3DialogSuccess() {
+
+                    GT3Toast.show("验证成功", getApplicationContext());
+
+            }
+
+            /**
+             * 验证过程中有错误会走这里
+             */
+
+            @Override
+            public void gt3DialogOnError(String error) {
+                }
+		
         });
+``` 
+### 详细说明
 
-1.新增captchaHeaders（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
+1.captchaHeaders（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
 
-2.新增gtIsClick（boolean a） 是只有在有Button的SDK中才有用到，用于监听Button是否被点击，返回为true,表示被点击
+2.gtIsClick（boolean a） 是只有在有Button的SDK中才有用到，用于监听Button是否被点击，返回为true,表示被点击
 
           public void gtIsClick(boolean a) {
               if(a){
               //按键被点击
               }
           }
-3.新增客户可以根据自己的需求去自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
+3.自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
 
 //设置是否自定义第二次验证，当方法gtSetIsCustom()设置ture为自定义二次验证 默认为false(不自定义)
 //如果设置为false，二次验证完成走gt3DialogSuccessResult，后续流程SDK帮忙走完，不需要用户做操作
@@ -205,26 +301,8 @@ dependencies {
                  gt3GeetestUtils.gt3TestFinish();
           }
       }
-4.unband模式下（不带按钮）的SDK，新增了网络检测接口。利用广播监控网络状态
 
-      项目清单        
-
-      Activity里面需要NetBroadcastReceiver.mListeners.add(this); 绑定广播
-
-   调用方法 
-   @Override
-    public void onNetChange() {
-
-   if (NetUtil.getNetworkState(this) == NetUtil.NETWORN_NONE) {
-
-          GT3Gt2Dialog  dialog= gt3GeetestUtils.getDialog();
-          if(dialog!=null){
-              //弹框样式，务必照着写
-              dialog.setErrDialog("网络不给力", "201");
-          }
-         }
-   }
-        5.新增客户可以根据自己的需求去自定义API1的请求，可以使用默认申请的API1做参数请求，也可以自己自定义接口  （不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
+4.自定义API1的请求，可以使用默认申请的API1做参数请求，也可以自己自定义接口  （不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
 
    //首先设置你需要去自己定义，调用getISonto()
    gt3GeetestUtils.getISonto();
@@ -244,7 +322,7 @@ dependencies {
     gt3GeetestUtils.setISonto(jsoninfo);
 
     以上数据请在初始化之前去修改
-6.新增一个验证码Stop接口
+5.验证码Stop接口
 
     //清空资源，关闭弹框
     gt3GeetestUtils.gt3TestClose();
