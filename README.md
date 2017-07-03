@@ -1,5 +1,4 @@
 # gt3-android-sdk
-# master分支为主分支,dv-master分支为带Button的验证码,develop分支为开发板。
 # 本分支是带Button的验证码，如有需要请下载此demo
 # 概述与资源
 
