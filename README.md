@@ -310,19 +310,19 @@ dependencies {
 
    //请求你们自己的api1然后返回一个json数据给我，json格式务必按照如下
     JSONObject jsoninfo = null;
-   // String info = "{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
-   //        try {
-   //            jsoninfo = new JSONObject(info);
-   //                   gt3GeetestUtils.gt3oneto(jsoninfo);
-   //
-   //        } catch (JSONException e) {
-   //            e.printStackTrace();
-   //        }
+    String info = "{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
+           try {
+               jsoninfo = new JSONObject(info);
+                     gt3GeetestUtils.gt3oneto(jsoninfo);
+   
+           } catch (JSONException e) {
+               e.printStackTrace();
+           }
 
    //最后把你的json传给我
     gt3GeetestUtils.setISonto(jsoninfo);
 
-    以上数据请在初始化之前去修改
+    以上数据请在初始化之前去修改，就可以自定义API1接口了
 5.验证码Stop接口
 
     //清空资源，关闭弹框
