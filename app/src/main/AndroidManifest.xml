@@ -27,12 +27,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Main3Activity" />
 
-        <!-- 注册广播 -->
-        <receiver android:name="com.example.gt3unbindsdk.unBind.NetBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
+
     </application>
 
 </manifest>
