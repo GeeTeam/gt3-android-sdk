@@ -263,41 +263,41 @@ dependencies {
 //如果设置为true，二次验证完成走gt3DialogSuccessResult，同时需要完成gt3GetDialogResult里面的二次验证参数提交，验证完毕记得关闭dialog,调用          gt3GeetestUtils.gt3TestFinish();
 
  情况1.如果使用默认申请的API2做二次验证，那么
-     @Override
-     public boolean gtSetIsCustom() {
+  	   @Override
+  	   public boolean gtSetIsCustom() {
 
            return false;
-     }
+	     }
 
-     @Override
-     public void gt3GetDialogResult(boolean success,String result) {
-      //不做任何操作
-      }
+ 	    @Override
+  	   public void gt3GetDialogResult(boolean success,String result) {
+  	    //不做任何操作
+  	    }
 
 情况2.如果使用自定义的API2做二次验证，那么
 
-   @Override
-     public boolean gtSetIsCustom() {
+  	 @Override
+  	   public boolean gtSetIsCustom() {
 
            return false;
-     }
+   	  }
 
-     @Override
-     public void gt3GetDialogResult(boolean success,String result) {
+  	   @Override
+   	  public void gt3GetDialogResult(boolean success,String result) {
 
                   if (success) {
     /**
-    *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
+  	  *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
    * //
-    //          JSONObject res_json = new JSONObject(result);
-    //
-    //          Map<String, String> validateParams = new HashMap<>();
-    //
-    //          validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
-    //
-    //          validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
-    //
-    //          validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+ 	   //          JSONObject res_json = new JSONObject(result);
+   	   //
+ 	   //          Map<String, String> validateParams = new HashMap<>();
+ 	   //
+	   //          validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+ 	   //
+ 	   //          validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+	   //
+	   //          validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
 
                  gt3GeetestUtils.gt3TestFinish();
           }
