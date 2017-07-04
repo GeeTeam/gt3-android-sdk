@@ -309,8 +309,9 @@ dependencies {
    gt3GeetestUtils.getISonto();
 
    //请求你们自己的api1然后返回一个json数据给我，json格式务必按照如下
-    JSONObject jsoninfo = null;
-    String info = "{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
+    
+     	JSONObject jsoninfo = null;
+   	 String info = "		{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
            try {
                jsoninfo = new JSONObject(info);
                      gt3GeetestUtils.gt3oneto(jsoninfo);
