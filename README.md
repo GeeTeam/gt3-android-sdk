@@ -286,9 +286,8 @@ dependencies {
    	  public void gt3GetDialogResult(boolean success,String result) {
 
                   if (success) {
-    /**
-  	  *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
-   * //
+    
+  	  // 利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
  	   //          JSONObject res_json = new JSONObject(result);
    	   //
  	   //          Map<String, String> validateParams = new HashMap<>();
