@@ -130,19 +130,19 @@
 
 4.httpError 205
 
-    api1接口为null，查看api1的参数和地址是否有误，网络保持畅通
+    api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
 
 5.httpError 206
 
-    gettype接口为null，查看gettype的参数和地址是否有误，网络保持畅通
+    gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
 
 6.httpError 207
 
-    getphp接口为null，查看getphp的参数和地址是否有误，网络保持畅通
+    getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
 
 7.httpError 208
 
-    ajax接口返回为null，查看ajax的参数和地址是否有误，网络保持畅通
+    ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
 
 8.尝试过多 _01
 
