@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.gt3unbindsdk.unBind.GT3Geetest2Utils;
-import com.example.gt3unbindsdk.unBind.GT3Toast;
+import com.geetest.gt3unbindsdk.unBind.GT3Geetest2Utils;
+import com.geetest.gt3unbindsdk.unBind.GT3Toast;
 
 import org.json.JSONObject;
 
@@ -159,7 +159,7 @@ public class Main3Activity extends AppCompatActivity {
              */
             @Override
             public void gt3DialogSuccessResult(String result) {
-
+                GT3Toast.show(result,Main3Activity.this);
             }
 
 
@@ -170,7 +170,7 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void gt3DialogSuccess() {
 
-                    GT3Toast.show("验证成功", getApplicationContext());
+//                GT3Toast.show("验证成功", getApplicationContext());
 
             }
 
@@ -180,7 +180,9 @@ public class Main3Activity extends AppCompatActivity {
 
             @Override
             public void gt3DialogOnError(String error) {
-                }
+
+                gt3GeetestUtils.cancelAllTask();
+            }
         });
 
 
@@ -188,11 +190,9 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (et1.getText() == null || et1.getText().length() == 0 || et2.getText() == null || et2.getText().length() == 0) {
-                    GT3Toast.show("请输入账号和密码", getApplicationContext());
-                } else {
-                    gt3GeetestUtils.getGeetest(Main3Activity.this);
-                }
+
+                gt3GeetestUtils.getGeetest(Main3Activity.this);
+
 
             }
         });

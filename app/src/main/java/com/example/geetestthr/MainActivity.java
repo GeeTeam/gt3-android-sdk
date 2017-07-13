@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
-import com.example.gt3unbindsdk.GT3GeetestButton;
-import com.example.gt3unbindsdk.GT3GeetestUtils;
+import com.geetest.gt3unbindsdk.GT3GeetestButton;
+import com.geetest.gt3unbindsdk.GT3GeetestUtils;
 
 import org.json.JSONObject;
 
