@@ -2,6 +2,239 @@
 
 # develop分支为功能开发版。
 
+# 概述与资源
+
+极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
+集成极验验证3.0的时，需要先了解极验验证3.0的 [产品结构](http://docs.geetest.com/install/overview/#产品结构)。并且必须要先在您的后端搭建相应的**服务端SDK**，并配置从[极验后台]()获取的`<gt_captcha_id>`和`<geetest_key>`用来配置您集成了极验服务端sdk的后台。
+
+### 手动下载获取
+
+使用从github下载`.zip`文件获取最新的sdk。
+
+[Github: gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk)
+
+## 手动导入SDK
+
+从github上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
+[Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/develop/app/libs)
+
+在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
+
+```java
+        repositories {
+            flatDir {
+                dirs 'libs'
+            }
+        }
+
+```
+
+并且要手动将aar包添加依赖：
+
+```java
+       compile(name: 'gt3geetest-sdk', ext: 'aar')
+
+``` 
+
+### 如需使用依赖, 需要在你的主工程文件里加入一下配置
+
+```java
+dependencies {
+	compile 'gt3bind.android:sdk:1.1.0'
+	}
+``` 
+ 
+## 初始化
+
+### 在AndroidManifest.xml文件中添加权限
+
+```java
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+```
+
+### 设置服务端URL以及初始化验证码
+
+| Attribute | Descripion |
+| ------ | ------ |
+|captchaURL|设置获取id，challenge，success的URL，需替换成自己的服务器URL|
+|validateURL|设置二次验证的URL，需替换成自己的服务器URL|
+
+```java
+       （unband模式下）
+        gt3GeetestUtils =new GT3Geetest2Utils(Main3Activity.this);
+        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
+	//点击调用
+	gt3GeetestUtils.getGeetest(Main3Activity.this);
+	
+       （按键模式下）
+	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+```
+
+
+### 验证码加载过程中的接口
+
+
+```java
+  
+   gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
+           /**
+             * 点击验证码的关闭按钮来关闭验证码
+             */
+            @Override
+            public void gt3CloseDialog() {
+                GT3Toast.show("验证未通过 请重试", getApplicationContext());
+            }
+
+
+            /**
+             * 点击屏幕关闭验证码
+             */
+            @Override
+            public void gt3CancelDialog() {
+                GT3Toast.show("验证未通过 请重试", getApplicationContext());
+            }
+
+
+            /**
+             * 验证码加载准备完成
+             */
+            @Override
+            public void gt3DialogReady() {
+
+            }
+
+
+            /**
+             * 往API1请求中添加参数
+             */
+            @Override
+            public Map<String, String> captchaHeaders() {
+                return null;
+            }
+
+
+            /**
+             * 设置网络的头部信息
+             */
+            @Override
+            public Map<String, String> validateHeaders() {
+                return null;
+            }
+
+
+
+            /**
+             * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
+             * 如果为false这边的的完成走gt3GetDialogResult(String result) ，后续流程SDK帮忙走完，不需要做操作
+             * 如果为true这边的的完成走gt3GetDialogResult(boolean a, String result)，同时需要完成gt3GetDialogResult里面的二次验证，验证完毕记得关闭dialog,调用gt3GeetestUtils.gt3TestFinish();
+             * 完成方法统一是gt3DialogSuccess
+             */
+
+            @Override
+            public boolean gtSetIsCustom() {
+                return false;
+            }
+
+            /**
+             * 当验证码放置10分钟后，重新启动验证码
+             */
+            @Override
+            public void gereg() {
+
+            }
+
+
+            /**
+             * 拿到第一个url返回的数据
+             */
+            @Override
+            public void gt3FirstResult(JSONObject jsonObject) {
+
+            }
+
+            /**
+             * 拿到二次验证需要的数据
+             */
+            @Override
+            public void gt3GetDialogResult(String result) {
+
+            }
+
+
+            /**
+             * 自定义二次验证，当gtSetIsCustom为ture时执行这里面的代码
+             */
+            @Override
+            public void gt3GetDialogResult(boolean a, String result) {
+
+                if (a) {
+
+                    /**
+                     *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
+                     * //                JSONObject res_json = new JSONObject(result);
+                     //
+                     //                Map<String, String> validateParams = new HashMap<>();
+                     //
+                     //                validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+                     //
+                     //                validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+                     //
+                     //                validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+                     在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
+                     */
+                    gt3GeetestUtils.gt3TestFinish();
+
+                }
+            }
+
+
+            /**
+             * 往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
+             */
+            @Override
+            public Map<String, String> gt3SecondResult() {
+                return null;
+            }
+
+
+            /**
+             * 验证全部走完的回调，result为验证后的数据
+             */
+            @Override
+            public void gt3DialogSuccessResult(String result) {
+
+            }
+
+
+            /**
+             * 验证全部走完的回调，用于弹出完成框
+             */
+
+            @Override
+            public void gt3DialogSuccess() {
+
+                    GT3Toast.show("验证成功", getApplicationContext());
+
+            }
+
+            /**
+             * 验证过程中有错误会走这里
+             */
+
+            @Override
+            public void gt3DialogOnError(String error) {
+                }
+		
+        });
+``` 
+
+
 # 优化
 
  1.新增captchaHeaders（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
