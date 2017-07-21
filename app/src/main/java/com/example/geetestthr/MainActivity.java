@@ -49,11 +49,16 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 //        gt3GeetestUtils.setISonto(jsoninfo);
-//
+
 
 
         gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+
+
+
         ButterKnife.bind(this);
+
+
         gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
 
 
