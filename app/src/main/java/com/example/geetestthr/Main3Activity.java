@@ -224,10 +224,11 @@ public class Main3Activity extends AppCompatActivity {
     }
 
 
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        gt3GeetestUtils.dismissProgressDialog();
+        super.onDestroy();
+    }
 }
 
 

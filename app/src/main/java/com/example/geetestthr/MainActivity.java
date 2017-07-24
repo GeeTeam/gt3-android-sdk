@@ -216,5 +216,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+//        gt3GeetestUtils.
+
+        super.onDestroy();
+    }
 
 }
