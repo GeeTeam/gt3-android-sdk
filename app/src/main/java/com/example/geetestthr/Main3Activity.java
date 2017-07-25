@@ -138,7 +138,7 @@ public class Main3Activity extends AppCompatActivity {
                              //                validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
                              在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
                              */
-//                            gt3GeetestUtils.gt3TestFinish();
+                            gt3GeetestUtils.gt3TestFinish();
 
                         }
                     }
@@ -158,7 +158,6 @@ public class Main3Activity extends AppCompatActivity {
                      */
                     @Override
                     public void gt3DialogSuccessResult(String result) {
-                        GT3Toast.show(result, Main3Activity.this);
                     }
 
 
@@ -168,9 +167,6 @@ public class Main3Activity extends AppCompatActivity {
 
                     @Override
                     public void gt3DialogSuccess() {
-
-//                GT3Toast.show("验证成功", getApplicationContext());
-
                     }
 
                     /**

@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.geetest.gt3unbindsdk.GT3GeetestButton;
 import com.geetest.gt3unbindsdk.GT3GeetestUtils;
+import com.geetest.gt3unbindsdk.Gt3GeetestTestMsg;
 
 import org.json.JSONObject;
 
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             //请求成功数据
             @Override
             public void gt3DialogSuccessResult(String result) {
-//                Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
+                Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
 
             }
 
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean gtSetIsCustom() {
 
-                return true;
+                return false;
             }
 
 
