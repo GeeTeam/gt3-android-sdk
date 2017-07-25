@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
-import com.example.gt3unbindsdk.GT3GeetestButton;
-import com.example.gt3unbindsdk.GT3GeetestUtils;
+import com.geetest.gt3unbindsdk.GT3GeetestButton;
+import com.geetest.gt3unbindsdk.GT3GeetestUtils;
 
 import org.json.JSONObject;
 
@@ -49,11 +49,16 @@ public class MainActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 //        gt3GeetestUtils.setISonto(jsoninfo);
-//
+
 
 
         gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+
+
+
         ButterKnife.bind(this);
+
+
         gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
 
 
@@ -123,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                      在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
                      */
 
-                    gt3GeetestUtils.gt3TestFinish();
+                    gt3GeetestUtils.gt3CloseButton();
                 }
             }
 
@@ -181,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean gtSetIsCustom() {
 
-                return false;
+                return true;
             }
 
 
@@ -210,6 +215,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 
 }
