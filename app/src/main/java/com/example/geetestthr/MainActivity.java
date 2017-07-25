@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                      在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
                      */
 
-                    gt3GeetestUtils.gt3TestFinish();
+//                    gt3GeetestUtils.gt3TestFinish();
                 }
             }
 
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean gtSetIsCustom() {
 
-                return false;
+                return true;
             }
 
 
@@ -214,13 +214,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    }
-
-    @Override
-    protected void onDestroy() {
-//        gt3GeetestUtils.
-
-        super.onDestroy();
     }
 
 }
