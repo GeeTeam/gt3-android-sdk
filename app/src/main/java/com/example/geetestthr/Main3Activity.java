@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.geetest.gt3unbindsdk.unBind.GT3Geetest2Utils;
-import com.geetest.gt3unbindsdk.unBind.GT3Toast;
+import com.geetest.gt3unbindsdk.Bind.GT3Geetest2Utils;
+import com.geetest.gt3unbindsdk.Bind.GT3Toast;
 
 import org.json.JSONObject;
 
@@ -57,6 +57,21 @@ public class Main3Activity extends AppCompatActivity {
                      */
                     @Override
                     public void gt3DialogReady() {
+
+                    }
+
+                    @Override
+                    public void gt3InitGo() {
+
+                    }
+
+                    @Override
+                    public void gt3InitResult(JSONObject jsonObject) {
+
+                    }
+
+                    @Override
+                    public void gt3FirstGo() {
 
                     }
 
@@ -224,11 +239,7 @@ public class Main3Activity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        gt3GeetestUtils.dismissProgressDialog();
-        super.onDestroy();
-    }
+
 }
 
 
