@@ -2,72 +2,54 @@ package com.example.geetestthr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.geetest.gt3unbindsdk.GT3GeetestButton;
 import com.geetest.gt3unbindsdk.GT3GeetestUtils;
 import com.geetest.gt3unbindsdk.Gt3GeetestTestMsg;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * mainActivity
  */
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.ll_btn_type)
+
     GT3GeetestButton llBtnType;
 
-    Button bu_go;
     // 设置获取id，challenge，success的URL，需替换成自己的服务器URL
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
-     GT3GeetestUtils gt3GeetestUtils;
+    GT3GeetestUtils gt3GeetestUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        llBtnType = (GT3GeetestButton) findViewById(R.id.ll_btn_type);
         gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 
-        /**
-         * 如果api1也想自己自定义，开放这边的代码gt3GeetestUtils.setISonto(jsoninfo);并给我传递下面格式的json数据
-         */
 //        gt3GeetestUtils.getISonto();
-//        JSONObject jsoninfo = null;
-//
-//        String info = "{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
-//        try {
-//            jsoninfo = new JSONObject(info);
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        gt3GeetestUtils.setISonto(jsoninfo);
-
-
-
         gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 
-
-
         ButterKnife.bind(this);
-
-
         gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
-
 
             /**
              * Api1可以在这添加参数
              */
             @Override
-            public Map<String, String> captchaHeaders() {
+            public Map<String, String> captchaApi1() {
+//                Map<String, String> map  = new HashMap<String, String>();
+//                map.put("ss","ddd");
+//                map.put("xc","eee");
                 return null;
             }
 
@@ -100,10 +82,9 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void gt3GetDialogResult(String result) {
-
+                Log.i("TAGGGG",result+"gt3GetDialogResult");
 
             }
-
 
             /**
              * 自定义二次验证，当gtSetIsCustom为ture时执行这里面的代码
@@ -112,12 +93,10 @@ public class MainActivity extends AppCompatActivity {
             public void gt3GetDialogResult(boolean success,String result) {
 
                 if (success) {
-
-
+                    Log.i("TAGGGG",result+"gt3GetDialogResult");
                     /**
                      *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
-                     * //
-                     //          JSONObject res_json = new JSONObject(result);
+                     * //                JSONObject res_json = new JSONObject(result);
                      //
                      //                Map<String, String> validateParams = new HashMap<>();
                      //
@@ -129,11 +108,8 @@ public class MainActivity extends AppCompatActivity {
                      在二次验证结果验证完成之后，执行gt3GeetestUtils.gt3TestFinish()方法进行动画执行
                      */
 
-//                    gt3GeetestUtils.gt3TestFinish();
                 }
             }
-
-
 
             /**
              * 第一次次请求后数据
@@ -143,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-
             /**
              * 往二次验证里面put数据，是map类型,注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
              */
@@ -152,20 +127,29 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
-
-
-
             /**
              * 验证全部走完的回调，result为验证后的数据
              */
             //请求成功数据
             @Override
             public void gt3DialogSuccessResult(String result) {
-                Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
+                try {
+                    JSONObject jobj = new JSONObject(result);
+                    String sta  = jobj.getString("status");
 
+                    if("fail".equals(sta))
+                    {
+                        gt3GeetestUtils.gt3CloseButton();
+                    }else
+                    {
+                        gt3GeetestUtils.gt3TestFinish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(MainActivity.this,result,Toast.LENGTH_LONG).show();
+                Gt3GeetestTestMsg.setCandotouch(true);//这里设置验证成功后是否可以关闭
             }
-
-
 
             /**
              * 设置网络的头部信息
@@ -174,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
             public Map<String, String> validateHeaders() {
                 return null;
             }
-
 
 
             /**
@@ -192,13 +175,17 @@ public class MainActivity extends AppCompatActivity {
 
 
             /**
-             * 判断自定义按键是否被点击
+             * 判断自定义按键是否被点击,自定义API1可以在这里设定，请求完毕之后设值
              */
 
             @Override
-            public void gtIsClick(boolean a) {
+            public void gtOnClick(boolean a) {
                 if(a){
-                //被点击
+                    //被点击
+                    /**
+                     * 如果api1也想自己自定,那么访问您的服务器后讲INFO数据以如下格式传给我
+                     *  gt3GeetestUtils.gtSetApi1Json(jsonObject);
+                     */
                 }
             }
 
@@ -206,15 +193,38 @@ public class MainActivity extends AppCompatActivity {
              * 当验证码放置10分钟后，重新启动验证码
              */
             @Override
-            public void rege() {
-
-//                gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
-
+            public void rege_21() {
+                //gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
             }
         });
 
-
-
     }
+
+
+//    GT3Geetest captcha;
+//    GtppDlgTask mGtppDlgTask;
+//    // 请求的API1
+//    private class GtppDlgTask extends AsyncTask<Void, Void, JSONObject> {
+//
+//        @Override
+//        protected JSONObject doInBackground(Void... params) {
+//            captcha = new GT3Geetest(captchaURL,validateURL,null);
+//            String Str_map ="?";
+//            JSONObject jsonObject;
+//
+//            jsonObject = captcha.checkRealServer(Str_map);
+//
+//            return jsonObject;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(JSONObject parmas) {
+//            //{"success":1,"challenge":"323b14a7fe13fcfb7c830bb44a687e7f","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
+//            gt3GeetestUtils.gtSetApi1Json(parmas);
+//        }
+//    }
+
+
 
 }
