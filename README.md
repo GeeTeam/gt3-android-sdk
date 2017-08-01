@@ -318,11 +318,7 @@ dependencies {
     gt3GeetestUtils.gtSetApi1Json(jsoninfo);
 
     以上数据请在初始化之前去修改，就可以自定义API1接口了
-5.验证码Stop接口
 
-    //清空资源，关闭弹框
-    gt3GeetestUtils.gt3TestClose();
-            
 .对内部代码的一个优化
 
 其他使用方法和前面保持一致，请参考前面的SDK的使用方法
