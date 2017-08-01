@@ -315,7 +315,7 @@ dependencies {
  	  gt3GeetestUtils.gtSetApi1Json(jsoninfo);
 
    //最后把你的json传给我
-    gt3GeetestUtils.setISonto(jsoninfo);
+    gt3GeetestUtils.gtSetApi1Json(jsoninfo);
 
     以上数据请在初始化之前去修改，就可以自定义API1接口了
 5.验证码Stop接口
