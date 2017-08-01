@@ -311,13 +311,8 @@ dependencies {
     
      	JSONObject jsoninfo = null;
    	 String info = "		{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
-           try {
-               jsoninfo = new JSONObject(info);
-                     gt3GeetestUtils.gt3oneto(jsoninfo);
-   
-           } catch (JSONException e) {
-               e.printStackTrace();
-           }
+  	 jsoninfo = new JSONObject(info);
+ 	  gt3GeetestUtils.gtSetApi1Json(jsoninfo);
 
    //最后把你的json传给我
     gt3GeetestUtils.setISonto(jsoninfo);
