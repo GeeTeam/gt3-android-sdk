@@ -326,9 +326,9 @@ dependencies {
 
     全局网络请求超时，请检查网络连接
 
-2.webViewError 202
+2.forbiddenError 202
 
-    gtCallReady报错
+    验证码停用，检查下验证码是否到期
 
 3.webViewError 204
 
