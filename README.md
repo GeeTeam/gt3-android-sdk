@@ -324,11 +324,11 @@ dependencies {
 # 错误码 
 1.timeoutError 201
 
-    全局网络请求超时，请检查网络连接
+   全局网络请求超时，请检查网络连接
 
 2.forbiddenError 202
 
-    验证码停用，检查下验证码是否到期
+   验证码停用，检查下验证码是否到期
 
 3.webViewError 204
 
@@ -336,7 +336,7 @@ dependencies {
 
 4.httpError 205
 
-    api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
+   api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
 
 5.httpError 206
 
@@ -369,25 +369,27 @@ dependencies {
 12.初始化错误 211
 
     验证码初始化回调用2个接口，找找这里的问题
-    
+
 13.初始化错误 222
 
-    网络请求时，此时已经断网
+   网络请求时，此时已经断网
     
 14.challenge错误  _02
 
-    challenge 过时，或者重复使用
+   challenge 过时，或者重复使用
     
 15.challenge错误  _22
 
-    challenge 没传  
+   challenge 没传  
     
 16.gt错误  _31
 
-    gt 没传  
+   gt 没传  
+
+
+
 
 以上是比较常见的错误码
-
 
 
 其他使用方法和前面保持一致，请参考前面的SDK的使用方法
