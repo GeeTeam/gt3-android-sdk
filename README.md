@@ -332,7 +332,7 @@ dependencies {
 
 3.webViewError 204
 
-    webview加载出现的错误
+   webview加载出现的错误
 
 4.httpError 205
 
@@ -340,35 +340,35 @@ dependencies {
 
 5.httpError 206
 
-    gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
+   gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
 
 6.httpError 207
 
-    getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
+   getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
 
 7.httpError 208
 
-    ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
+   ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
     
 8.httpError 209
 
-    api2接口返回返回为null，查看api2的参数和地址是否有误，网络保持畅通
+   api2接口返回返回为null，查看api2的参数和地址是否有误，网络保持畅通
 
 9.尝试过多 _01
 
-    连续刷新5次
+   连续刷新5次
 
 10.尝试过多 _12
 
-    连续验证错误6次
+   连续验证错误6次
 
 11.web请求错误 _105
 
-    web弹出后没有网络滑动会报错
+   web弹出后没有网络滑动会报错
     
 12.初始化错误 211
 
-    验证码初始化回调用2个接口，找找这里的问题
+   验证码初始化回调用2个接口，找找这里的问题
 
 13.初始化错误 222
 
