@@ -373,6 +373,18 @@ dependencies {
 13.初始化错误 222
 
     网络请求时，此时已经断网
+    
+14.challenge错误  _02
+
+    challenge 过时，或者重复使用
+    
+15.challenge错误  _22
+
+    challenge 没传  
+    
+16.gt错误  _31
+
+    gt 没传  
 
 以上是比较常见的错误码
 
