@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         llBtnType = (GT3GeetestButton) findViewById(R.id.ll_btn_type);
         gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
-
 //        gt3GeetestUtils.getISonto();
         gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 
