@@ -356,25 +356,21 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 11.web请求错误 _105
 
-   web弹出后没有网络滑动会报错
-    
-12.初始化错误 211
+   web弹出后 无网络滑动报错
 
-   验证码初始化回调用2个接口，找找这里的问题
-
-13.初始化错误 222
+12.初始化错误 222
 
    网络请求时，此时已经断网
     
-14.challenge错误  _02
+13.challenge错误  _02
 
    challenge 过时，或者重复使用
     
-15.challenge错误  _22
+14.challenge错误  _22
 
    服务没有检测到challenge字段
     
-16.gt错误  _31
+15.gt错误  _31
 
    服务没有检测到gt字段 
 
