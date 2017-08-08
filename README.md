@@ -75,7 +75,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 	//点击调用
 	gt3GeetestUtils.getGeetest(Main3Activity.this);
 	
-       （band模式下）
+       （unband模式下）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
