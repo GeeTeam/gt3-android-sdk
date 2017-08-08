@@ -118,7 +118,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
              * 往API1请求中添加参数
              */
             @Override
-            public Map<String, String> captchaHeaders() {
+            public Map<String, String> captchaApi1() {
                 return null;
             }
 
@@ -239,7 +239,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ``` 
 ### 详细说明
 
-1.captchaHeaders（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
+1.captchaApi1（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
 
 2.gtIsClick（boolean a） 是只有在有Button的SDK中才有用到，用于监听Button是否被点击，返回为true,表示被点击
 
