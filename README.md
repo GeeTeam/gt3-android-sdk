@@ -296,10 +296,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 4.自定义API1的请求，可以使用默认申请的API1做参数请求，也可以自己自定义接口  （不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
 
-   //首先设置你需要去自己定义，调用getISonto()
+   //首先设置API1自定义开关，调用getISonto()
    gt3GeetestUtils.getISonto();
 
-   //请求你们自己的api1然后返回一个json数据给我，json格式务必按照如下
+   //请求自己的api1然后返回一个json数据，json格式务必按照如下
     
      	JSONObject jsoninfo = null;
    	 String info = "		{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
