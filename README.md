@@ -69,13 +69,13 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 |validateURL|设置二次验证的URL，需替换成自己的服务器URL|
 
 ```java
-       （unband模式下）
+       （band模式下）
         gt3GeetestUtils =new GT3Geetest2Utils(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 	//点击调用
 	gt3GeetestUtils.getGeetest(Main3Activity.this);
 	
-       （按键模式下）
+       （band模式下）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
