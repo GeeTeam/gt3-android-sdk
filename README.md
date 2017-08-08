@@ -370,6 +370,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
   服务没有检测到challenge字段
     
+
 15.gt错误  _31
 
    服务没有检测到gt字段 
