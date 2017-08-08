@@ -70,12 +70,12 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ```java
        （band模式下）
-        gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
+        gt3GeetestUtils = new GT3GeetestUtilsBind(MainActivity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 	//点击调用
 	gt3GeetestUtils.getGeetest(Main3Activity.this);
 	
-       （band模式下）
+       （unband模式下）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
@@ -118,7 +118,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
              * 往API1请求中添加参数
              */
             @Override
-            public Map<String, String> captchaHeaders() {
+            public Map<String, String> captchaApi1() {
                 return null;
             }
 
