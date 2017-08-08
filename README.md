@@ -1,11 +1,23 @@
 # gt3-android-sdk
 
-# develop分支为功能开发版。
+# master分支为主分支,dv-master分支为带Button的验证码,develop分支为开发分支。
+
+# 一般是下载主分支或者开发分支
 
 # 概述与资源
 
 极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
 集成极验验证3.0的时，需要先了解极验验证3.0的 [产品结构](http://docs.geetest.com/install/overview/#产品结构)。并且必须要先在您的后端搭建相应的**服务端SDK**，并配置从[极验后台]()获取的`<gt_captcha_id>`和`<geetest_key>`用来配置您集成了极验服务端sdk的后台。
+
+# 安装
+
+## 获取SDK
+
+### 使用`git`命令从Github获取
+
+```
+git clone https://github.com/GeeTeam/gt3-android-sdk.git
+```
 
 ### 手动下载获取
 
@@ -16,7 +28,7 @@
 ## 手动导入SDK
 
 从github上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
-[Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/develop/app/libs)
+[Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/master/app/libs)
 
 在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
 
@@ -34,14 +46,6 @@
 ```java
        compile(name: 'gt3geetest-sdk', ext: 'aar')
 
-``` 
-
-### 如需使用依赖, 需要在你的主工程文件里加入一下配置
-
-```java
-dependencies {
-	compile 'gt3bind.android:sdk:1.1.0'
-	}
 ``` 
  
 ## 初始化
@@ -65,13 +69,13 @@ dependencies {
 |validateURL|设置二次验证的URL，需替换成自己的服务器URL|
 
 ```java
-       （unband模式下）
-        gt3GeetestUtils =new GT3Geetest2Utils(Main3Activity.this);
+       （band模式下）
+        gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 	//点击调用
 	gt3GeetestUtils.getGeetest(Main3Activity.this);
 	
-       （按键模式下）
+       （band模式下）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
@@ -233,68 +237,63 @@ dependencies {
 		
         });
 ``` 
+### 详细说明
 
+1.captchaHeaders（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
 
-# 优化
+2.gtIsClick（boolean a） 是只有在有Button的SDK中才有用到，用于监听Button是否被点击，返回为true,表示被点击
 
- 1.新增captchaHeaders（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
-
-
- 2.新增gtIsClick（boolean a） 是只有在有Button的SDK中才有用到，用于监听Button是否被点击，返回为true,表示被点击
- 
-              public void gtIsClick(boolean a) {
-                  if(a){
-                  //按键被点击
-                  }
-              }
-            
-3.新增客户可以根据自己的需求去自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
-
-    //设置是否自定义第二次验证，当方法gtSetIsCustom()设置ture为自定义二次验证 默认为false(不自定义)
-    //如果设置为false，二次验证完成走gt3DialogSuccessResult，后续流程SDK帮忙走完，不需要用户做操作
-    //如果设置为true，二次验证完成走gt3DialogSuccessResult，同时需要完成gt3GetDialogResult里面的二次验证参数提交，验证完毕记得关闭dialog,调用          gt3GeetestUtils.gt3TestFinish();
-
-     情况1.如果使用默认申请的API2做二次验证，那么
-         @Override
-         public boolean gtSetIsCustom() {
-
-               return false;
-         }
-
-         @Override
-         public void gt3GetDialogResult(boolean success,String result) {
-          //不做任何操作
-          }
-
-    情况2.如果使用自定义的API2做二次验证，那么
-
-       @Override
-         public boolean gtSetIsCustom() {
-
-               return false;
-         }
-
-         @Override
-         public void gt3GetDialogResult(boolean success,String result) {
-
-                      if (success) {
-        /**
-        *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
-       * //
-        //          JSONObject res_json = new JSONObject(result);
-        //
-        //          Map<String, String> validateParams = new HashMap<>();
-        //
-        //          validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
-        //
-        //          validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
-        //
-        //          validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
-
-                     gt3GeetestUtils.gt3TestFinish();
+          public void gtIsClick(boolean a) {
+              if(a){
+              //按键被点击
               }
           }
-          
+3.自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
+
+//设置是否自定义第二次验证，当方法gtSetIsCustom()设置ture为自定义二次验证 默认为false(不自定义)
+//如果设置为false，二次验证完成走gt3DialogSuccessResult，后续流程SDK帮忙走完，不需要用户做操作
+//如果设置为true，二次验证完成走gt3DialogSuccessResult，同时需要完成gt3GetDialogResult里面的二次验证参数提交，验证完毕记得关闭dialog,调用          gt3GeetestUtils.gt3TestFinish();
+
+ 情况1.如果使用默认申请的API2做二次验证，那么
+  	   @Override
+  	   public boolean gtSetIsCustom() {
+
+           return false;
+	     }
+
+ 	    @Override
+  	   public void gt3GetDialogResult(boolean success,String result) {
+  	    //不做任何操作
+  	    }
+
+情况2.如果使用自定义的API2做二次验证，那么
+
+  	 @Override
+  	   public boolean gtSetIsCustom() {
+
+           return false;
+   	  }
+
+  	   @Override
+   	  public void gt3GetDialogResult(boolean success,String result) {
+
+                  if (success) {
+    
+  	  // 利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
+ 	   //          JSONObject res_json = new JSONObject(result);
+   	   //
+ 	   //          Map<String, String> validateParams = new HashMap<>();
+ 	   //
+	   //          validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+ 	   //
+ 	   //          validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+	   //
+	   //          validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+
+                 gt3GeetestUtils.gt3TestFinish();
+          }
+      }
+
 4.自定义API1的请求，可以使用默认申请的API1做参数请求，也可以自己自定义接口  （不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
 
    //首先设置你需要去自己定义，调用getISonto()
@@ -312,8 +311,7 @@ dependencies {
 
     以上数据请在初始化之前去修改，就可以自定义API1接口了
 
-
-
+.对内部代码的一个优化
 
 # 错误码 
 1.timeoutError 201
@@ -382,14 +380,12 @@ dependencies {
 
 
 
+
 以上是比较常见的错误码
 
-# 代码混淆 
-1.代码已经进行了混淆，请不要重复混淆
-.在您的proguard-rules.pro下keep掉验证码即可
 
-   
-# 说明
-  
-  1.本SDK包含了2个SDK合成版本，所以集成时小心注意，不要弄混淆了。同时极验会继续努力，给予您更好的SDK
-  2.Eclipse版本的SDK属于定制开发
+其他使用方法和前面保持一致，请参考前面的SDK的使用方法
+说明
+
+
+   本SDK包含了2个SDK合成版本，所以集成时小心注意，不要弄混淆了。同时极验会继续努力，给予您更好的SDK
