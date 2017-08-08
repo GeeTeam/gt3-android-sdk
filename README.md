@@ -271,7 +271,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
   	 @Override
   	   public boolean gtSetIsCustom() {
 
-           return false;
+           return true;
    	  }
 
   	   @Override
