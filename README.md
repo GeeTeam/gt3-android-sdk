@@ -248,7 +248,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
               //按键被点击
               }
           }
-3.自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
+3.自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用）
 
 //设置是否自定义第二次验证，当方法gtSetIsCustom()设置ture为自定义二次验证 默认为false(不自定义)
 //如果设置为false，二次验证完成走gt3DialogSuccessResult，后续流程SDK帮忙走完，不需要用户做操作
