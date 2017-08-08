@@ -372,11 +372,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     
 15.challenge错误  _22
 
-   challenge 没传  
-    
-16.gt错误  _31
+   服务没有检测到challenge字段
+    
+16.gt错误  _31
 
-   gt 没传  
+   服务没有检测到gt字段 
 
 
 
@@ -388,4 +388,5 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 说明
 
 
-   本SDK包含了2个SDK合成版本，所以集成时小心注意，不要弄混淆了。同时极验会继续努力，给予您更好的SDK
+   本SDK包含了2个SDK合成版本，已经做了混淆代码，请不要继续混淆。
+   同时极验会继续努力，给予您更好的SDK
