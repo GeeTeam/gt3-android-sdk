@@ -368,7 +368,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     
 14.challenge错误  _22
 
-   服务没有检测到challenge字段
+  服务没有检测到challenge字段
     
 15.gt错误  _31
 
