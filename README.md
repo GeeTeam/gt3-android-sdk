@@ -212,7 +212,21 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
              */
             @Override
             public void gt3DialogSuccessResult(String result) {
+	    //对验证结果进行判断 是否成功
+  		try {
+                    JSONObject jobj = new JSONObject(result);
+                    String sta  = jobj.getString("status");
 
+                    if("success".equals(sta))
+                    {
+                        gt3GeetestUtils.gt3TestFinish();
+                    }else
+                    {
+                        gt3GeetestUtils.gt3CloseButton();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
 
