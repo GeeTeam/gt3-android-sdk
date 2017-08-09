@@ -136,12 +136,12 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject jobj = new JSONObject(result);
                     String sta  = jobj.getString("status");
 
-                    if("fail".equals(sta))
-                    {
-                        gt3GeetestUtils.gt3CloseButton();
-                    }else
+                    if("success".equals(sta))
                     {
                         gt3GeetestUtils.gt3TestFinish();
+                    }else
+                    {
+                        gt3GeetestUtils.gt3CloseButton();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

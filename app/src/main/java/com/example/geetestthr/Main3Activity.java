@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.geetest.gt3unbindsdk.Bind.GT3GeetestUtilsBind;
 import com.geetest.gt3unbindsdk.Bind.GT3Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -178,7 +179,21 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void gt3DialogSuccessResult(String result) {
                 Log.i("TAGGGG",result+"gt3DialogSuccessResult");
+                try {
+                    JSONObject jobj = new JSONObject(result);
+                    String sta  = jobj.getString("status");
 
+                    if("success".equals(sta))
+                    {
+                        gt3GeetestUtils.gt3TestFinish();
+                    }else
+                    {
+                        gt3GeetestUtils.gt3TestClose();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
 
