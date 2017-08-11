@@ -240,7 +240,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
             }
 
             /**
-             * 验证过程中有错误会走这里
+             * 验证过程中出现错误
              */
 
             @Override
