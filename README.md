@@ -124,6 +124,15 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 
             /**
+             * ajax请求返回的值，用于判断验证类型
+             */
+
+            @Override
+            public void gt3AjaxResult(String result) {
+            }
+
+
+            /**
              * 设置网络的头部信息
              */
             @Override
@@ -370,7 +379,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 11.web请求错误 _105
 
-   web弹出后没有网络滑动会报错
+   无网络状态下滑动报错
     
 12.初始化错误 211
 
@@ -386,11 +395,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     
 15.challenge错误  _22
 
-   challenge 没传  
+   服务器未检测到challenge
     
 16.gt错误  _31
 
-   gt 没传  
+   服务器未检测到gt  
 
 
 
@@ -402,4 +411,4 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 说明
 
 
-   本SDK包含了2个SDK合成版本，所以集成时小心注意，不要弄混淆了。同时极验会继续努力，给予您更好的SDK
+   本SDK包含了2个SDK合成版本 ，代码已经混淆，不需要再次混淆。 同时极验会继续努力，给予您更好的SDK
