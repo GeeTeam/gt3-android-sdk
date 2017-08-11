@@ -1,11 +1,14 @@
 package com.example.geetestthr;
 
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.geetest.gt3unbindsdk.Bind.GT3GeetestBind;
 import com.geetest.gt3unbindsdk.Bind.GT3GeetestUtilsBind;
 import com.geetest.gt3unbindsdk.Bind.GT3Toast;
 
@@ -16,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Main3Activity extends AppCompatActivity {
+public class Main3Activity extends Activity {
 
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
@@ -36,15 +39,6 @@ public class Main3Activity extends AppCompatActivity {
         gt3GeetestUtils.setGtListener(new GT3GeetestUtilsBind.GT3Listener() {
 
             /**
-             * 如果api1也想自己自定,那么访问您的服务器后讲INFO数据以如下格式传给我
-             *  gt3GeetestUtils.gtSetApi1Json(jsonObject);
-             */
-
-
-
-
-
-            /**
              * 点击验证码的关闭按钮来关闭验证码
              */
             @Override
@@ -61,7 +55,6 @@ public class Main3Activity extends AppCompatActivity {
                 GT3Toast.show("验证未通过 请重试", getApplicationContext());
             }
 
-
             /**
              * 验证码加载准备完成
              */
@@ -73,7 +66,8 @@ public class Main3Activity extends AppCompatActivity {
 
             @Override
             public void gt3FirstGo() {
-                Log.i("TTAVBN","API1请求开始");
+//                Log.i("TTAVBN","API1请求开始");
+
             }
 
 
@@ -82,7 +76,7 @@ public class Main3Activity extends AppCompatActivity {
              */
             @Override
             public void gt3FirstResult(JSONObject jsonObject) {
-                Log.i("TTAVBN","API1请求的值："+jsonObject);
+//                Log.i("TTAVBN","API1请求的值："+jsonObject);
             }
 
 
@@ -92,20 +86,11 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public Map<String, String> captchaApi1() {
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("testkey","12315");
+                map.put("testkey1","12315");
+                map.put("testkey2","12315");
+                map.put("testkey3","12315");
                 return map;
             }
-
-
-            /**
-             * 设置网络的头部信息
-             */
-            @Override
-            public Map<String, String> validateHeaders() {
-                return null;
-            }
-
-
 
             /**
              * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
@@ -160,6 +145,7 @@ public class Main3Activity extends AppCompatActivity {
                      */
                     // gt3GeetestUtils.gt3TestFinish();
 
+
                 }
             }
 
@@ -169,8 +155,11 @@ public class Main3Activity extends AppCompatActivity {
              */
             @Override
             public Map<String, String> gt3SecondResult() {
-
-                return null;
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("testkey","12315");
+                map.put("testkey","12315");
+                map.put("testkey","12315");
+                return map;
             }
 
             /**
@@ -179,22 +168,30 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void gt3DialogSuccessResult(String result) {
                 Log.i("TAGGGG",result+"gt3DialogSuccessResult");
-                try {
-                    JSONObject jobj = new JSONObject(result);
-                    String sta  = jobj.getString("status");
-
-                    if("success".equals(sta))
-                    {
-                        gt3GeetestUtils.gt3TestFinish();
-                    }else
-                    {
-                        gt3GeetestUtils.gt3TestClose();
-
+                if(!TextUtils.isEmpty(result)) {
+                    try {
+                        JSONObject jobj = new JSONObject(result);
+                        String sta = jobj.getString("status");
+                        if ("success".equals(sta)) {
+                            gt3GeetestUtils.gt3TestFinish();
+                        } else {
+                            gt3GeetestUtils.gt3TestClose();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else
+                {
+                    gt3GeetestUtils.gt3TestClose();
                 }
+            }
 
+            /**
+             * ajax请求返回的值，用于判断是什么类型的验证
+             */
+
+            @Override
+            public void gt3AjaxResult(String result) {
             }
 
             /**
@@ -219,43 +216,49 @@ public class Main3Activity extends AppCompatActivity {
 
 
     }
+
     private void init() {
-        //new GT3ReadyMsg().setLogoid(R.drawable.success);//设置准备界面头部的gif图片
         gt3GeetestUtils = new GT3GeetestUtilsBind(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 
           findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                    mGtApi1json = new GtApi1json();
+//                    mGtApi1json.execute();
                 gt3GeetestUtils.getGeetest(Main3Activity.this);
-                gt3GeetestUtils.setDialogTouch(false);
-
+                gt3GeetestUtils.setDialogTouch(true);
             }
         });
     }
 
 
-//    GtApi1json mGtApi1json;
-//    GT3GeetestBind captcha= new GT3GeetestBind(
-//            captchaURL, validateURL,null
-//    );
-//
-//    class GtApi1json extends AsyncTask<Void, Void, JSONObject> {
-//
-//        @Override
-//        protected JSONObject doInBackground(Void... params) {
-//            String map_st = "";
-//            return captcha.check2Server(map_st);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(JSONObject parmas) {
-//            //parmas格式"{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}"
-//            gt3GeetestUtils.gtSetApi1Json(parmas);
-//            gt3GeetestUtils.getGeetest(Main3Activity.this);
-//            gt3GeetestUtils.setDialogTouch(false);
-//        }
-//    }
+    GtApi1json mGtApi1json;
+    GT3GeetestBind captcha= new GT3GeetestBind(
+            captchaURL, validateURL,null
+    );
+
+    class GtApi1json extends AsyncTask<Void, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            String map_st = "";
+            return captcha.check2Server(map_st);
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject parmas) {
+            //parmas格式"{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}"
+
+            /**
+             * 如果api1也想自己自定,那么访问您的服务器后讲INFO数据以如下格式传给我
+             *  gt3GeetestUtils.gtSetApi1Json(jsonObject);
+             */
+            gt3GeetestUtils.gtSetApi1Json(parmas);
+            gt3GeetestUtils.getGeetest(Main3Activity.this);
+            gt3GeetestUtils.setDialogTouch(true);
+        }
+    }
 
 }
 

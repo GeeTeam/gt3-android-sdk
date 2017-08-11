@@ -1,7 +1,10 @@
 package com.example.geetestthr;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -21,10 +25,9 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.ll_btn_type)
     GT3GeetestButton llBtnType;
-
-    // 设置获取id，challenge，success的URL，需替换成自己的服务器URL
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
+        private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
     // 设置二次验证的URL，需替换成自己的服务器URL
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     GT3GeetestUtils gt3GeetestUtils;
@@ -33,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        llBtnType = (GT3GeetestButton) findViewById(R.id.ll_btn_type);
+
         gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+
 //        gt3GeetestUtils.getISonto();
         gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void gt3GetDialogResult(String result) {
-                Log.i("TAGGGG",result+"gt3GetDialogResult");
+//                Log.i("TAGGGG",result+"gt3GetDialogResult");
 
             }
 
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void gt3FirstResult(JSONObject jsonObject) {
-
+                Log.i("TAGGGG",jsonObject+"gt3FirstResult");
             }
 
             /**
@@ -132,37 +136,44 @@ public class MainActivity extends AppCompatActivity {
             //请求成功数据
             @Override
             public void gt3DialogSuccessResult(String result) {
-                try {
-                    JSONObject jobj = new JSONObject(result);
-                    String sta  = jobj.getString("status");
+                if(!TextUtils.isEmpty(result)) {
+                    try {
+                        JSONObject jobj = new JSONObject(result);
+                        String sta = jobj.getString("status");
 
-                    if("success".equals(sta))
-                    {
-                        gt3GeetestUtils.gt3TestFinish();
-                    }else
-                    {
-                        gt3GeetestUtils.gt3CloseButton();
+                        if ("success".equals(sta)) {
+                            gt3GeetestUtils.gt3TestFinish();
+                        } else {
+                            gt3GeetestUtils.gt3CloseButton();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else
+                {
+                    gt3GeetestUtils.gt3CloseButton();
                 }
                 Toast.makeText(MainActivity.this,result,Toast.LENGTH_LONG).show();
                 Gt3GeetestTestMsg.setCandotouch(true);//这里设置验证成功后是否可以关闭
             }
 
+
+
             /**
-             * 设置网络的头部信息
+             * ajax请求返回的值，用于判断是什么类型的验证
              */
+
             @Override
-            public Map<String, String> validateHeaders() {
-                return null;
+            public void gt3AjaxResult(String result) {
+
             }
 
 
             /**
              * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
              * 如果为false这边的的完成走gt3GetDialogResult(String result) ，后续流程SDK帮忙走完，不需要做操作
-             * 如果为true这边的的完成走gt3GetDialogResult(boolean a, String result)，同时需要完成gt3GetDialogResult里面的二次验证，验证完毕记得关闭dialog,调用gt3GeetestUtils.gt3TestFinish();
+             * 如果为true这边的的完成走gt3GetDialogResult(boolean a, String result)，
+             * 同时需要完成gt3GetDialogResult里面的二次验证，验证完毕记得关闭dialog,调用gt3GeetestUtils.gt3TestFinish();
              * 完成方法统一是gt3DialogSuccess
              */
 
@@ -178,13 +189,21 @@ public class MainActivity extends AppCompatActivity {
              */
 
             @Override
-            public void gtOnClick(boolean a) {
-                if(a){
+            public void gtOnClick(boolean onclick) {
+                if(onclick){
                     //被点击
                     /**
                      * 如果api1也想自己自定,那么访问您的服务器后讲INFO数据以如下格式传给我
                      *  gt3GeetestUtils.gtSetApi1Json(jsonObject);
                      */
+//                    mGtppDlgTask =  new GtppDlgTask();
+//                    mGtppDlgTask.execute();
+
+                    gt3GeetestUtils.setDialogTouch(true);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("mydata", Context.MODE_PRIVATE);
+                   boolean a= sharedPreferences.getBoolean("isdebug",false);
+                    Log.i("TAGGGG",a+"");
                 }
             }
 

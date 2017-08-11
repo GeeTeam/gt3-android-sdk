@@ -10,9 +10,7 @@ import butterknife.ButterKnife;
 
 public class Main2Activity extends AppCompatActivity {
 
-
     Button btn1;
-
     Button btn2;
 
     @Override
@@ -39,6 +37,10 @@ public class Main2Activity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),Main3Activity.class));
             }
         });
+
+
+
     }
+
 
 }
