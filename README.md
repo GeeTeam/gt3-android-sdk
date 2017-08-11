@@ -131,17 +131,6 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
             public void gt3AjaxResult(String result) {
             }
 
-
-            /**
-             * 设置网络的头部信息
-             */
-            @Override
-            public Map<String, String> validateHeaders() {
-                return null;
-            }
-
-
-
             /**
              * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
              * 如果为false这边的的完成走gt3GetDialogResult(String result) ，后续流程SDK帮忙走完，不需要做操作
