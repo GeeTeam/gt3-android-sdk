@@ -291,13 +291,14 @@ slide--滑动验证
 
 答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
 
-### 2.自定义api1如何定义
+### 2.自定义api1如何定义？
 
 答：bind模式下
    在您点击需要启动验证的按钮后，自行做网络请求，拿到网络请求的结果后调用如下两个方法即可
    gt3GeetestUtils.gtSetApi1Json(parmas);
    gt3GeetestUtils.getGeetest(Main3Activity.this);
   
+  
    unbind模式下
    首先在调用getGeetest之前调用一下gt3GeetestUtils.getISonto();方法，代码如下
    
