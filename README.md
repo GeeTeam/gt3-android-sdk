@@ -1,9 +1,5 @@
 # gt3-android-sdk
 
-# master分支为主分支,dv-master分支为带Button的验证码,develop分支为开发分支。
-
-# 一般是下载主分支或者开发分支
-
 # 概述与资源
 
 极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
@@ -30,7 +26,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 从github上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
 [Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/master/app/libs)
 
-在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
+1.在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
 
 ```java
         repositories {
@@ -48,9 +44,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ``` 
  
-## 初始化
-
-### 在AndroidManifest.xml文件中添加权限
+2. 在AndroidManifest.xml文件中添加权限
 
 ```java
     <uses-permission android:name="android.permission.INTERNET" />
@@ -61,31 +55,17 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ```
 
-### 设置服务端URL以及初始化验证码
-
-| Attribute | Descripion |
-| ------ | ------ |
-|captchaURL|设置获取id，challenge，success的URL，需替换成自己的服务器URL|
-|validateURL|设置二次验证的URL，需替换成自己的服务器URL|
-
+3.设置服务端URL以及初始化验证码
 ```java
-       （band模式下）
-        gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
-        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
-	//点击调用
-	gt3GeetestUtils.getGeetest(Main3Activity.this);
-	
-       （unband模式下）
-	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
-	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+    //设置获取id，challenge，success的URL，需替换成自己的服务器URL
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
+    // 设置二次验证的URL，需替换成自己的服务器URL
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
 ```
-
-
-### 验证码加载过程中的接口
-
+4.重写gt3GeetestUtils.setGtListener接口回调，具体用法查看demo，下面也会列出
 
 ```java
-  
+   gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
    gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
            /**
              * 点击验证码的关闭按钮来关闭验证码
@@ -249,83 +229,105 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 		
         });
 ``` 
-### 详细说明
+5.加载验证码
+```java
+       （band模式下）--点击后会有一个加载框，中间有一个gif在转动
+        gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
+        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
+	//点击按钮调用
+	gt3GeetestUtils.getGeetest(Main3Activity.this);
+	
+       （unband模式下）--拥有极验的自定义控件
+	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+```
 
-1.captchaApi1（） 添加第一次验证数据，gt3SecondResult（） 添加第二次验证数据,添加类型均为Map集合
 
-2.gtIsClick（boolean a） 是只有在有Button的SDK中才有用到，用于监听Button是否被点击，返回为true,表示被点击
 
-          public void gtIsClick(boolean a) {
-              if(a){
-              //按键被点击
-              }
-          }
-3.自定义API2的请求，可以使用默认申请的API2做二次验证，也可以自己自定义接口（不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
+以上是常规的集成，由于客户的需求，SDK提供了相应的接口，下面是接口的详细说明
 
-//设置是否自定义第二次验证，当方法gtSetIsCustom()设置ture为自定义二次验证 默认为false(不自定义)
-//如果设置为false，二次验证完成走gt3DialogSuccessResult，后续流程SDK帮忙走完，不需要用户做操作
-//如果设置为true，二次验证完成走gt3DialogSuccessResult，同时需要完成gt3GetDialogResult里面的二次验证参数提交，验证完毕记得关闭dialog,调用          gt3GeetestUtils.gt3TestFinish();
 
- 情况1.如果使用默认申请的API2做二次验证，那么
-  	   @Override
-  	   public boolean gtSetIsCustom() {
 
-           return false;
-	     }
 
- 	    @Override
-  	   public void gt3GetDialogResult(boolean success,String result) {
-  	    //不做任何操作
-  	    }
+# 接口详细说明（分2种模式讲解）
 
-情况2.如果使用自定义的API2做二次验证，那么
+1.gt3CloseDialog 验证码弹出后左下角的X按键的接口回调，一般来说用不到
 
-  	 @Override
-  	   public boolean gtSetIsCustom() {
+2.gt3CancelDialog 验证码弹出后点击屏幕任意一处弹框关闭的接口回调，一般来说用不到
 
-           return true;
-   	  }
+3.gt3DialogReady 验证码弹准备完成，所有请求正常，准备弹出的接口回调，一般用于统计是否正常弹出验证码
 
-  	   @Override
-   	  public void gt3GetDialogResult(boolean success,String result) {
+4.gt3FirstGo 验证码的第一个接口（api1）开始请求的接口回调，一般用于判断是否进入到验证码的流程
 
-                  if (success) {
-    
-  	  // 利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在     gt3DialogSuccessResult执行成功之后的结果
- 	   //          JSONObject res_json = new JSONObject(result);
-   	   //
- 	   //          Map<String, String> validateParams = new HashMap<>();
- 	   //
-	   //          validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
- 	   //
- 	   //          validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
-	   //
-	   //          validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+5.gt3FirstResult api1请求正常，且拿到的了JSON数据，在参数里面返回，一般用于查看api1返回数据是否正常
 
-                 gt3GeetestUtils.gt3TestFinish();
-          }
-      }
+6.captchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
 
-4.自定义API1的请求，可以使用默认申请的API1做参数请求，也可以自己自定义接口  （不推荐使用，只是开放出来，后期如果有产品安全问题，不承担责任）
+7.gtSetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
 
-   //首先设置你需要去自己定义，调用getISonto()
-   gt3GeetestUtils.getISonto();
+8.gt3GetDialogResult 这个回调有两个，其中有一个只有返回String result，这个用于不自定义api2，执行完验证操作后的数据结果返回，其他一个有返回boolean bol, String result这个用于自定义api2，执行完验证操作后的数据结果返回。且自定义api2拿到验证结果数据后需要请求客户自己的api2，去做结果效验
 
-   //请求你们自己的api1然后返回一个json数据给我，json格式务必按照如下
-    
-     	JSONObject jsoninfo = null;
-   	 String info = "		{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}";
-  	 jsoninfo = new JSONObject(info);
- 	  gt3GeetestUtils.gtSetApi1Json(jsoninfo);
+9.gt3SecondResult 用于向api2里面put参数，传递一个map集合即可，一般用于不自定义api2但是需要传递额外的参数，可以使用该接口回调完成。
 
-   //最后把你的json传给我
-    gt3GeetestUtils.gtSetApi1Json(jsoninfo);
+10.gt3DialogSuccessResult api2二次效验完成后的结果，用于客户根据不同结果做出不同的处理，
+gt3GeetestUtils.gt3TestFinish();--验证完成（bind，unbind）
+gt3GeetestUtils.gt3TestClose();--验证失败（bind）
+gt3GeetestUtils.gt3CloseButton();--验证失败（unbind）
 
-    以上数据请在初始化之前去修改，就可以自定义API1接口了
+11.gt3AjaxResult 获取本次验证的验证类型，一般用的比较少，在统计验证类型次数上会用到
+fullpage--一点既过
+click--选字大图
+slide--滑动验证
 
-.对内部代码的一个优化
+12.gt3DialogOnError 当验证出现错误时会在该接口返回错误码，错误码显示在弹出框右下角（bind）.自定义按键右下角（unbind）,用于追溯错误，后面有列出常用验证码
 
-# 错误码 
+13.gtOnClick 在unbind模式下特有，点击自定义按键后的回调，在自定义api1时，在该方法里面做自定义请求
+
+
+
+
+# 常用问题
+1.有设置验证弹框点击周围不消失的方法吗？
+答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
+
+2.自定义api1如何定义
+答：bind模式下
+   在您点击需要启动验证的按钮后，自行做网络请求，拿到网络请求的结果后调用如下两个方法即可
+   gt3GeetestUtils.gtSetApi1Json(parmas);
+   gt3GeetestUtils.getGeetest(Main3Activity.this);
+  
+   unbind模式下
+   首先在调用getGeetest之前调用一下gt3GeetestUtils.getISonto();方法，代码如下
+   ```java
+      gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+      gt3GeetestUtils.getISonto();
+      gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+```
+   然后在gtOnClick回调里，自行做网络请求，拿到网络请求的结果后调用如下一个方法即可
+   gt3GeetestUtils.gtSetApi1Json(parmas);
+   
+ 注：parmas为您自定义api1的返回结果，格式参考：
+```java
+{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}"
+```
+
+3.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
+答：在gt3DialogSuccessResult里面调用Gt3GeetestTestMsg.setCandotouch(true);即可
+
+4.为什么我所有代码都写好了，验证码就是弹不出
+答：目前导致验证码无法弹出的情况分如下几种
+  1.SDK经过了混淆，所以不要在对其进行混淆
+  2.3.0的SDK是否使用了2.0的gt值
+  3.api1数据返回格式是否按照SDK标准返回（参考上面的parmas）
+  4.手机是否连接了网络代理
+
+5.验证码弹出后，验证完成后为什么弹框没有消失
+答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
+
+
+
+
+# 常用错误码 
 1.timeoutError 201
 
    全局网络请求超时，请检查网络连接
