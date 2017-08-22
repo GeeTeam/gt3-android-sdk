@@ -300,18 +300,18 @@ slide--滑动验证
   
    unbind模式下
    首先在调用getGeetest之前调用一下gt3GeetestUtils.getISonto();方法，代码如下
-   ```java
-      gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
-      gt3GeetestUtils.getISonto();
-      gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
-```
+   
+    gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+    gt3GeetestUtils.getISonto();
+    gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+
    然后在gtOnClick回调里，自行做网络请求，拿到网络请求的结果后调用如下一个方法即可
    gt3GeetestUtils.gtSetApi1Json(parmas);
    
  注：parmas为您自定义api1的返回结果，格式参考：
-```java
-{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}"
-```
+
+{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"ne  w_captcha\":true}"
+
 
 3.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
 
@@ -320,10 +320,14 @@ slide--滑动验证
 4.为什么我所有代码都写好了，验证码就是弹不出？
 
 答：目前导致验证码无法弹出的情况分如下几种
-  1.SDK经过了混淆，所以不要在对其进行混淆
-  2.3.0的SDK是否使用了2.0的gt值
-  3.api1数据返回格式是否按照SDK标准返回（参考上面的parmas）
-  4.手机是否连接了网络代理
+
+  a.SDK经过了混淆，所以不要在对其进行混淆
+  
+  b.3.0的SDK是否使用了2.0的gt值
+  
+  c.api1数据返回格式是否按照SDK标准返回（参考上面的parmas）
+  
+  d.手机是否连接了网络代理
 
 5.验证码弹出后，验证完成后为什么弹框没有消失？
 
@@ -375,7 +379,7 @@ slide--滑动验证
 
 11.web请求错误 _105
 
-   无网络状态下滑动报错
+  无网络状态下滑动报错
     
 12.初始化错误 211
 
@@ -391,11 +395,11 @@ slide--滑动验证
     
 15.challenge错误  _22
 
-   服务器未检测到challenge
+  服务器未检测到challenge
     
 16.gt错误  _31
 
-   服务器未检测到gt  
+  服务器未检测到gt  
 
 
 
