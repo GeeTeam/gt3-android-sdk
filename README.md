@@ -287,11 +287,11 @@ slide--滑动验证
 
 
 # 常用问题
-1.有设置验证弹框点击周围不消失的方法吗？
+### 1.有设置验证弹框点击周围不消失的方法吗？
 
 答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
 
-2.自定义api1如何定义
+### 2.自定义api1如何定义
 
 答：bind模式下
    在您点击需要启动验证的按钮后，自行做网络请求，拿到网络请求的结果后调用如下两个方法即可
@@ -313,11 +313,11 @@ slide--滑动验证
 {\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"ne  w_captcha\":true}"
 
 
-3.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
+### 3.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
 
 答：在gt3DialogSuccessResult里面调用Gt3GeetestTestMsg.setCandotouch(true);即可
 
-4.为什么我所有代码都写好了，验证码就是弹不出？
+### 4.为什么我所有代码都写好了，验证码就是弹不出？
 
 答：目前导致验证码无法弹出的情况分如下几种
 
@@ -329,7 +329,7 @@ slide--滑动验证
   
   d.手机是否连接了网络代理
 
-5.验证码弹出后，验证完成后为什么弹框没有消失？
+### 5.验证码弹出后，验证完成后为什么弹框没有消失？
 
 答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
 
@@ -337,67 +337,67 @@ slide--滑动验证
 
 
 # 常用错误码 
-1.timeoutError 201
+### 1.timeoutError 201
 
    全局网络请求超时，请检查网络连接
 
-2.forbiddenError 202
+### 2.forbiddenError 202
 
    验证码停用，检查下验证码是否到期
 
-3.webViewError 204
+### 3.webViewError 204
 
    webview加载出现的错误
 
-4.httpError 205
+### 4.httpError 205
 
    api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
 
-5.httpError 206
+### 5.httpError 206
 
    gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
 
-6.httpError 207
+### 6.httpError 207
 
    getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
 
-7.httpError 208
+### 7.httpError 208
 
    ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
     
-8.httpError 209
+### 8.httpError 209
 
    api2接口返回返回为null，查看api2的参数和地址是否有误，网络保持畅通
 
-9.尝试过多 _01
+### 9.尝试过多 _01
 
    连续刷新5次
 
-10.尝试过多 _12
+### 10.尝试过多 _12
 
    连续验证错误6次
 
-11.web请求错误 _105
+### 11.web请求错误 _105
 
   无网络状态下滑动报错
     
-12.初始化错误 211
+### 12.初始化错误 211
 
    验证码初始化回调用2个接口，找找这里的问题
 
-13.初始化错误 222
+### 13.初始化错误 222
 
    网络请求时，此时已经断网
     
-14.challenge错误  _02
+### 14.challenge错误  _02
 
    challenge 过时，或者重复使用
     
-15.challenge错误  _22
+### 15.challenge错误  _22
 
   服务器未检测到challenge
     
-16.gt错误  _31
+### 16.gt错误  _31
 
   服务器未检测到gt  
 
