@@ -112,6 +112,11 @@ public class Main3Activity extends Activity {
 
             }
 
+            @Override
+            public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
+                Log.i("Timessss", "数据统计:" + jsonObject.toString());
+            }
+
 
             /**
              * 拿到二次验证需要的数据
@@ -167,7 +172,7 @@ public class Main3Activity extends Activity {
              */
             @Override
             public void gt3DialogSuccessResult(String result) {
-                Log.i("TAGGGG",result+"gt3DialogSuccessResult");
+
                 if(!TextUtils.isEmpty(result)) {
                     try {
                         JSONObject jobj = new JSONObject(result);
@@ -192,16 +197,12 @@ public class Main3Activity extends Activity {
 
             @Override
             public void gt3AjaxResult(String result) {
+
             }
 
             /**
              * 验证全部走完的回调，用于弹出完成框
              */
-
-            @Override
-            public void gt3DialogSuccess() {
-
-            }
 
             /**
              * 验证过程中有错误会走这里
@@ -209,6 +210,8 @@ public class Main3Activity extends Activity {
 
             @Override
             public void gt3DialogOnError(String error) {
+
+
                 gt3GeetestUtils.cancelAllTask();
 
             }
@@ -228,6 +231,7 @@ public class Main3Activity extends Activity {
 //                    mGtApi1json.execute();
                 gt3GeetestUtils.getGeetest(Main3Activity.this);
                 gt3GeetestUtils.setDialogTouch(true);
+
             }
         });
     }

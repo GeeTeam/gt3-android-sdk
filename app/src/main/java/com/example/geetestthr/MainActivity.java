@@ -2,12 +2,14 @@ package com.example.geetestthr;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.geetest.gt3unbindsdk.GT3Geetest;
 import com.geetest.gt3unbindsdk.GT3GeetestButton;
 import com.geetest.gt3unbindsdk.GT3GeetestUtils;
 import com.geetest.gt3unbindsdk.Gt3GeetestTestMsg;
@@ -38,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
-
 //        gt3GeetestUtils.getISonto();
         gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 
@@ -85,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void gt3GetDialogResult(String result) {
-//                Log.i("TAGGGG",result+"gt3GetDialogResult");
 
             }
 
@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void gt3FirstResult(JSONObject jsonObject) {
-                Log.i("TAGGGG",jsonObject+"gt3FirstResult");
             }
 
             /**
@@ -165,6 +164,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void gt3AjaxResult(String result) {
+
+            }
+
+            @Override
+            public void gt3DialogReady() {
+
+            }
+
+            @Override
+            public void gt3FirstGo() {
 
             }
 
@@ -219,29 +228,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    GT3Geetest captcha;
-//    GtppDlgTask mGtppDlgTask;
-//    // 请求的API1
-//    private class GtppDlgTask extends AsyncTask<Void, Void, JSONObject> {
-//
-//        @Override
-//        protected JSONObject doInBackground(Void... params) {
-//            captcha = new GT3Geetest(captchaURL,validateURL,null);
-//            String Str_map ="?";
-//            JSONObject jsonObject;
-//
-//            jsonObject = captcha.checkRealServer(Str_map);
-//
-//            return jsonObject;
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(JSONObject parmas) {
-//            //{"success":1,"challenge":"323b14a7fe13fcfb7c830bb44a687e7f","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
-//            gt3GeetestUtils.gtSetApi1Json(parmas);
-//        }
-//    }
+    GT3Geetest captcha;
+    GtppDlgTask mGtppDlgTask;
+    // 请求的API1
+    private class GtppDlgTask extends AsyncTask<Void, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            captcha = new GT3Geetest(captchaURL,validateURL,null);
+            String Str_map ="?";
+            JSONObject jsonObject;
+
+            jsonObject = captcha.checkRealServer(Str_map);
+
+            return jsonObject;
+
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject parmas) {
+            //{"success":1,"challenge":"323b14a7fe13fcfb7c830bb44a687e7f","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
+            gt3GeetestUtils.gtSetApi1Json(parmas);
+        }
+    }
 
 
 
