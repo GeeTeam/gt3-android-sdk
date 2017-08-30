@@ -334,6 +334,25 @@ slide--滑动验证
 
 答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
 
+### 6.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
+
+答：您的需求比较的奇怪，不过SDK也有考虑到这块
+
+1.在项目清单里面在需要弹出验证码的activity上加上android:configChanges="orientation|keyboardHidden|screenSize"
+
+2.在需要弹出验证码的activity上加上
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gt3GeetestUtils.setGtListener(null);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        gt3GeetestUtils.changeDialogLayout();
+    }
 
 
 
