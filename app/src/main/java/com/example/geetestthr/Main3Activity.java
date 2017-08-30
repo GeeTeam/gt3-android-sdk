@@ -230,6 +230,7 @@ public class Main3Activity extends Activity {
             public void onClick(View v) {
 //                    mGtApi1json = new GtApi1json();
 //                    mGtApi1json.execute();
+
                 gt3GeetestUtils.getGeetest(Main3Activity.this);
                 gt3GeetestUtils.setDialogTouch(true);
 
