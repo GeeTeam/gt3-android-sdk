@@ -2,6 +2,7 @@ package com.example.geetestthr;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -250,6 +251,19 @@ public class MainActivity extends AppCompatActivity {
             //{"success":1,"challenge":"323b14a7fe13fcfb7c830bb44a687e7f","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
             gt3GeetestUtils.gtSetApi1Json(parmas);
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gt3GeetestUtils.setGtListener(null);
+    }
+
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        gt3GeetestUtils.changeDialogLayout();
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.geetestthr;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -263,6 +264,22 @@ public class Main3Activity extends Activity {
             gt3GeetestUtils.setDialogTouch(true);
         }
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gt3GeetestUtils.setGtListener(null);
+    }
+
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        gt3GeetestUtils.changeDialogLayout();
+    }
+
 
 }
 

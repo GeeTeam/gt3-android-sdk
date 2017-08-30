@@ -24,8 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Main3Activity" />
+        <activity android:name=".MainActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+            />
+        <activity android:name=".Main3Activity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+            />
 
 
     </application>
