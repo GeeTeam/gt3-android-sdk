@@ -232,12 +232,15 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 5.加载验证码
 ```java
        （band模式下）--点击后会有一个加载框，中间有一个gif在转动
+        //在您acitvity的onCreate方法里面调用（必须）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
-	//点击按钮调用
+	
+	//在您触发极验的按钮点击调用（必须）
 	gt3GeetestUtils.getGeetest(Main3Activity.this);
 	
        （unband模式下）--拥有极验的自定义控件
+        //在您acitvity的onCreate方法里面调用（必须）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
@@ -354,6 +357,13 @@ slide--滑动验证
         gt3GeetestUtils.changeDialogLayout();
     }
 
+### 7.有设置验证框超时时间的方法吗？
+
+答：gt3GeetestUtils.setTimeout(15000),设置为毫秒
+
+### 8.如何检测SDK的版本号？
+
+答：gt3GeetestUtils.getVersion(),获取当前SDK的版本号
 
 
 # 常用错误码 
