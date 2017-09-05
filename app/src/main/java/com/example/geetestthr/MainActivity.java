@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.ll_btn_type)
     GT3GeetestButton llBtnType;
-        private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
+        private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
     // 设置二次验证的URL，需替换成自己的服务器URL
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
     GT3GeetestUtils gt3GeetestUtils;
 
     @Override

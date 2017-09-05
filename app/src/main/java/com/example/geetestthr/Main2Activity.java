@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import butterknife.ButterKnife;
-
 public class Main2Activity extends AppCompatActivity {
 
     Button btn1;
@@ -18,7 +16,6 @@ public class Main2Activity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        ButterKnife.bind(this);
 
 
         btn1 = (Button) findViewById(R.id.btn1);

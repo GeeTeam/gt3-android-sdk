@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.geetest.gt3unbindsdk.Bind.GT3GeetestBind;
@@ -27,6 +28,7 @@ public class Main3Activity extends Activity {
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
     private EditText et1;
     private EditText et2;
+    private Button btn;
     private GT3GeetestUtilsBind gt3GeetestUtils;
 
 
@@ -34,9 +36,11 @@ public class Main3Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-        init();
+
         et1 = (EditText) findViewById(R.id.et1);
         et2 = (EditText) findViewById(R.id.et2);
+        btn = (Button) findViewById(R.id.btn);
+        init();
         gt3GeetestUtils.setGtListener(new GT3GeetestUtilsBind.GT3Listener() {
 
             /**
@@ -211,8 +215,6 @@ public class Main3Activity extends Activity {
 
             @Override
             public void gt3DialogOnError(String error) {
-
-
                 gt3GeetestUtils.cancelAllTask();
 
             }
@@ -225,7 +227,7 @@ public class Main3Activity extends Activity {
         gt3GeetestUtils = new GT3GeetestUtilsBind(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 
-          findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                    mGtApi1json = new GtApi1json();
