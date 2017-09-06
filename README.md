@@ -5,6 +5,12 @@
 极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
 集成极验验证3.0的时，需要先了解极验验证3.0的 [产品结构](http://docs.geetest.com/install/overview/#产品结构)。并且必须要先在您的后端搭建相应的**服务端SDK**，并配置从[极验后台]()获取的`<gt_captcha_id>`和`<geetest_key>`用来配置您集成了极验服务端sdk的后台。
 
+
+# 环境
+
+## 编译环境需要23或以上
+
+
 # 安装
 
 ## 获取SDK
@@ -40,7 +46,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 并且要手动将aar包添加依赖：
 
 ```java
-       compile(name: 'gt3geetest-sdk', ext: 'aar')
+       compile(name: 'gt3geetest_sdk', ext: 'aar')
 
 ``` 
  
