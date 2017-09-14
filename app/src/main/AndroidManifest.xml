@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Main2Activity"
+            android:name=".MainGeetestActivity"
             android:configChanges="locale"
             android:theme="@style/AppACTheme">
             <intent-filter>
@@ -24,10 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".MainUnBindActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
             />
-        <activity android:name=".Main3Activity"
+        <activity android:name=".MainBindActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
             />
 

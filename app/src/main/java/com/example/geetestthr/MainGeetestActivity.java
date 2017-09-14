@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class Main2Activity extends AppCompatActivity {
+public class MainGeetestActivity extends AppCompatActivity {
 
     Button btn1;
     Button btn2;
@@ -24,14 +24,14 @@ public class Main2Activity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(),MainUnBindActivity.class));
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Main3Activity.class));
+                startActivity(new Intent(getApplicationContext(),MainBindActivity.class));
             }
         });
 
