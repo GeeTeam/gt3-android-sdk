@@ -31,5 +31,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile(name: 'gt3geetest-sdk', ext: 'aar')
+    compile(name: 'gt3geetest_sdk', ext: 'aar')
 }
