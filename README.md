@@ -8,7 +8,7 @@
 
 # 环境
 
-## 编译环境需要23或以上
+编译环境需要23或以上
 
 
 # 安装
@@ -58,10 +58,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
 ```
 
 3.设置服务端URL以及初始化验证码
+
 ```java
     //设置获取id，challenge，success的URL，需替换成自己的服务器URL
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
@@ -69,6 +69,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
 ```
 4.加载验证码
+
 ```java
        （band模式下）--点击后会有一个加载框，中间有一个gif在转动
         //在您acitvity的onCreate方法里面调用（必须）
@@ -280,42 +281,49 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 # 接口详细说明（分2种模式讲解）
 
-1.gt3CloseDialog 验证码弹出后左下角的X按键的接口回调，一般来说用不到
+1. gt3CloseDialog 验证码弹出后左下角的X按键的接口回调，一般来说用不到
 
-2.gt3CancelDialog 验证码弹出后点击屏幕任意一处弹框关闭的接口回调，一般来说用不到
+2. gt3CancelDialog 验证码弹出后点击屏幕任意一处弹框关闭的接口回调，一般来说用不到
 
-3.gt3DialogReady 验证码弹准备完成，所有请求正常，准备弹出的接口回调，一般用于统计是否正常弹出验证码
+3. gt3DialogReady 验证码弹准备完成，所有请求正常，准备弹出的接口回调，一般用于统计是否正常弹出验证码
 
-4.gt3FirstGo 验证码的第一个接口（api1）开始请求的接口回调，一般用于判断是否进入到验证码的流程
+4. gt3FirstGo 验证码的第一个接口（api1）开始请求的接口回调，一般用于判断是否进入到验证码的流程
 
-5.gt3FirstResult api1请求正常，且拿到的了JSON数据，在参数里面返回，一般用于查看api1返回数据是否正常
+5. gt3FirstResult api1请求正常，且拿到的了JSON数据，在参数里面返回，一般用于查看api1返回数据是否正常
 
-6.captchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
+6. captchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
 
-7.gtSetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
+7. gtSetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
 
-8.gt3GetDialogResult 这个回调有两个，其中有一个只有返回String result，这个用于不自定义api2，执行完验证操作后的数据结果返回，其他一个有返回boolean bol, String result这个用于自定义api2，执行完验证操作后的数据结果返回。且自定义api2拿到验证结果数据后需要请求客户自己的api2，去做结果效验
+8. gt3GetDialogResult 这个回调有两个，其中有一个只有返回String result，这个用于不自定义api2，执行完验证操作后的数据结果返回，其他一个有返回boolean bol, String result这个用于自定义api2，执行完验证操作后的数据结果返回。且自定义api2拿到验证结果数据后需要请求客户自己的api2，去做结果效验
 
-9.gt3SecondResult 用于向api2里面put参数，传递一个map集合即可，一般用于不自定义api2但是需要传递额外的参数，可以使用该接口回调完成。
+9. gt3SecondResult 用于向api2里面put参数，传递一个map集合即可，一般用于不自定义api2但是需要传递额外的参数，可以使用该接口回调完成。
 
-10.gt3DialogSuccessResult api2二次效验完成后的结果，用于客户根据不同结果做出不同的处理，
-gt3GeetestUtils.gt3TestFinish();--验证完成（bind，unbind）
-gt3GeetestUtils.gt3TestClose();--验证失败（bind）
-gt3GeetestUtils.gt3CloseButton();--验证失败（unbind）
+10. gt3DialogSuccessResult api2二次效验完成后的结果，用于客户根据不同结果做出不同的处理，
+	
+	gt3GeetestUtils.gt3TestFinish();--验证完成（bind，unbind）
+	
+	gt3GeetestUtils.gt3TestClose();--验证失败（bind）
+	
+	gt3GeetestUtils.gt3CloseButton();--验证失败（unbind）
 
-11.gt3AjaxResult 获取本次验证的验证类型，一般用的比较少，在统计验证类型次数上会用到
-fullpage--一点既过
-click--选字大图
-slide--滑动验证
+11. gt3AjaxResult 获取本次验证的验证类型，一般用的比较少，在统计验证类型次数上会用到
+	
+	fullpage--一点既过
+	
+	click--选字大图
+	
+	slide--滑动验证
 
-12.gt3DialogOnError 当验证出现错误时会在该接口返回错误码，错误码显示在弹出框右下角（bind）.自定义按键右下角（unbind）,用于追溯错误，后面有列出常用验证码
+12. gt3DialogOnError 当验证出现错误时会在该接口返回错误码，错误码显示在弹出框右下角（bind）.自定义按键右下角（unbind）,用于追溯错误，后面有列出常用验证码
 
-13.gtOnClick 在unbind模式下特有，点击自定义按键后的回调，在自定义api1时，在该方法里面做自定义请求
+13. gtOnClick 在unbind模式下特有，点击自定义按键后的回调，在自定义api1时，在该方法里面做自定义请求
 
 
 
 
 # 常用问题
+
 ### 1.有设置验证弹框点击周围不消失的方法吗？
 
 答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
@@ -457,10 +465,7 @@ slide--滑动验证
 
   服务器未检测到gt  
 
-
-
-
-以上是比较常见的错误码
+以上是常见的错误码
 
 # 版本迭代 
 
