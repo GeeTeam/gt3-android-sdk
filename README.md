@@ -72,16 +72,17 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ```java
        （band模式下）--点击后会有一个加载框，中间有一个gif在转动
-        //在您acitvity的onCreate方法里面调用（必须）
+        //在您acitvity的onCreate方法里面调用（初始化）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
         gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 	
-	//在您触发极验的按钮点击调用（必须）
+	//点击想调用验证码的按键，加载验证码
 	gt3GeetestUtils.getGeetest(Main3Activity.this);
 	
        （unband模式下）--拥有极验的自定义控件
-        //在您acitvity的onCreate方法里面调用（必须）
+        //在您acitvity的onCreate方法里面调用（初始化）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+	//直接加载验证码，不需要按键触发，因为该模式下提供自定义按键
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 ```
 
