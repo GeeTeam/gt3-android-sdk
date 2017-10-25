@@ -245,7 +245,7 @@ public class MainBindActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gt3GeetestUtils.setGtListener(null);
+        gt3GeetestUtils.cancelUtils();
     }
 
 
