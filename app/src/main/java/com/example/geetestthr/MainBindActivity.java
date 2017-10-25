@@ -11,7 +11,6 @@ import android.widget.EditText;
 
 import com.geetest.gt3unbindsdk.Bind.GT3GeetestBind;
 import com.geetest.gt3unbindsdk.Bind.GT3GeetestUtilsBind;
-import com.geetest.gt3unbindsdk.Bind.GT3Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,23 +41,16 @@ public class MainBindActivity extends Activity {
         init();
         gt3GeetestUtils.setGtListener(new GT3GeetestUtilsBind.GT3Listener() {
 
-            /**
-             * 点击验证码的关闭按钮来关闭验证码
-             */
-            @Override
-            public void gt3CloseDialog() {
-                GT3Toast.show("验证未通过 请重试", getApplicationContext());
-            }
-
 
             /**
-             * 点击屏幕关闭验证码
-             * 点击返回键关闭验证码
+             * num 1 点击验证码的关闭按钮来关闭验证码
+             * num 2 点击屏幕关闭验证码
+             * num 3 点击返回键关闭验证码
              */
             @Override
-            public void gt3CancelDialog() {
-
+            public void gt3CloseDialog(int  num) {
             }
+
 
             /**
              * 验证码加载准备完成
@@ -67,14 +59,6 @@ public class MainBindActivity extends Activity {
             @Override
             public void gt3DialogReady() {
 
-            }
-
-            /**
-             * 验证码开始
-             * 可以理解成点击按钮开始启动验证码
-             */
-            @Override
-            public void gt3FirstGo() {
             }
 
 
@@ -143,17 +127,8 @@ public class MainBindActivity extends Activity {
 
 
             /**
-             * 当验证码放置10分钟后
-             * 此接口用到的不多
-             */
-            @Override
-            public void gereg_21() {
-            }
-
-
-            /**
              * 需要做验证统计的可以打印此处的JSON数据
-             * JSON数据包含了极验每一步的运行状态
+             * JSON数据包含了极验每一步的运行状态和结果
              */
             @Override
             public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
@@ -200,16 +175,6 @@ public class MainBindActivity extends Activity {
             }
 
             /**
-             * ajax请求返回的值
-             * 用于判断是什么类型的验证
-             * slide 滑动验证 fullpage 一键通过 click 大图点字验证
-             */
-            @Override
-            public void gt3AjaxResult(String result) {
-            }
-
-
-            /**
              * 验证过程错误
              * 返回的错误码为判断错误类型的依据
              */
@@ -228,7 +193,6 @@ public class MainBindActivity extends Activity {
          * 务必放在onCreate方法里面执行
          */
         gt3GeetestUtils = new GT3GeetestUtilsBind(MainBindActivity.this);
-        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 
         /**
          * 点击调起验证
@@ -236,7 +200,7 @@ public class MainBindActivity extends Activity {
          btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gt3GeetestUtils.getGeetest(MainBindActivity.this);
+                gt3GeetestUtils.getGeetest(MainBindActivity.this,captchaURL, validateURL,null);
                 //设置是否可以点击屏幕边缘关闭验证码
                 gt3GeetestUtils.setDialogTouch(true);
 
@@ -272,7 +236,7 @@ public class MainBindActivity extends Activity {
              *  gt3GeetestUtils.gtSetApi1Json(jsonObject);
              */
             gt3GeetestUtils.gtSetApi1Json(parmas);
-            gt3GeetestUtils.getGeetest(MainBindActivity.this);
+            gt3GeetestUtils.getGeetest(MainBindActivity.this,captchaURL, validateURL,null);
             gt3GeetestUtils.setDialogTouch(true);
         }
     }

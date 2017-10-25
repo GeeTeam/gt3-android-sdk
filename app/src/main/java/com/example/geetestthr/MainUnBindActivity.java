@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.geetest.gt3unbindsdk.GT3Geetest;
+import com.geetest.gt3unbindsdk.Bind.GT3GeetestBind;
 import com.geetest.gt3unbindsdk.GT3GeetestButton;
 import com.geetest.gt3unbindsdk.GT3GeetestUtils;
 import com.geetest.gt3unbindsdk.Gt3GeetestTestMsg;
@@ -44,6 +44,17 @@ public class MainUnBindActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
 
+
+            /**
+             * num 1 点击验证码的关闭按钮来关闭验证码
+             * num 2 点击屏幕关闭验证码
+             * num 3 点击返回键关闭验证码
+             */
+            @Override
+            public void gt3CloseDialog(int  num) {
+            }
+
+
             /**
              * 往API1请求中添加参数
              * 添加数据为Map集合
@@ -64,23 +75,6 @@ public class MainUnBindActivity extends AppCompatActivity {
 
             @Override
             public void gt3DialogOnError(String error) {
-
-            }
-
-            /**
-             * 点击验证码的关闭按钮来关闭验证码
-             */
-            @Override
-            public void gt3CloseDialog() {
-
-            }
-
-            /**
-             * 点击屏幕关闭验证码
-             * 点击返回键关闭验证码
-             */
-            @Override
-            public void gt3CancelDialog() {
 
             }
 
@@ -166,17 +160,6 @@ public class MainUnBindActivity extends AppCompatActivity {
             }
 
 
-
-            /**
-             * ajax请求返回的值
-             * 用于判断是什么类型的验证
-             * slide 滑动验证 fullpage 一键通过 click 大图点字验证
-             */
-            @Override
-            public void gt3AjaxResult(String result) {
-
-            }
-
             /**
              * 验证码加载准备完成
              * 此时弹出验证码
@@ -227,18 +210,18 @@ public class MainUnBindActivity extends AppCompatActivity {
      * 以下代码是模拟自定义api1的异步请求
      * 需要自定义api1的可以参考这边的写法
      */
-    GT3Geetest captcha;
+    GT3GeetestBind captcha;
     GtppDlgTask mGtppDlgTask;
     // 请求的API1
     private class GtppDlgTask extends AsyncTask<Void, Void, JSONObject> {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            captcha = new GT3Geetest(captchaURL,validateURL,null);
+            captcha = new GT3GeetestBind(captchaURL,validateURL,null);
             String Str_map ="?";
             JSONObject jsonObject;
 
-            jsonObject = captcha.checkRealServer(Str_map);
+            jsonObject = captcha.check2Server(Str_map);
 
             return jsonObject;
 
@@ -256,7 +239,7 @@ public class MainUnBindActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gt3GeetestUtils.setGtListener(null);
+        gt3GeetestUtils.cancelUtils();
     }
 
 
