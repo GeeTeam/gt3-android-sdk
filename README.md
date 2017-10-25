@@ -74,7 +74,6 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
        （band模式下）--点击后会有一个加载框，中间有一个gif在转动
         //在您acitvity的onCreate方法里面调用（初始化）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
-	
 	//点击想调用验证码的按键，加载验证码
 	gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);
 	
@@ -429,7 +428,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 3.gt3GeetestUtils.cancelUtils();的加入
 4.错误码抛出提到主线程
 5.外部接口的精简和优化
-6.bind模式下调用方法的改变，去掉了dolog()
+6.bind模式下调用方法的改变，去掉了dologo()
 
 **3.2.11** 对GT3CallBacks类进行了优化，主要是注册和注销以及生命周期把控这块
 
