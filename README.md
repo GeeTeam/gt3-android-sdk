@@ -74,10 +74,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
        （band模式下）--点击后会有一个加载框，中间有一个gif在转动
         //在您acitvity的onCreate方法里面调用（初始化）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
-        gt3GeetestUtils.gtDologo(captchaURL, validateURL,null);//加载验证码之前判断有没有logo
 	
 	//点击想调用验证码的按键，加载验证码
-	gt3GeetestUtils.getGeetest(Main3Activity.this);
+	gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);
 	
        （unband模式下）--拥有极验的自定义控件
         //在您acitvity的onCreate方法里面调用（初始化）
@@ -91,23 +90,14 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ```java
   gt3GeetestUtils.setGtListener(new GT3GeetestUtilsBind.GT3Listener() {
-
+     
             /**
-             * 点击验证码的关闭按钮来关闭验证码
+             * num 1 点击验证码的关闭按钮来关闭验证码
+             * num 2 点击屏幕关闭验证码
+             * num 3 点击返回键关闭验证码
              */
             @Override
-            public void gt3CloseDialog() {
-                GT3Toast.show("验证未通过 请重试", getApplicationContext());
-            }
-
-
-            /**
-             * 点击屏幕关闭验证码
-             * 点击返回键关闭验证码
-             */
-            @Override
-            public void gt3CancelDialog() {
-
+            public void gt3CloseDialog(int  num) {
             }
 
             /**
@@ -118,15 +108,6 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
             public void gt3DialogReady() {
 
             }
-
-            /**
-             * 验证码开始
-             * 可以理解成点击按钮开始启动验证码
-             */
-            @Override
-            public void gt3FirstGo() {
-            }
-
 
             /**
              * 拿到第一个url（API1）返回的数据
@@ -191,16 +172,6 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
                 }
             }
 
-
-            /**
-             * 当验证码放置10分钟后
-             * 此接口用到的不多
-             */
-            @Override
-            public void gereg_21() {
-            }
-
-
             /**
              * 需要做验证统计的可以打印此处的JSON数据
              * JSON数据包含了极验每一步的运行状态
@@ -250,16 +221,6 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
             }
 
             /**
-             * ajax请求返回的值
-             * 用于判断是什么类型的验证
-             * slide 滑动验证 fullpage 一键通过 click 大图点字验证
-             */
-            @Override
-            public void gt3AjaxResult(String result) {
-            }
-
-
-            /**
              * 验证过程错误
              * 返回的错误码为判断错误类型的依据
              */
@@ -282,25 +243,21 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 # 接口详细说明（分2种模式讲解）
 
-1. gt3CloseDialog 验证码弹出后左下角的X按键的接口回调，一般来说用不到
+1. gt3CloseDialog 验证码弹出后被人为关闭的回调，一般来说用不到
 
-2. gt3CancelDialog 验证码弹出后点击屏幕任意一处弹框关闭的接口回调，一般来说用不到
+2. gt3DialogReady 验证码弹准备完成，所有请求正常，准备弹出的接口回调，一般用于统计是否正常弹出验证码
 
-3. gt3DialogReady 验证码弹准备完成，所有请求正常，准备弹出的接口回调，一般用于统计是否正常弹出验证码
+3. gt3FirstResult api1请求正常，且拿到的了JSON数据，在参数里面返回，一般用于查看api1返回数据是否正常
 
-4. gt3FirstGo 验证码的第一个接口（api1）开始请求的接口回调，一般用于判断是否进入到验证码的流程
+4. captchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
 
-5. gt3FirstResult api1请求正常，且拿到的了JSON数据，在参数里面返回，一般用于查看api1返回数据是否正常
+5. gtSetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
 
-6. captchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
+6. gt3GetDialogResult 这个回调有两个，其中有一个只有返回String result，这个用于不自定义api2，执行完验证操作后的数据结果返回，其他一个有返回boolean bol, String result这个用于自定义api2，执行完验证操作后的数据结果返回。且自定义api2拿到验证结果数据后需要请求客户自己的api2，去做结果效验
 
-7. gtSetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
+7. gt3SecondResult 用于向api2里面put参数，传递一个map集合即可，一般用于不自定义api2但是需要传递额外的参数，可以使用该接口回调完成。
 
-8. gt3GetDialogResult 这个回调有两个，其中有一个只有返回String result，这个用于不自定义api2，执行完验证操作后的数据结果返回，其他一个有返回boolean bol, String result这个用于自定义api2，执行完验证操作后的数据结果返回。且自定义api2拿到验证结果数据后需要请求客户自己的api2，去做结果效验
-
-9. gt3SecondResult 用于向api2里面put参数，传递一个map集合即可，一般用于不自定义api2但是需要传递额外的参数，可以使用该接口回调完成。
-
-10. gt3DialogSuccessResult api2二次效验完成后的结果，用于客户根据不同结果做出不同的处理，
+8. gt3DialogSuccessResult api2二次效验完成后的结果，用于客户根据不同结果做出不同的处理，
 	
 	gt3GeetestUtils.gt3TestFinish();--验证完成（bind，unbind）
 	
@@ -308,17 +265,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 	
 	gt3GeetestUtils.gt3CloseButton();--验证失败（unbind）
 
-11. gt3AjaxResult 获取本次验证的验证类型，一般用的比较少，在统计验证类型次数上会用到
-	
-	fullpage--一点既过
-	
-	click--选字大图
-	
-	slide--滑动验证
+9. gt3DialogOnError 当验证出现错误时会在该接口返回错误码，错误码显示在弹出框右下角（bind）.自定义按键右下角（unbind）,用于追溯错误，后面有列出常用验证码
 
-12. gt3DialogOnError 当验证出现错误时会在该接口返回错误码，错误码显示在弹出框右下角（bind）.自定义按键右下角（unbind）,用于追溯错误，后面有列出常用验证码
-
-13. gtOnClick 在unbind模式下特有，点击自定义按键后的回调，在自定义api1时，在该方法里面做自定义请求
+10. gtOnClick 在unbind模式下特有，点击自定义按键后的回调，在自定义api1时，在该方法里面做自定义请求
 
 
 
@@ -383,7 +332,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gt3GeetestUtils.setGtListener(null);
+        gt3GeetestUtils.cancelUtils();
     }
 
     @Override
@@ -450,9 +399,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
    验证码初始化回调用2个接口，找找这里的问题
 
-### 13.初始化错误 222
+### 13.服务被forbidden 200
 
-   网络请求时，此时已经断网
+   网络请求时，此时服务被forbidden
     
 ### 14.challenge错误  _02
 
@@ -473,6 +422,14 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.3.0** 
+1.新的网络请求框架
+2.新的混淆方式
+3.gt3GeetestUtils.cancelUtils();的加入
+4.错误码抛出提到主线程
+5.外部接口的精简和优化
+6.bind模式下调用方法的改变，去掉了dolog()
 
 **3.2.11** 对GT3CallBacks类进行了优化，主要是注册和注销以及生命周期把控这块
 
