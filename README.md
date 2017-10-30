@@ -348,6 +348,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 答：gt3GeetestUtils.getVersion(),获取当前SDK的版本号
 
+### 9.如何理解自定义接口？
+
+答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
+
 
 # 常用错误码 
 ### 1.timeoutError 201
@@ -421,6 +425,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
 **3.3.1** 
 1.代码整理，稳定发布
 
