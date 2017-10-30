@@ -421,6 +421,8 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+**3.3.1** 
+1.代码整理，稳定发布
 
 **3.3.0** 
 1.新的网络请求框架
