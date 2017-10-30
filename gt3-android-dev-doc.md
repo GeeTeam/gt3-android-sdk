@@ -826,9 +826,7 @@ public interface WebViewClientEx {
 
 public interface GT3Listener（） {
     void gt3CloseDialog();//点击了验证码上的取消按钮的回调
-    void gt3CancelDialog();//点击屏幕边缘关闭验证码的回调
     void gt3DialogReady();//关闭验证码准备完成的回调
-    void gt3FirstGo();//验证码第一个请求（api1）开始请求
     void gt3FirstResult();//拿到api1请求结果的回调
     Map<String, String> gt3SecondResult();//往api2接口里面添加参数
     void gt3GetDialogResult();//拿到请求api2接口需要的数据 
@@ -837,8 +835,7 @@ public interface GT3Listener（） {
     void gt3AjaxResult();//请求ajax接口后返回的结果
     Map<String, String>  captchaApi1();///往api1接口里面添加参数
     void gtSetIsCustom();//设置是否自定义二次验证（true为是，反之不是）
-    void gereg_21();//用于错误代码为21时的回调，重新启动SDK
-    void gt3GeetestStatisticsJson();//设置是否自定义二次验证（true为是，反之不是）
+    void gt3GeetestStatisticsJson();//统计数据
 }
 ~~~
 
@@ -853,38 +850,6 @@ public interface GT3Listener（） {
 
 点击了验证码上的取消按钮的回调
 
-**declaration**
-
-~~~java
-
-  public void gt3CancelDialog() ；
-~~~
-
-**discussion**
-
-点击屏幕边缘关闭验证码的回调
-
-**declaration**
-
-~~~java
-
-  public void gt3DialogReady() ；
-~~~
-
-**discussion**
-
-关闭验证码准备完成的回调
-
-**declaration**
-
-~~~java
-
-  public void gt3FirstGo() ；
-~~~
-
-**discussion**
-
-验证码第一个请求（api1）开始请求
 
 **declaration**
 
