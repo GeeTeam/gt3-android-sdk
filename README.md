@@ -277,12 +277,17 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
 
-### 2.自定义api1如何定义？
+### 2.什么是自定义api？
+
+答：API1,API2接口默认是交给SDK内部请求的，客户不需要操作,自定义的话需要自行做网络请求
+
+
+### 3.自定义api1如何定义？
 
 答：bind模式下
    在您点击需要启动验证的按钮后，自行做网络请求，拿到网络请求的结果后调用如下两个方法即可
    gt3GeetestUtils.gtSetApi1Json(parmas);
-   gt3GeetestUtils.getGeetest(Main3Activity.this);
+   gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);
   
   
    unbind模式下
@@ -300,11 +305,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 {\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"ne  w_captcha\":true}"
 
 
-### 3.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
+### 4.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
 
 答：在gt3DialogSuccessResult里面调用Gt3GeetestTestMsg.setCandotouch(true);即可
 
-### 4.为什么我所有代码都写好了，验证码就是弹不出？
+### 5.为什么我所有代码都写好了，验证码就是弹不出？
 
 答：目前导致验证码无法弹出的情况分如下几种
 
@@ -316,11 +321,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
   
   d.手机是否连接了网络代理
 
-### 5.验证码弹出后，验证完成后为什么弹框没有消失？
+### 6.验证码弹出后，验证完成后为什么弹框没有消失？
 
 答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
 
-### 6.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
+### 7.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
 
 答：您的需求比较的奇怪，不过SDK也有考虑到这块
 
@@ -358,63 +363,59 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
    全局网络请求超时，请检查网络连接
 
-### 2.forbiddenError 202
-
-   验证码停用，检查下验证码是否到期
-
-### 3.webViewError 204
+### 2.webViewError 204
 
    webview加载出现的错误
 
-### 4.httpError 205
+### 3.httpError 205
 
    api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
 
-### 5.httpError 206
+### 4.httpError 206
 
    gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
 
-### 6.httpError 207
+### 5.httpError 207
 
    getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
 
-### 7.httpError 208
+### 6.httpError 208
 
    ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
     
-### 8.httpError 209
+### 7.httpError 209
 
    api2接口返回返回为null，查看api2的参数和地址是否有误，网络保持畅通
 
-### 9.尝试过多 _01
+### 8.尝试过多 _01
 
    连续刷新5次
 
-### 10.尝试过多 _12
+### 9.尝试过多 _12
 
    连续验证错误6次
 
-### 11.web请求错误 _105
+### 10.web请求错误 _105
 
   无网络状态下滑动报错
     
-### 12.初始化错误 211
+### 11.初始化错误 211
 
    验证码初始化回调用2个接口，找找这里的问题
 
-### 13.服务被forbidden 200
+### 12.服务被forbidden 200
 
    网络请求时，此时服务被forbidden
     
-### 14.challenge错误  _02
+### 13.challenge错误  _02
 
    challenge 过时，或者重复使用
     
-### 15.challenge错误  _22
+### 14.challenge错误  _22
 
   服务器未检测到challenge
     
-### 16.gt错误  _31
+### 15.gt错误  _31
 
   服务器未检测到gt  
 
@@ -436,6 +437,8 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 4.错误码抛出提到主线程
 5.外部接口的精简和优化
 6.bind模式下调用方法的改变，去掉了dologo()
+
+**3.2.11** 对数据采集做了条数限制，优化了webview的超时代码
 
 **3.2.11** 对GT3CallBacks类进行了优化，主要是注册和注销以及生命周期把控这块
 
