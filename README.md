@@ -287,6 +287,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 答：bind模式下
    在您点击需要启动验证的按钮后，自行做网络请求，拿到网络请求的结果后调用如下两个方法即可
    gt3GeetestUtils.gtSetApi1Json(parmas);
+   
    gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);
   
   
@@ -294,7 +295,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    首先在调用getGeetest之前调用一下gt3GeetestUtils.getISonto();方法，代码如下
    
     gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+    
     gt3GeetestUtils.getISonto();
+    
     gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 
    然后在gtOnClick回调里，自行做网络请求，拿到网络请求的结果后调用如下一个方法即可
@@ -438,7 +441,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 5.外部接口的精简和优化
 6.bind模式下调用方法的改变，去掉了dologo()
 
-**3.2.11** 对数据采集做了条数限制，优化了webview的超时代码
+**3.2.12** 对数据采集做了条数限制，优化了webview的超时代码
 
 **3.2.11** 对GT3CallBacks类进行了优化，主要是注册和注销以及生命周期把控这块
 
