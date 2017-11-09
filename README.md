@@ -63,9 +63,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 3.设置服务端URL以及初始化验证码
 
 ```java
-    //设置获取id，challenge，success的URL，需替换成自己的服务器URL
+    //设置获取id，challenge，success的URL,俗称api1，需替换成自己的服务器URL
     private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
-    // 设置二次验证的URL，需替换成自己的服务器URL
+    // 设置二次验证的URL,俗称api2，需替换成自己的服务器URL
     private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
 ```
 4.加载验证码
@@ -348,18 +348,22 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
         gt3GeetestUtils.changeDialogLayout();
     }
 
-### 7.有设置验证框超时时间的方法吗？
+### 8.有设置验证框超时时间的方法吗？
 
 答：gt3GeetestUtils.setTimeout(15000),设置为毫秒
 
-### 8.如何检测SDK的版本号？
+### 9.如何检测SDK的版本号？
 
 答：gt3GeetestUtils.getVersion(),获取当前SDK的版本号
 
-### 9.如何理解自定义接口？
+### 10.如何理解自定义接口？
 
 答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
 
+### 11.请问可以修改弹出框里面的内容以英文显示吗？
+
+答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);第4个参数，null表示默认语言，“en”表示英文
+   unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);第3个参数，null表示默认语言，“en”表示英文
 
 # 常用错误码 
 ### 1.timeoutError 201
