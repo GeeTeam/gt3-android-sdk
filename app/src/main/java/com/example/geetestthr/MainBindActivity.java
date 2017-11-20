@@ -78,7 +78,8 @@ public class MainBindActivity extends Activity {
             @Override
             public Map<String, String> captchaApi1() {
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("t", System.currentTimeMillis()+"");
+                map.put("uuu", "dsdsds");
+                map.put("ggg", "mmmmmmmmm");
                 return map;
             }
 
