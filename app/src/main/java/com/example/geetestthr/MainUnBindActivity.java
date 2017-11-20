@@ -241,7 +241,7 @@ public class MainUnBindActivity extends AppCompatActivity {
         super.onDestroy();
         gt3GeetestUtils.cancelUtils();
     }
-    
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
