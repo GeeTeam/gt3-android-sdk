@@ -207,22 +207,26 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
                         String sta = jobj.getString("status");
                         if ("success".equals(sta)) {
                             gt3GeetestUtils.gt3TestFinish();
-                        } else {
+			    //表示验证成功
+                        } else {
                             gt3GeetestUtils.gt3TestClose();
-                        }
+			    //表示验证有误
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }else
                 {
                     gt3GeetestUtils.gt3TestClose();
-                }
+		    //表示验证异常，基本上不会执行
+                }
             }
 
             /**
              * 验证过程错误
              * 返回的错误码为判断错误类型的依据
-             */
+	     * 常见错误码可以参考下面--常见错误码
+             */
 
             @Override
             public void gt3DialogOnError(String error) {
@@ -294,16 +298,16 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    unbind模式下
    首先在调用getGeetest之前调用一下gt3GeetestUtils.getISonto();方法，代码如下
    
-    gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
+   gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
     
-    gt3GeetestUtils.getISonto();
+   gt3GeetestUtils.getISonto();
     
-    gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+   gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
 
    然后在gtOnClick回调里，自行做网络请求，拿到网络请求的结果后调用如下一个方法即可
    gt3GeetestUtils.gtSetApi1Json(parmas);
    
- 注：parmas为您自定义api1的返回结果，格式参考：
+ 注：parmas为您自定义api1的返回结果，格式参考（本数据可以自行添加，但是至少返回如下参数）：
 
 {\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"ne  w_captcha\":true}"
 
@@ -322,7 +326,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
   
   c.api1数据返回格式是否按照SDK标准返回（参考上面的parmas）
   
-  d.手机是否连接了网络代理
+  d.手机是否连接了无用的网络代理
 
 ### 6.验证码弹出后，验证完成后为什么弹框没有消失？
 
