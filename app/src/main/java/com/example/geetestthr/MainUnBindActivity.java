@@ -1,14 +1,13 @@
 package com.example.geetestthr;
 
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.geetest.gt3unbindsdk.Bind.GT3GeetestBind;
 import com.geetest.gt3unbindsdk.GT3GeetestButton;
+import com.geetest.gt3unbindsdk.GT3GeetestListener;
 import com.geetest.gt3unbindsdk.GT3GeetestUtils;
 import com.geetest.gt3unbindsdk.Gt3GeetestTestMsg;
 
@@ -40,11 +39,7 @@ public class MainUnBindActivity extends AppCompatActivity {
 
         gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainUnBindActivity.this);
 //        gt3GeetestUtils.getISonto();
-        gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
-        ButterKnife.bind(this);
-        gt3GeetestUtils.setGtListener(new GT3GeetestUtils.GT3Listener() {
-
-
+        gt3GeetestUtils.getGeetest(captchaURL, validateURL, null, new GT3GeetestListener() {
             /**
              * num 1 点击验证码的关闭按钮来关闭验证码
              * num 2 点击屏幕关闭验证码
@@ -61,7 +56,7 @@ public class MainUnBindActivity extends AppCompatActivity {
              * 添加的数据以get形式提交
              */
             @Override
-            public Map<String, String> captchaApi1() {
+            public Map<String, String> gt3CaptchaApi1() {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("t", System.currentTimeMillis()+"");
                 return map;
@@ -90,9 +85,9 @@ public class MainUnBindActivity extends AppCompatActivity {
              * 自定义二次验证，当gtSetIsCustom为ture时执行这里面的代码
              */
             @Override
-            public void gt3GetDialogResult(boolean success,String result) {
+            public void gt3GetDialogResult(boolean status,String result) {
 
-                if (success) {
+                if (status) {
                     /**
                      *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
                      * //                JSONObject res_json = new JSONObject(result);
@@ -176,7 +171,7 @@ public class MainUnBindActivity extends AppCompatActivity {
              * result为二次验证所需要的数据
              */
             @Override
-            public boolean gtSetIsCustom() {
+            public boolean gt3SetIsCustom() {
                 return false;
             }
 
@@ -201,8 +196,8 @@ public class MainUnBindActivity extends AppCompatActivity {
                 }
             }
 
-
         });
+        ButterKnife.bind(this);
 
     }
 
@@ -210,29 +205,29 @@ public class MainUnBindActivity extends AppCompatActivity {
      * 以下代码是模拟自定义api1的异步请求
      * 需要自定义api1的可以参考这边的写法
      */
-    GT3GeetestBind captcha;
-    GtppDlgTask mGtppDlgTask;
-    // 请求的API1
-    private class GtppDlgTask extends AsyncTask<Void, Void, JSONObject> {
-
-        @Override
-        protected JSONObject doInBackground(Void... params) {
-            captcha = new GT3GeetestBind(captchaURL,validateURL,null);
-            String Str_map ="?";
-            JSONObject jsonObject;
-
-            jsonObject = captcha.check2Server(Str_map);
-
-            return jsonObject;
-
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject parmas) {
-            //{"success":1,"challenge":"323b14a7fe13fcfb7c830bb44a687e7f","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
-            gt3GeetestUtils.gtSetApi1Json(parmas);
-        }
-    }
+//    GT3Geetest captcha;
+//    GtppDlgTask mGtppDlgTask;
+//    // 请求的API1
+//    private class GtppDlgTask extends AsyncTask<Void, Void, JSONObject> {
+//
+//        @Override
+//        protected JSONObject doInBackground(Void... params) {
+//            captcha = new GT3Geetest(captchaURL,validateURL,null);
+//            String Str_map ="?";
+//            JSONObject jsonObject;
+//
+//            jsonObject = captcha.check2Server(Str_map);
+//
+//            return jsonObject;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(JSONObject parmas) {
+//            //{"success":1,"challenge":"323b14a7fe13fcfb7c830bb44a687e7f","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
+//            gt3GeetestUtils.gtSetApi1Json(parmas);
+//        }
+//    }
 
 
 
