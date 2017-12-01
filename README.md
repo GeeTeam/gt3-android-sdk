@@ -75,20 +75,20 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
         //在您acitvity的onCreate方法里面调用（初始化）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
 	//点击想调用验证码的按键，加载验证码
-	gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);
+	gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});
 	
        （unband模式下）--拥有极验的自定义控件
         //在您acitvity的onCreate方法里面调用（初始化）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	//直接加载验证码，不需要按键触发，因为该模式下提供自定义按键
-	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});
 ```
 
 
 5.在onCreate中调用gt3GeetestUtils.setGtListener接口，具体用法查看demo，下面也会列出
 
 ```java
-  gt3GeetestUtils.setGtListener(new GT3GeetestUtilsBind.GT3Listener() {
+  gt3GeetestUtils.getGeetest(Activity.this, captchaURL, validateURL, null, new GT3GeetestBindListener() {
      
             /**
              * num 1 点击验证码的关闭按钮来关闭验证码
@@ -122,7 +122,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
              * 添加的数据以get形式提交
              */
             @Override
-            public Map<String, String> captchaApi1() {
+            public Map<String, String> gt3CaptchaApi1() {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("t", System.currentTimeMillis()+"");
                 return map;
@@ -135,7 +135,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
              * result为二次验证所需要的数据
              */
             @Override
-            public boolean gtSetIsCustom() {
+            public boolean gt3SetIsCustom() {
                 return false;
             }
 
@@ -233,6 +233,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
                 gt3GeetestUtils.cancelAllTask();
 
             }
+          });          
         });
     }
 ``` 
@@ -252,9 +253,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 3. gt3FirstResult api1请求正常，且拿到的了JSON数据，在参数里面返回，一般用于查看api1返回数据是否正常
 
-4. captchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
+4. gt3CaptchaApi1 往api1后面追加自定义参数且这里的参数是以get形式提交，传递一个map集合即可，用于向api1里面添加请求参数，用的比较少，可以可以直接在设置api1的时候设置在后面，可以不用在这里追加（ private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click?xx=xx&vv=vv"）
 
-5. gtSetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
+5. gt3SetIsCustom 用于设置自定义api2的开关，如果你想自定义api2，一定要把return值设置为ture
 
 6. gt3GetDialogResult 这个回调有两个，其中有一个只有返回String result，这个用于不自定义api2，执行完验证操作后的数据结果返回，其他一个有返回boolean bol, String result这个用于自定义api2，执行完验证操作后的数据结果返回。且自定义api2拿到验证结果数据后需要请求客户自己的api2，去做结果效验
 
@@ -292,7 +293,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    在您点击需要启动验证的按钮后，自行做网络请求，拿到网络请求的结果后调用如下两个方法即可
    gt3GeetestUtils.gtSetApi1Json(parmas);
    
-   gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);
+   gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,GT3GeetestBindListener(){});
   
   
    unbind模式下
@@ -302,10 +303,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
     
    gt3GeetestUtils.getISonto();
     
-   gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);
+   gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,GT3GeetestListener(){});
 
    然后在gtOnClick回调里，自行做网络请求，拿到网络请求的结果后调用如下一个方法即可
-   gt3GeetestUtils.gtSetApi1Json(parmas);
+   gt3GeetestUtils.gt3SetApi1Json(parmas);
    
  注：parmas为您自定义api1的返回结果，格式参考（本数据可以自行添加，但是至少返回如下参数）：
 
@@ -366,8 +367,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ### 11.请问可以修改弹出框里面的内容以英文显示吗？
 
-答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null);第4个参数，null表示默认语言，“en”表示英文
-   unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null);第3个参数，null表示默认语言，“en”表示英文
+答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});第4个参数，null表示默认语言，常用如“en”表示英文
+
+   unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});第3个参数，null表示默认语言，“en”表示英文
 
 # 常用错误码 
 ### 1.timeoutError 201
@@ -432,48 +434,74 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 以上是常见的错误码
 
-# 版本迭代 
+# 主要版本迭代 
 
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
-**3.3.2** 
+
+**3.4.2** <br>
+1.英文全适配<br>
+2.控制台中不影响使用的部分警告log解决<br>
+3.webview生命周期优化<br>
+4.接口回调都提到主线程<br>
+5.修改部分ajax请求参数<br>
+6.网络请求类中去掉了对Value的编码格式<br>
+7.为客户提供了一个弹出loading加载框的方法<br>
+8.接口采用抽象类的形式，客户可以选择调用<br>
+9.部分接口名以及方法名的修改<br>
+
+**3.3.2** <br>
 1.优化webview，在webview的onResume生命周期中添加resumeTimers方法，防止webview白屏
 
-**3.3.1** 
+**3.3.1**<br> 
 1.代码整理，稳定发布
 
-**3.3.0** 
-1.新的网络请求框架
-2.新的混淆方式
-3.gt3GeetestUtils.cancelUtils();的加入
-4.错误码抛出提到主线程
-5.外部接口的精简和优化
-6.bind模式下调用方法的改变，去掉了dologo()
+**3.3.0** <br>
+1.新的网络请求框架<br>
+2.新的混淆方式<br>
+3.gt3GeetestUtils.cancelUtils();的加入<br>
+4.错误码抛出提到主线程<br>
+5.外部接口的精简和优化<br>
+6.bind模式下调用方法的改变，去掉了dologo()<br>
 
-**3.2.12** 对数据采集做了条数限制，优化了webview的超时代码
+**3.2.12** <br>
+对数据采集做了条数限制，优化了webview的超时代码
 
-**3.2.11** 对GT3CallBacks类进行了优化，主要是注册和注销以及生命周期把控这块
+**3.2.11** <br>
+对GT3CallBacks类进行了优化，主要是注册和注销以及生命周期把控这块
 
-**3.2.10** 修复三个问题，1.在5.0以下会stoploading处报错  2.bind模式下webview在为空直接设置到view会有问题 3.点击弹框的小感叹号会崩溃的问题，ViewGroup的优化（部分界面会有问题）
+**3.2.10** <br>
+1.在5.0以下会stoploading处报错<br>  
+2.bind模式下webview在为空直接设置到view会有问题<br> 
+3.点击弹框的小感叹号会崩溃的问题，ViewGroup的优化（部分界面会有问题）
 
-**3.2.9** 修复在5.0版本以下会崩溃的问题。同时在横竖屏切换下，没有进行dialog的关闭，来防止内存泄漏,去掉rege_21 gt3FirstGo两个接口,unbind模式下
+**3.2.9**<br>
+修复在5.0版本以下会崩溃的问题。同时在横竖屏切换下，没有进行dialog的关闭，来防止内存泄漏,去掉rege_21 gt3FirstGo两个接口,unbind模式下
 
-**3.2.8** 新增判断所有api请求是否成功的方法 方法名：getGeetestStatisticsJson()新增调试模式接口，不管几次点击都是走所有的网络请求，不会漏掉get 和gettype  方法名：setdebug()
+**3.2.8**<br>
+新增判断所有api请求是否成功的方法 方法名：getGeetestStatisticsJson()新增调试模式接口，不管几次点击都是走所有的网络请求，不会漏掉get 和gettype  方法名：setdebug()
 
-**3.2.7** 新增获取版本号的方法：getVersion 新增设置webview超时的时长：setTimeout 网络库的请求超时时长从10s调到5s,并去掉了gt3DialogSuccess()接口
+**3.2.7**<br>
+新增获取版本号的方法：getVersion 新增设置webview超时的时长：setTimeout 网络库的请求超时时长从10s调到5s,并去掉了gt3DialogSuccess()接口
 
-**3.2.6** 修复了竖屏状态下突然横屏导致的大图显示异常的问题，对callback类进行重写，防止内存泄漏，对uuid进行缓存，添加了一个获取版本号的方法
+**3.2.6**<br>
+修复了竖屏状态下突然横屏导致的大图显示异常的问题，对callback类进行重写，防止内存泄漏，对uuid进行缓存，添加了一个获取版本号的方法
 
-**3.2.5** getPhoneInfo加入了2个参数，分别为androidId,uuid，修复api1上get参数时 没传参数路径后会多一个?的问题
+**3.2.5**<br>
+getPhoneInfo加入了2个参数，分别为androidId,uuid，修复api1上get参数时 没传参数路径后会多一个?的问题
 
-**3.2.4** api1加入cookie 同时api2传入该cookie，多暴露二个接口记录弹出成功率和验证类型
+**3.2.4**<br>
+api1加入cookie 同时api2传入该cookie，多暴露二个接口记录弹出成功率和验证类型
 
-**3.1.3** UI线程优化
+**3.1.3**<br>
+UI线程优化
 
-**3.1.2** 版为整个流程只请求一次api1
+**3.1.2**<br>
+版为整个流程只请求一次api1
 
-**3.0.2** 版为带初始化API1的版本
+**3.0.2**<br>
+版为带初始化API1的版本
 
    
 >本SDK包含了2个SDK合成版本 ，代码已经混淆，不需要再次混淆。
