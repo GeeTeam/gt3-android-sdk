@@ -626,7 +626,7 @@ public void gt3CloseDialog(int  num)
 
 Param	|Type 	| Description | 			
 ------	|-----	|-------------|
-num		|int	|1 点击验证码的关闭按钮来关闭验证码，num 2 点击屏幕关闭验证码，num 3 点击返回键关闭验证码
+num		|int	|1 点击验证码的关闭按钮来关闭验证码，2 点击屏幕关闭验证码，3 点击返回键关闭验证码
 
 ### gt3FirstResult(JSONObject)
 
