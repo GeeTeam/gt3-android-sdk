@@ -1,1022 +1,809 @@
-# Android SDK Documentation
+---
+title: android-testbutton-api
+type: android-testbutton-api
+order: 0
+---
 
-文件名				|说明
-----------------	|----------
-GT3GeetestBind.java		|验证的网络层管理器
-GT3GtDialogBind.java|自定义的Dialog
-GT3GtWebView.java  |自定义的WebView
-GT3GeetestUtilsBind.java  |封装的验证码响应工具
 
+**GTTestButton Android API Document**
 
-
-# GT3GeetestBind
-
-**Public Mehtods**
-
-方法名				|说明
-----------------	|----------------
-`Geetest(_, _)`	|验证管理器初始化
-`checkServer(_)`	|检测服务器状态，得到success
-`checkRealServer(_)`	|第二次检测服务器状态,得到challenge与gt
-`getphpServer(_)`	|检测get.php服务器状态
-`getajaxServer(_)`	|检测get.ajax服务器状态
-`readContFromGet(_)`	|get网络请求的获取
-`getValidateURL(_)`	|初始化URL
-`getRequestData(_,_)`	|post网络请求的Map
-`setGeetestListener(_)`|注册验证事件监听
-`getGt()`			|获取gt id
-`getChallenge()`	|获取challenge
-`getSuccess()`	|获取success
-`setTimeout()`	|设置超时时限
-`submitPostData(_, _)`|提交二次验证
-
-## GT3Geetest()
-
-**abstract**
-
-GT3Geetest的初始化方法
-
-**declaration**
-
-~~~java
-
-public GT3Geetest(String captchaURL, String validateURL，String lang);
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|---------------------
-`captchaURL`	|`String`		|从网站主服务器获取验证启动数据的接口(api_1)
-`validateURL`	|`String`		|从网站主服务器进行二次验证的接口(api_2)
-`lang`	|`String`		|默认传null--中文（参数：zh,en）
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`Geetest`		|geetest验证网络管理的实例
-
-## checkServer()
-
-**abstract**
-
-检测服务器状态，api1接口请求
-
-**declaration**
-
-~~~java
-
-public JSONObject checkServer(String headers);
-或
-public JSONObject checkServer(JSONObject config);
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|---------------------
-`headers`	|`String`		|附带在api1后面的参数
-`config`	|`JSONObject`		|api1请求返回的值，仅用于自定义api1时候传（注）
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`JSONObject`		|请求api1返回的值
-
-
-## gettypeServer()
-
-**abstract**
-
-获取ajax提交地址，gettype接口请求
-
-**declaration**
-
-~~~java
-
-public JSONObject gettypeServer();
-~~~
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`JSONObject`		|请求gettype返回的值
-
-## getphpServer()
-
-**abstract**
-
-获取js文件名等资源文件，get接口请求
-
-**declaration**
-
-~~~java
-
-public JSONObject getphpServer();
-~~~
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`JSONObject`		|请求gettype返回的值
-
-##getajaxServer()
-
-**abstract**
-
-检测get.ajax状态
-
-###declaration
-
-~~~java
-
-public JSONObject getajaxServer();
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|---------------------
-`mi`	|`String`		|手机参数以及网络状态等信息
-`m`	|`String`		|陀螺仪信息
-`l`	|`String`		|点击行为信息
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`JSONObject`		|请求ajax返回的值
-
-## setGeetestListener()
-
-**abstract**
-
-注册验证网络事件监听
-
-### seealso
-
-~~~java
-
-public interface GeetestListener {
-    void readContentTimeout();//从api_1获取验证启动数据超时
-    void submitPostDataTimeout();//向api_2提交二次验证数据
-    void receiveInvalidParametes();//检测请求的JSON是否为无效参数
-    void errorCode();//获取后端抛出的错误
-}
-~~~
-
-**discussion**
-
-包含四个回调方法,只贴出有使用到的
-
-**declaration**
-
-~~~java
-
-public void errorCode(String error, String error_id);
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`error`	|`String`|网络请求中返回的错误文案
-`error_id`	|`String`|网络请求中返回的错误码
-
-## getGt()
-
-**abstract**
-
-获取验证id
-
-**discussion**
-
-从极验后台获取的验证id
-
-**declaration**
-
-~~~java
-
-public String getGt();
-~~~
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`String`		|用于启动验证的id
-
-## getChallenge()
-
-**abstract**
-
-获取验证challenge
-
-**discussion**
-
-每个challenge只能用于请求一次验证
-
-**declaration**
-
-~~~java
-
-public String getChallenge();
-~~~
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`String`		|用于启动验证的challenge
-
-## getSuccess()
-
-**abstract**
-
-获取极验验证的服务状态
-
-**discussion**
-
-`ture`/`false` 请求正常验证/静态验证
-
-**declaration**
-
-~~~java
-
-public boolean getSuccess();
-~~~
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`boolean`		|`true`/`false` 验证服务正常/异常
-
-## setTimeout()
-
-**abstract**
-
-配置验证数据请求超时时限
-
-**discussion**
-
-默认10000ms
-
-**declaration**
-
-~~~java
-
-public void setTimeout(int timeout);
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`timeout`		|`int`			|验证的超时时限
-
-## submitPostData()
-
-**abstract**
-
-提交二次验证测数据
-
-**discussion**
-
-此方法包装的请求必须为`POST`类型
-
-**declaration**
-
-~~~java
-
-public String submitPostData(Map<String, String> params, String encode);
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`params`		|`Map<String, String>`|二次验证参数
-`encode`		|`String`		|编码格式
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`String`		|返回的二次验证结果
-
-
-# GT3GtDialogBind
-
-**Public Mehtods**
-
-方法名				|说明
-----------------	|----------------
-`GT3GtDialogBind()`|初始化GT3GtDialogBind
-`changeLayout()`	|设置dialog中的webview大小
-`init()`	|初始化参数
-`startfinish()`	|验证完成调用
-`shakeDialog()`	|验证错误时窗口抖动
-`JSInterface()`	|与前端交互接口
-`setErrDialog()`	|错误码弹框
-`setGtWebViewListener()`	|Webview的回调接口
-
-## GT3GtDialogBind()
-
-**abstract**
-
-初始化GT3GtDialogBind
-
-**declaration**
-
-~~~java
-
-  public void GT3GtDialogBind(Context context) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`context`		|`Context`			|上下文对象
-
-
-## changeLayout()
-
-**abstract**
-
-设置dialog中的webview大小
-
-**declaration**
-
-~~~java
-
-  public void changeLayout() ；
-~~~
-
-## init()
-
-**abstract**
-
-初始化参数
-
-**declaration**
-
-~~~java
-
-  public void init(int time) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`time`		|`int`			|设置webview的超时时间
-
-## startfinish()
-
-**abstract**
-
-验证完成UI更新
-
-**declaration**
-
-~~~java
-
-  public void startfinish() ；
-~~~
-
-## shakeDialog()
-
-**abstract**
-
-验证错误时验证框抖动
-
-**declaration**
-
-~~~java
-
-  public void shakeDialog() ；
-~~~
-
-## JSInterface()
-
-**abstract**
-
-与前端交互接口
-
-**discussion**
-
-~~~java
-
-public interface GeetestListener {
-    void gtCallBack();//获取与验证码交互数据
-    void gtClose();//点击验证码关闭按钮触发
-    void gtReady();//验证码资源准备完成
-    void gt3Error();//验证码出错
-}
-~~~
-
-**declaration**
-
-~~~java
-
-  public void gtCallBack(String code, String result) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`code`		|`String`			|验证码是否成功
-`result`		|`String`			|验证码交互后返回的结果
-
-## gt3Error()
-
-~~~java
-
-  public void gt3Error(String error) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`error`		|`String`			|验证码错误信息
-
-##setErrDialog
-
-**abstract**
-
-验证码出现错误时弹出的错误弹框样式
-
-**declaration**
-
-~~~java
-
-  public void setErrDialog(String error, String errorcode) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`error`		|`String`			|验证码错误文案
-`errorcode`		|`String`			|验证码错误码
-
-
-## setGtWebViewListener()
-
-**abstract**
-
-webview的接口回调
-
-**discussion**
-
-public interface GeetestListener {
-    void gtCallReady();//验证码在webview中通知dialog的回调
-}
-
-
-**declaration**
-
-~~~java
-
-  public void gtCallReady(String error,Boolean status) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`error`		|`String`			|验证码错误文案
-`status`		|`Boolean`			|是否错误
-
-
-# GT3GtWebView
-
-**Public Mehtods**
-
-方法名				|说明
-----------------	|----------------
-`init()`	|初始化参数
-`WebViewClientEx()`	|重写WebViewClient
-
-## init()
-
-**abstract**
-
-初始化参数
-
-**declaration**
-
-~~~java
-
-  public void init(Context context) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`context`		|`Context`			|上下文对象
-
-## WebViewClientEx()
-
-**abstract**
-
-重写Webview的WebViewClient
-
-**discussion**
-
-~~~java
-
-public interface WebViewClientEx {
-    void onReceivedError();//webview加载报错
-    void onReceivedSslError();//webview证书报错
-    void onPageStarted();//webview加载开始
-    void onPageFinished();//webview加载结束
-}
-~~~
-
-**declaration**
-
-~~~java
-
-  public void onPageStarted(WebView view, String url) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`view`		|`WebView`			|当前的WebView
-`url`		|`String`			|WebView的加载路径
+2017 11.30 edited
 
 # GT3GeetestUtilsBind
 
-**Public Mehtods**
+GTTestButton的主要外部调用接口(bind模式)
 
-方法名				|说明
-----------------	|----------------
-`GT3GeetestUtilsBind()`	|实例化GT3GeetestUtilsBind
-`cancelAllTask()`	|关闭所有异步
-`gtDologo()`	|判断是否有logo
-`getDialog()`	|获取当前使用的Dialog
-`setDialogTouch()`	|控制点击屏幕是否可以关闭dialog
-`gtSetApi1Json()`	|用于设置api1的返回结果，仅限于自定义api1使用
-`getGeetest()`	|启动验证码
-`openGtTest()`	|弹出验证码弹框
-`gt3TestFinish()`	|验证成功的dialog样式
-`gt3TestClose()`	|验证失败的dialog样式
-`getGeetestStatisticsJson()`	|获取统计验证各个阶段状态的数据集合
-`getVersion()`	|获取当前SDK的版本号
-`setTimeout()`	|设置webview的超时时间
-`GT3Listener()`	|提供给客户的接口回调（注）
+## Method
 
-**abstract**
+### GT3GeetestUtilsBind(Context)
 
-这个类是外部类，包含所有的验证码外部方法和外部接口，客户选择性调用（注）
+获取管理类`GT3GeetestUtilsBind`的实例对象
 
-## GT3GeetestUtilsBind()
+**Declaration**
 
-**abstract**
+```java
+public GT3GeetestUtilsBind(Context context)
+```
 
-实例化GT3GeetestUtilsBind
+**Parameters**
 
-**declaration**
+Param	|Type | Description | 			
+------	|-----|-----|
+context|Context|上下文
 
-~~~java
+### getGeetest(Context,String,String,String,GT3GeetestBindListener)
 
-  public void GT3GeetestUtilsBind(Context context) ；
-~~~
+开启验证码
 
-### parameters
+**Declaration**
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`context`		|`Context`			|上下文对象
+```java
+public void getGeetest(final Context context, String api1, String api2, String lang, GT3GeetestBindListener listener)
+```
 
-## cancelAllTask()
+**Parameters**
 
-**abstract**
+Param	|Type 		| Description 	|	
+------	|---------|---------------	|
+context|Context	|上下文					
+api1	|String	|客户后台服务器配置,用来获取gt，challenge参数的api接口
+api2	|String	|客户后台服务器配置,用于二次验证的api接口
+lang	|String	|验证码语言，默认传null跟随系统语言
+listener|GT3GeetestBindListener|验证码外部接口实例
 
-关闭所有的异步请求
+### gt3Dismiss()
 
-**declaration**
+关闭正在运行的Dialog
 
-~~~java
+**Declaration**
 
-  public void cancelAllTask() ；
-~~~
+```java
+public void gt3Dismiss()
+```
 
-## gtDologo()
+### gt3TestFinish()
 
-**abstract**
+弹出验证成功的弹框
 
-判断是否有logo
+**Declaration**
 
-**declaration**
+```java
+public void gt3TestFinish()
+```
 
-~~~java
+**Discussion**
 
-  public void gtDologo(String api1, String api2, String lang)；
-~~~
+该方法在拿到二次验证结果后，如果验证结果中status字段为success则调用该方法
 
-### parameters
+### gt3TestClose()
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`api1`		|`String`			|api1
-`api2`		|`String`			|api2
-`lang`		|`String`			|默认传null--中文（参数：zh,en）
+弹出验证失败的弹框
 
+**Declaration**
 
-## getDialog()
+```java
+public void gt3TestClose()
+```
 
-**abstract**
+**Discussion**
 
-获取当前使用的Dialog
+该方法在拿到二次验证结果后，如果验证结果中status字段为fail则调用该方法
 
-**declaration**
-
-~~~java
-
-  public void getDialog() ；
-~~~
-
-### returns
-
-类型			|说明
--------------	|----------------------
-`GT3GtDialogBind`		|返回当前使用的Dialog
-
-## setDialogTouch()
-
-**abstract**
-
-控制点击屏幕是否可以关闭dialog
-
-**declaration**
-
-~~~java
-
-  public void setDialogTouch(boolean a) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`a`		|`boolean`			|true可关闭，false不可关闭
-
-## gtSetApi1Json()
-
-**abstract**
-
-用于设置api1的返回结果，仅限于自定义api1使用
-
-**declaration**
-
-~~~java
-
-  public void gtSetApi1Json(JSONObject json) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`json`		|`JSONObject`			|传自行请求api1得到的json数据
-
-## getGeetest()
-
-**abstract**
-
-启动验证码
-
-**declaration**
-
-~~~java
-
-  public void getGeetest( Context context) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`context`		|`Context`			|上下文对象
-
-## openGtTest()
-
-**abstract**
-
-弹出验证码框
-
-**declaration**
-
-~~~java
-
-  public void openGtTest(int hight) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`hight`		|`int`			|验证码框的高宽比例
-
-## gt3TestFinish()
-
-**abstract**
-
-验证成功的dialog样式
-
-**declaration**
-
-~~~java
-
-  public void gt3TestFinish() ；
-~~~
-
-## gt3TestClose()
-
-**abstract**
-
-失败的dialog样式
-
-**declaration**
-
-~~~java
-
-  public void gt3TestClose() ；
-~~~
-
-## getGeetestStatisticsJson()
-
-**abstract**
-
-获取统计验证各个阶段状态的数据集合
-
-**declaration**
-
-~~~java
-
-  public void getGeetestStatisticsJson(String error) ；
-~~~
-
-### parameters
-
-参数名			|类型			|说明
--------------	|------------	|-------------
-`error`		|`String`			|验证码错误时返回的错误码
-
-## getVersion()
-
-**abstract**
+### getVersion()
 
 获取当前SDK的版本号
 
-**declaration**
+**Declaration**
 
-~~~java
+```java
+public String getVersion()
+```
 
-  public void getVersion() ；
-~~~
+**Return Value**
 
-### returns
+返回版本号，类型为`String`
 
-类型			|说明
--------------	|----------------------
-`String`		|返回当前SDK版本号
+### setTimeout(int)
 
-## setTimeout()
+设置加载验证码的webview的超时时间，默认10秒
 
-**abstract**
+**Declaration**
 
-设置webview的超时时间
+```java
+public void setTimeout(int time)
+```
 
-**declaration**
+**Parameters**
 
-~~~java
+Param	|Type | Description | 			
+------	|-----|-----|
+time|int|毫秒数 如:15000|	
 
-  public void setTimeout(int timeout) ；
-~~~
+### cancelUtils()
 
-### parameters
+用于释放上下文以及各种资源
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`timeout`		|`int`			|设置webview的超时时间
+**Declaration**
 
-## GT3Listener()
+```java
+public void cancelUtils()
+```
 
-**abstract**
+**Discussion**
 
-提供给客户的接口回调（注）
+该方法在客户使用的验证码界面的onDestroy生命周期中调用
 
-**discussion**
+### showLoadingDialog(Context, String)
 
-~~~java
+弹出极验加载框
 
-public interface GT3Listener（） {
-    void gt3CloseDialog();//点击了验证码上的取消按钮的回调
-    void gt3DialogReady();//关闭验证码准备完成的回调
-    void gt3FirstResult();//拿到api1请求结果的回调
-    Map<String, String> gt3SecondResult();//往api2接口里面添加参数
-    void gt3GetDialogResult();//拿到请求api2接口需要的数据 
-    void gt3DialogOnError();//验证码出现错误的回调
-    void gt3DialogSuccessResult();//请求api2接口后返回的结果
-    void gt3AjaxResult();//请求ajax接口后返回的结果
-    Map<String, String>  captchaApi1();///往api1接口里面添加参数
-    void gtSetIsCustom();//设置是否自定义二次验证（true为是，反之不是）
-    void gt3GeetestStatisticsJson();//统计数据
+**Declaration**
+
+```java
+public void showLoadingDialog(Context context, String lang)
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-----|
+context|Context|上下文|	
+lang|String|验证码语言，默认传null跟随系统语言|	
+
+**Discussion**
+
+该方法很少用到，仅用于自定义api1时考虑使用
+
+### gtSetApi1Json(JSONObject)
+
+用于获取客户请求api1返回的的数据
+
+**Declaration**
+
+```java
+public void gtSetApi1Json(JSONObject json)
+```
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-----|
+json|JSONObject|客户请求api1返回的的数据
+
+**Discussion**
+
+该方法用于自定义api1时必定使用，注意参数json格式：
+
+```
+{
+	"success" : 1,
+	"challenge" : "4a5cef77243baa51b2090f7258bf1368",
+	"gt" : "019924a82c70bb123aae90d483087f94",
+	"new_captcha" : true
 }
-~~~
+```
 
-**declaration**
+以上`success`，`challenge`，`gt`，`new_captcha`这4个参数为必须参数，客户可以添加新参数，但是不能删减，以免导致无法加载验证码
 
-~~~java
+### setDialogTouch(boolean)
 
-  public void gt3CloseDialog() ；
-~~~
+设置点击弹出框周围,弹出框是否消失
 
-**discussion**
+**Declaration**
 
-点击了验证码上的取消按钮的回调
+```java
+public void setDialogTouch(boolean bol)
+```
+**Parameters**
 
+Param	|Type | Description | 			
+------	|-----|-----|
+bol|boolean|true 是 false 否
 
-**declaration**
+**Discussion**
 
-~~~java
+该方法比较常用，建议设置成false
 
-  public void gt3FirstResult(JSONObject jsonObject) ；
-~~~
+### cancelAllTask()
 
-**discussion**
+关闭所有异步加载
 
-返回api1请求后的结果
+**Declaration**
 
-### parameters
+```java
+public void cancelAllTask()
+```
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`jsonObject`		|`JSONObject`			|返回api1请求后的结果
+## Listener
 
-**declaration**
+### gt3DialogReady()
 
-~~~java
+监听弹框是否正常弹出
 
-  Map<String, String> gt3SecondResult() ；
-~~~
+**Declaration**
 
-**discussion**
+```java
+public void gt3DialogReady()
+```
 
-往api2接口里面添加参数
+**Discussion**
 
-### returns
+验证码正常弹出会进该接口 反之不进
 
-类型			|说明
--------------	|----------------------
-`Map<String, String>`		|添加的参数为map集合
+### gt3CloseDialog(int)
 
-**declaration**
+用于监听弹框消失
 
-~~~java
+**Declaration**
 
-  public void gt3GetDialogResult(String result) ；
-  或
-  public void gt3GetDialogResult(boolean a，String result) ；（用于自定义api2）
-~~~
+```java
+public void gt3CloseDialog(int  num)
+```
 
-**discussion**
+**Parameters**
 
-二次验证需要的结果
+Param	|Type | Description | 			
+------	|-----|-----|
+num|int|1 点击验证码的关闭按钮来关闭验证码，2 点击屏幕关闭验证码，3 点击返回键关闭验证码	
 
-### parameters
+### gt3FirstResult(JSONObject)
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`result`		|`String`			|返回二次验证需要的结果
-`a`		|`boolean`			|判断是否成功返回（true成功，反正失败，仅用于自定义二次验证）
+用于获取客户api1返回的数据
 
-**declaration**
+**Declaration**
 
-~~~java
+```java
+public void gt3FirstResult(JSONObject jsonObject) 
+```
 
-  public void gt3DialogOnError(String error) ；
-~~~
+**Parameters**
 
-**discussion**
+Param	|Type | Description | 			
+------	|-----|-----|
+jsonObject|JSONObject|客户api1返回的数据
 
-验证码验证出现问题的回调
+### gt3GetDialogResult(String)
 
-### parameters
+用于获取客户api2返回的数据
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`error`		|`String`			|返回验证错误码
+**Declaration**
 
-**declaration**
+```java
+public void gt3GetDialogResult(String result) 
+```
 
-~~~java
+**Parameters**
 
-  public void gt3DialogSuccessResult(String result) ；
-~~~
+Param	|Type | Description | 			
+------	|-----|-----|
+result|String|客户api2返回的数据
 
-**discussion**
+### gt3GetDialogResult(boolean, String)
 
-二次验证后得到的结果，验证流程基本走完
+用于获取客户api2返回的数据
 
-### parameters
+**Declaration**
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`result`		|`String`			|返回二次验证后得到的结果
+```java
+public void gt3GetDialogResult(boolean stu, String result) 
+```
 
-**declaration**
+**Parameters**
 
-~~~java
+Param	|Type | Description | 			
+------	|-----|-----|
+result|String|客户api2返回的数据
+stu|boolean|判断是否获取到返回值 true：有 false：没有
 
-  public void gt3AjaxResult(String result) ；
-~~~
 
-**discussion**
+**Discussion**
 
-请求ajax接口得到的结果
+该方法用于自定义api1时使用，当stu为true，result会携带二次验证需要的三个参数geetest_challenge，geetest_validate，geetest_seccode，以上三个参数为必传参数，客户可以自行添加数据但不得删减，提交这些从参数到api2服务器即可
 
-### parameters
+### gt3DialogSuccessResult(String)
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`result`		|`String`			|返回请求ajax接口得到的结果
+用户操作验证码后的结果数据
 
-**declaration**
+**Declaration**
 
-~~~java
+```java
+public void gt3DialogSuccessResult(String result) 
+```
 
-  Map<String, String> captchaApi1() ；
-~~~
+**Parameters**
 
-**discussion**
+Param	|Type | Description | 			
+------	|-----|-----|
+result|String|用户操作验证码后的结果数据
 
-往api1接口里面添加参数
 
-### returns
+### gt3DialogOnError(String)
 
-类型			|说明
--------------	|----------------------
-`Map<String, String>`		|添加的参数为map集合
+用户操作验证码后的结果数据
 
-**declaration**
+**Declaration**
 
-~~~java
+```java
+public void gt3DialogOnError(String error) 
+```
 
-  public void gtSetIsCustom() ；
-~~~
+**Parameters**
 
-**discussion**
+Param	|Type | Description | 			
+------	|-----|-----|
+error|String|用户操作验证码后的结果数据
 
-设置是否使用自己的二次验证
+**Discussion**
 
-**declaration**
+验证错误码后面详细说明
 
-~~~java
+### gt3SetIsCustom()
 
-  public void gereg_21() ；
-~~~
+用户是否使用自定义二次验证
 
-**discussion**
+**Declaration**
 
-用于错误代码为21时的回调，重新启动SDK
+```java
+public boolean gt3SetIsCustom()
+```
 
-**declaration**
+**Discussion**
+使用自定义二次验证必须设置的接口
 
-~~~java
+**Return Value**
 
-  public void gt3GeetestStatisticsJson(String result) ；
-~~~
+返回给`gt3geetestutils`告知使用自定义二次验证, 类型为`boolean` true:是 false:不是（默认)
 
-**discussion**
+### gt3captchaApi1()
 
-统计接口
+用于往api1里面添加提交参数
 
-### parameters
+**Declaration**
 
-参数名			|类型			|说明
--------------	|------------	|-------------
-`result`		|`String`			|返回所有请求的统计数据
+```java
+public Map<String, String> gt3captchaApi1()
+```
 
+**Discussion**
 
+在不自定义api1的情况下，客户想往api1里面添加提交参数可以使用该方法，该方法为get提交
 
+**Return Value**
 
+返回给`gt3geetestutils`用于提交api1的参数, 类型为`Map<String, String>`
 
+### gt3SecondResult()
 
+用于往api2里面添加提交参数
 
+**Declaration**
 
+```java
+public Map<String, String> gt3SecondResult()
+```
 
+**Discussion**
+
+在不自定义api2的情况下，客户想往api2里面添加提交参数可以使用该方法，该方法为post提交
+
+**Return Value**
+
+返回给`gt3geetestutils`用于提交api2的参数, 类型为`Map<String, String>`
+
+### gt3GeetestStatisticsJson(JSONObject)
+
+用于统计单次验证每个接口状态和手机信息
+
+**Declaration**
+
+```java
+public void gt3GeetestStatisticsJson(JSONObject result)
+```
+
+# GT3GeetestUtils
+
+GTTestButton的主要外部调用接口(button模式)
+
+## Method
+
+### GT3GeetestUtils.getInstance(Context)
+
+获取管理类`GT3GeetestUtils`的实例对象
+
+**Declaration**
+
+```java
+public GT3GeetestUtils.getInstance(Context context)
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-----|
+context|Context|上下文
+
+### getGeetest(final Context, String, String, String, GT3GeetestListener)
+
+开启验证码
+
+**Declaration**
+
+```java
+public void getGeetest(final Context context,String api1,String api2,String lang,GT3GeetestListener listener)
+```
+
+**Parameters**
+
+Param	|Type 	| Description | 			
+------	|-----	|-------------|
+context |Context|上下文
+api1	|String|客户后台服务器配置,用来获取gt，challenge参数的api接口
+api2	|String|客户后台服务器配置,用于二次验证的api接口
+lang	|String|验证码语言，默认传null跟随系统语言
+listener|GT3GeetestBindListener|验证码外部接口实例 
+
+### gt3Dismiss()
+
+关闭正在运行的Dialog
+
+**Declaration**
+
+```java
+public void gt3Dismiss()
+```
+
+### gt3TestFinish()
+
+弹出验证成功的弹框
+
+**Declaration**
+
+```java
+public void gt3TestFinish()
+```
+
+**Discussion**
+
+该方法在拿到二次验证结果后，如果验证结果中status字段为success则调用该方法
+
+### gt3CloseButton()
+
+弹出验证失败的弹框
+
+**Declaration**
+
+```java
+public void gt3CloseButton()
+```
+
+**Discussion**
+
+该方法在拿到二次验证结果后，如果验证结果中status字段为fail则调用该方法
+
+### getVersion()
+
+获取当前SDK的版本号
+
+**Declaration**
+
+```java
+public String getVersion()
+```
+
+**Return Value**
+
+返回版本号，类型为`String`
+
+### setTimeout(int)
+
+设置加载验证码的webview的超时时间，默认10秒
+
+**Declaration**
+
+```java
+public void setTimeout(int time)
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-----|
+time|int|毫秒数 如:15000	
+
+### cancelUtils()
+
+用于释放上下文以及各种资源
+
+**Declaration**
+
+```java
+public void cancelUtils()
+```
+
+**Discussion**
+
+该方法在客户使用的验证码界面的onDestroy生命周期中调用
+
+### getISonto()
+
+调用该方法提示SDK使用自定义api1模式
+
+**Declaration**
+
+```java
+public void getISonto()
+```
+
+**Discussion**
+
+该方法在客户使用自定义api1时调用，且必须是在onCreate生命周期中调用
+
+### gtSetApi1Json(JSONObject)
+
+用于获取客户请求api1返回的的数据
+
+**Declaration**
+
+```java
+public void gtSetApi1Json(JSONObject json)
+```
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-----|
+json	|JSONObject|客户请求api1返回的的数据
+
+**Discussion**
+
+该方法用于自定义api1时必定使用，注意参数json格式：
+
+```
+{
+	"success" : 1,
+	"challenge" : "4a5cef77243baa51b2090f7258bf1368",
+	"gt" : "019924a82c70bb123aae90d483087f94",
+	"new_captcha" : true
+}
+```
+
+以上`success`，`challenge`，`gt`，`new_captcha`这4个参数为必须参数，客户可以添加新参数，但是不能删减，以免导致无法加载验证码
+
+### setDialogTouch(boolean)
+
+设置点击弹出框周围,弹出框是否消失
+
+**Declaration**
+
+```java
+public void setDialogTouch(boolean bol)
+```
+**Parameters**
+
+Param	|Type 	| Description | 			
+------	|-----	|-------------|
+bol		|boolean|true 是/false 否
+
+**Discussion**
+
+该方法比较常用，建议设置成false
+
+### cancelAllTask()
+
+关闭所有异步加载
+
+**Declaration**
+
+```java
+public void cancelAllTask()
+```
+
+## Listener
+
+### gt3DialogReady()
+
+监听弹框是否正常弹出
+
+**Declaration**
+
+```java
+public void gt3DialogReady()
+```
+
+**Discussion**
+
+验证码正常弹出会进该接口 反之不进
+
+### gt3CloseDialog(int)
+
+用于监听弹框消失
+
+**Declaration**
+
+```java
+public void gt3CloseDialog(int  num)
+```
+
+**Parameters**
+
+Param	|Type 	| Description | 			
+------	|-----	|-------------|
+num		|int	|1 点击验证码的关闭按钮来关闭验证码，num 2 点击屏幕关闭验证码，num 3 点击返回键关闭验证码
+
+### gt3FirstResult(JSONObject)
+
+用于获取客户api1返回的数据
+
+**Declaration**
+
+```java
+public void gt3FirstResult(JSONObject jsonObject) 
+```
+
+**Parameters**
+
+Param	|Type 	| Description | 			
+------	|-----	|-------------|
+jsonObject|JSONObject|客户api1返回的数据
+
+### gt3GetDialogResult(String)
+
+用于获取客户api2返回的数据
+
+**Declaration**
+
+```java
+public void gt3GetDialogResult(String result) 
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-------------|
+result|String|客户api2返回的数据
+
+### gt3GetDialogResult(boolean, String)
+
+用于获取客户api2返回的数据
+
+**Declaration**
+
+```java
+public void gt3GetDialogResult(boolean stu, String result) 
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-------------|
+result|String|客户api2返回的数据
+stu|boolean|判断是否获取到返回值 true：有 false：没有
+
+
+**Discussion**
+
+该方法用于自定义api1时使用，当stu为true，result会携带二次验证需要的三个参数geetest_challenge，geetest_validate，geetest_seccode，以上三个参数为必传参数，客户可以自行添加数据但不得删减，提交这些从参数到api2服务器即可
+
+### gt3DialogSuccessResult(String)
+
+用户操作验证码后的结果数据
+
+**Declaration**
+
+```java
+public void gt3DialogSuccessResult(String result) 
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-------------|
+result|String|用户操作验证码后的结果数据
+
+
+### gt3DialogOnError(String)
+
+用户操作验证码后的结果数据
+
+**Declaration**
+
+```java
+public void gt3DialogOnError(String error) 
+```
+
+**Parameters**
+
+Param	|Type | Description | 			
+------	|-----|-------------|
+error|String|用户操作验证码后的结果数据
+
+**Discussion**
+
+验证错误码后面详细说明
+
+### gt3SetIsCustom()
+
+用户是否使用自定义二次验证
+
+**Declaration**
+
+```java
+public boolean gt3SetIsCustom()
+```
+
+**Discussion**
+使用自定义二次验证必须设置的接口
+
+**Return Value**
+
+返回给`gt3geetestutils`告知使用自定义二次验证, 类型为`boolean` true:是 false:不是（默认)
+
+### gt3captchaApi1()
+
+用于往api1里面添加提交参数
+
+**Declaration**
+
+```java
+public Map<String, String> gt3captchaApi1()
+```
+
+**Discussion**
+
+在不自定义api1的情况下，客户想往api1里面添加提交参数可以使用该方法，该方法为get提交
+
+**Return Value**
+
+返回给`gt3geetestutils`用于提交api1的参数, 类型为`Map<String, String>`
+
+### gt3SecondResult()
+
+用于往api2里面添加提交参数
+
+**Declaration**
+
+```java
+public Map<String, String> gt3SecondResult()
+```
+
+**Discussion**
+
+在不自定义api2的情况下，客户想往api2里面添加提交参数可以使用该方法，该方法为post提交
+
+**Return Value**
+
+返回给`gt3geetestutils`用于提交api2的参数, 类型为`Map<String, String>`
+
+### gtOnClick(boolean)
+
+用于判断自定义button是否被点击
+
+**Declaration**
+
+```java
+public void gtOnClick(boolean onclick)
+```
+
+**Parameters**
+
+|Type | Description | 			
+|-----|-------------|
+|boolean|true 表示button被点击
+
+**Discussion**
+
+用于监听button按键是否被点击
+
+# ErrorCode
+
+## test-Button
+
+`test-Button`产品的业务错误代码
+
+ErrorCode	|Description
+----------|------------
+200			|ajax请求被forbidden
+202			|验证码停用
+204			|webview加载出现的错误或者超时
+205			|api1接口错误或者返回为null
+206			|gettype接口错误或者返回为null
+207		   	|getphp接口错误或者返回为null
+208			|ajax接口返回错误或者返回为null
