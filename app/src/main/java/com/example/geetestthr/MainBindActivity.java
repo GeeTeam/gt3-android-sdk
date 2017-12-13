@@ -194,7 +194,7 @@ public class MainBindActivity extends Activity {
                     @Override
                     public void gt3DialogOnError(String error) {
                         Log.i("dsd","gt3DialogOnError");
-                        gt3GeetestUtils.cancelAllTask();
+
                     }
                 });
                 //设置是否可以点击屏幕边缘关闭验证码
