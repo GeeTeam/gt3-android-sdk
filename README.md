@@ -370,6 +370,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});第4个参数，null表示默认语言，常用如“en”表示英文
 
    unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});第3个参数，null表示默认语言，“en”表示英文
+   
+### 12.请问SDK做过语言适配吗？
+
+答：目前是跟随系统版本变化，目前支持英语，繁体，简体。
 
 # 常用错误码 
 ### 1.timeoutError 201
@@ -439,6 +443,13 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.4.5** <br>
+1.对后台以及前端的错误码做字段保护，防止前端后台返回为null导致移动端崩溃
+
+**3.4.4** <br>
+1.dimiss非空判断
+
 **3.4.3** <br>
 1.优化一个有可能导致的null异常
 
