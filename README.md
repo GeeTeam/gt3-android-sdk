@@ -373,7 +373,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    
 ### 12.请问SDK做过语言适配吗？
 
-答：目前是跟随系统版本变化，目前支持英语，繁体，简体。
+答：目前是跟随系统版本变化，目前支持英语，繁体，简体。但是webview里面的语言适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
+   例子：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
+   
 
 # 常用错误码 
 ### 1.timeoutError 201
@@ -443,6 +445,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.4.6** <br>
+1.参数加密
 
 **3.4.5** <br>
 1.对后台以及前端的错误码做字段保护，防止前端后台返回为null导致移动端崩溃
