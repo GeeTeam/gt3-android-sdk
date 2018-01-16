@@ -32,5 +32,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.jakewharton:butterknife:8.4.0'
-    compile(name: 'gt3geetest_sdk_3.4.6', ext: 'aar')
+    compile(name: 'gt3geetest_sdk_3.4.7', ext: 'aar')
 }
