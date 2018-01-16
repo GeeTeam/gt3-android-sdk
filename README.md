@@ -373,8 +373,8 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    
 ### 12.请问SDK做过语言适配吗？
 
-答：目前是跟随系统版本变化，目前支持英语，繁体，简体。但是webview里面的语言适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
-   例子：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
+答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
+   例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
    
 
 # 常用错误码 
