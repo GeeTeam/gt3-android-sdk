@@ -312,12 +312,15 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 {\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"ne  w_captcha\":true}"
 
+### 4.自定义api2如何定义？
 
-### 4.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
+答：外部接口gt3SetIsCustom返回值设置成true，接下来客户需要自行进行api2的请求，当然这里需要这几个参数geetest_challenge，geetest_validate，geetest_seccode。才能正常的完成api2请求。这几个参数在gt3GetDialogResult(boolean stu, String result)外部接口中返回，具体可以参考下Demo说明
+
+### 5.unbind模式下我验证完毕一轮后还想再次验证，可是按键点击不了怎么回事？
 
 答：在gt3DialogSuccessResult里面调用Gt3GeetestTestMsg.setCandotouch(true);即可
 
-### 5.为什么我所有代码都写好了，验证码就是弹不出？
+### 6.为什么我所有代码都写好了，验证码就是弹不出？
 
 答：目前导致验证码无法弹出的情况分如下几种
 
@@ -329,11 +332,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
   
   d.手机是否连接了无用的网络代理
 
-### 6.验证码弹出后，验证完成后为什么弹框没有消失？
+### 7.验证码弹出后，验证完成后为什么弹框没有消失？
 
 答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
 
-### 7.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
+### 8.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
 
 答：您的需求比较的奇怪，不过SDK也有考虑到这块
 
@@ -353,25 +356,25 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
         gt3GeetestUtils.changeDialogLayout();
     }
 
-### 8.有设置验证框超时时间的方法吗？
+### 9.有设置验证框超时时间的方法吗？
 
 答：gt3GeetestUtils.setTimeout(15000),设置为毫秒
 
-### 9.如何检测SDK的版本号？
+### 10.如何检测SDK的版本号？
 
 答：gt3GeetestUtils.getVersion(),获取当前SDK的版本号
 
-### 10.如何理解自定义接口？
+### 11.如何理解自定义接口？
 
 答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
 
-### 11.请问可以修改弹出框里面的内容以英文显示吗？
+### 12.请问可以修改弹出框里面的内容以英文显示吗？
 
 答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});第4个参数，null表示默认语言，常用如“en”表示英文
 
    unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});第3个参数，null表示默认语言，“en”表示英文
    
-### 12.请问SDK做过语言适配吗？
+### 13.请问SDK做过语言适配吗？
 
 答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
    例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
