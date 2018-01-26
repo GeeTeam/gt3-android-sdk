@@ -29,7 +29,6 @@ public class MainBindActivity extends Activity {
     private Button btn;
     private GT3GeetestUtilsBind gt3GeetestUtils;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
