@@ -376,68 +376,61 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    
 ### 13.请问SDK做过语言适配吗？
 
-答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
+答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体,印尼语（后续会陆续新增韩语，日语等）。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
    例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
    
 
 # 常用错误码 
-### 1.timeoutError 201
 
-   全局网络请求超时，请检查网络连接
-
-### 2.webViewError 204
+### 1.webViewError 204
 
    webview加载出现的错误
 
-### 3.httpError 205
+### 2.httpError 205
 
    api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
 
-### 4.httpError 206
+### 3.httpError 206
 
    gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
 
-### 5.httpError 207
+### 4.httpError 207
 
    getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
 
-### 6.httpError 208
+### 5.httpError 208
 
    ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
     
-### 7.httpError 209
+### 6.httpError 209
 
    api2接口返回返回为null，查看api2的参数和地址是否有误，网络保持畅通
 
-### 8.尝试过多 _01
+### 7.尝试过多 _01
 
    连续刷新5次
 
-### 9.尝试过多 _12
+### 8.尝试过多 _12
 
    连续验证错误6次
 
-### 10.web请求错误 _105
+### 9.web请求错误 _105
 
   无网络状态下滑动报错
-    
-### 11.初始化错误 211
 
-   验证码初始化回调用2个接口，找找这里的问题
-
-### 12.服务被forbidden 200
+### 10.服务被forbidden 200
 
    网络请求时，此时服务被forbidden
     
-### 13.challenge错误  _02
+### 11.challenge错误  _02
 
    challenge 过时，或者重复使用
     
-### 14.challenge错误  _22
+### 12.challenge错误  _22
 
   服务器未检测到challenge
     
-### 15.gt错误  _31
+### 13.gt错误  _31
 
   服务器未检测到gt  
 
@@ -448,6 +441,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.5.0** <br>
+1.国际化新增印尼语
+2.部分文件位置跟换（跟换新包时，AS自动导下新路径即可）
 
 **3.4.9** <br>
 1.修改sdk下国际化内部的app_name
