@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.geetest.gt3unbindsdk.Bind.GT3GeetestBindListener;
-import com.geetest.gt3unbindsdk.Bind.GT3GeetestUtilsBind;
+import com.geetest.sdk.Bind.GT3GeetestBindListener;
+import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 
 import org.json.JSONException;
 import org.json.JSONObject;

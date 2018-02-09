@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.geetest.gt3unbindsdk.GT3GeetestButton;
-import com.geetest.gt3unbindsdk.GT3GeetestListener;
-import com.geetest.gt3unbindsdk.GT3GeetestUtils;
-import com.geetest.gt3unbindsdk.Gt3GeetestTestMsg;
+import com.geetest.sdk.GT3GeetestButton;
+import com.geetest.sdk.GT3GeetestListener;
+import com.geetest.sdk.GT3GeetestUtils;
+import com.geetest.sdk.Gt3GeetestTestMsg;
 
 import org.json.JSONException;
 import org.json.JSONObject;
