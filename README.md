@@ -282,9 +282,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
 
-### 2.什么是自定义api？
+### 2.如何理解自定义接口？
 
-答：API1,API2接口默认是交给SDK内部请求的，客户不需要操作,自定义的话需要自行做网络请求
+答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
 
 
 ### 3.自定义api1如何定义？
@@ -334,12 +334,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ### 7.验证码弹出后，验证完成后为什么弹框没有消失？
 
-答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
+答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-8
 
 ### 8.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
 
-答：您的需求比较的奇怪，不过SDK也有考虑到这块
-
+答：
 1.在项目清单里面在需要弹出验证码的activity上加上android:configChanges="orientation|keyboardHidden|screenSize"
 
 2.在需要弹出验证码的activity上加上
@@ -363,18 +362,8 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ### 10.如何检测SDK的版本号？
 
 答：gt3GeetestUtils.getVersion(),获取当前SDK的版本号
-
-### 11.如何理解自定义接口？
-
-答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
-
-### 12.请问可以修改弹出框里面的内容以英文显示吗？
-
-答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});第4个参数，null表示默认语言，常用如“en”表示英文
-
-   unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});第3个参数，null表示默认语言，“en”表示英文
    
-### 13.请问SDK做过语言适配吗？
+### 11.请问SDK做过语言适配吗？
 
 答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体,印尼语（后续会陆续新增韩语，日语等）。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
    例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
@@ -443,7 +432,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
 
 **3.5.0** <br>
-1.国际化新增印尼语
+1.国际化新增印尼语<br>
 2.部分文件位置跟换（跟换新包时，AS自动导下新路径即可）
 
 **3.4.9** <br>
