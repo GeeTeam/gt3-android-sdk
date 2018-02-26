@@ -427,9 +427,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 # 混淆规则
 
-极验SDK内部已经做了混淆规则，如果您需要混淆自己的代码则需要去除极验包
+极验SDK内部已经做了混淆规则，如果您需要混淆自己的代码则需要在项目proguard-rules.pro中去除极验包
 
 -dontwarn com.geetest.sdk.**
+<br>
 -keep class com.geetest.sdk.** {
 *;
 }
