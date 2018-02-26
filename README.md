@@ -425,6 +425,16 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 以上是常见的错误码
 
+# 混淆规则
+
+极验SDK内部已经做了混淆规则，如果您需要混淆自己的代码则需要去除极验包
+
+-dontwarn com.geetest.sdk.**
+-keep class com.geetest.sdk.** {
+*;
+}
+
+
 # 主要版本迭代 
 
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
