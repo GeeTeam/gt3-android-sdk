@@ -71,17 +71,27 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 4.加载验证码
 
 ```java
-       （band模式下）--点击后会有一个加载框，中间有一个gif在转动
+       （bind模式下）--点击后会有一个加载框，中间有一个gif在转动
         //在您acitvity的onCreate方法里面调用（初始化）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
 	//点击想调用验证码的按键，加载验证码
 	gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});
 	
-       （unband模式下）--拥有极验的自定义控件
+       （unbind模式下）--拥有极验的自定义控件
         //在您acitvity的onCreate方法里面调用（初始化）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	//直接加载验证码，不需要按键触发，因为该模式下提供自定义按键
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});
+	
+	注意：unbind模式下需要在布局文件里面添加极验的自定义，添加代码如下：
+	（具体样式可以自行调整）	
+	<com.geetest.sdk.GT3GeetestButton
+        android:layout_width="290dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal" />
 ```
 
 
@@ -368,6 +378,23 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体,印尼语（后续会陆续新增韩语，日语等）。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
    例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
    
+### 12.弹出验证框内容显示不全或字体过大导致界面移位
+
+答：该问题是手机开了老人机模式导致，解决方案有2个<br>
+    1.把手机字体大小设置回成常规大小<br>
+    2.在使用极验的activity重写该方法
+   
+```java
+    @Override  
+    public Resources getResources() {  
+    Resources res = super.getResources();    
+    Configuration config=new Configuration();    
+    config.setToDefaults();    
+    res.updateConfiguration(config,res.getDisplayMetrics());  
+    return res;  
+}
+```
+    
 
 # 常用错误码 
 
