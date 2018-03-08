@@ -14,24 +14,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainGeetestActivity"
-            android:configChanges="locale"
-            android:theme="@style/AppACTheme">
+        <activity android:name=".MainGeetestActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+            >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.MAIN"
+                    />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainUnBindActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-            />
-        <activity android:name=".MainBindActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-            />
 
+        <activity
+            android:name=".MainUnBindActivity"
+            >
 
+        </activity>
+        <activity
+            android:name=".MainBindActivity"
+            >
+
+        </activity>
     </application>
 
 </manifest>
