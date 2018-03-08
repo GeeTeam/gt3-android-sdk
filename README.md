@@ -71,17 +71,27 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 4.加载验证码
 
 ```java
-       （band模式下）--点击后会有一个加载框，中间有一个gif在转动
+       （bind模式下）--点击后会有一个加载框，中间有一个gif在转动
         //在您acitvity的onCreate方法里面调用（初始化）
         gt3GeetestUtils =new GT3GeetestUtilsBind(Main3Activity.this);
 	//点击想调用验证码的按键，加载验证码
 	gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});
 	
-       （unband模式下）--拥有极验的自定义控件
+       （unbind模式下）--拥有极验的自定义控件
         //在您acitvity的onCreate方法里面调用（初始化）
 	gt3GeetestUtils =  GT3GeetestUtils.getInstance(MainActivity.this);
 	//直接加载验证码，不需要按键触发，因为该模式下提供自定义按键
 	gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});
+	
+	注意：unbind模式下需要在布局文件里面添加极验的自定义，添加代码如下：
+	（具体样式可以自行调整）	
+	<com.geetest.sdk.GT3GeetestButton
+        android:layout_width="290dp"
+        android:layout_height="44dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal" />
 ```
 
 
@@ -282,9 +292,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 答：gt3GeetestUtils.setDialogTouch(true);方法可以设置弹框是否可以点击周围取消
 
-### 2.什么是自定义api？
+### 2.如何理解自定义接口？
 
-答：API1,API2接口默认是交给SDK内部请求的，客户不需要操作,自定义的话需要自行做网络请求
+答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
 
 
 ### 3.自定义api1如何定义？
@@ -334,12 +344,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ### 7.验证码弹出后，验证完成后为什么弹框没有消失？
 
-答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-10
+答：您需要在gt3DialogSuccessResult回调里面做二次验证结果处理，参考 接口详细说明-8
 
 ### 8.验证码弹出后，我横竖屏疯狂切换为什么会有内存泄漏？
 
-答：您的需求比较的奇怪，不过SDK也有考虑到这块
-
+答：
 1.在项目清单里面在需要弹出验证码的activity上加上android:configChanges="orientation|keyboardHidden|screenSize"
 
 2.在需要弹出验证码的activity上加上
@@ -363,91 +372,106 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ### 10.如何检测SDK的版本号？
 
 答：gt3GeetestUtils.getVersion(),获取当前SDK的版本号
-
-### 11.如何理解自定义接口？
-
-答：最简单的集成方式是传入API1 API2其他所有交给SDK内部处理，但是一些SDK内部不能完成的数据传输，客户针对自己的需求进行自定义API这个时候客户所编写的代码会变多，目前只开放API1 API2的自定义，其他是SDK内部接口，不能提供给客户自定义。
-
-### 12.请问可以修改弹出框里面的内容以英文显示吗？
-
-答：bind模式：gt3GeetestUtils.getGeetest(Main3Activity.this,captchaURL, validateURL,null,new GT3GeetestBindListener(){});第4个参数，null表示默认语言，常用如“en”表示英文
-
-   unbind模式:gt3GeetestUtils.getGeetest(captchaURL,validateURL,null,new GT3GeetestListener(){});第3个参数，null表示默认语言，“en”表示英文
    
-### 13.请问SDK做过语言适配吗？
+### 11.请问SDK做过语言适配吗？
 
-答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
+答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体,印尼语（后续会陆续新增韩语，日语等）。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
    例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
    
+### 12.弹出验证框内容显示不全或字体过大导致界面移位
+
+答：该问题是手机开了老人机模式导致，解决方案有2个<br>
+    1.把手机字体大小设置回成常规大小<br>
+    2.在使用极验的activity重写该方法
+   
+```java
+    @Override  
+    public Resources getResources() {  
+    Resources res = super.getResources();    
+    Configuration config=new Configuration();    
+    config.setToDefaults();    
+    res.updateConfiguration(config,res.getDisplayMetrics());  
+    return res;  
+}
+```
+    
 
 # 常用错误码 
-### 1.timeoutError 201
 
-   全局网络请求超时，请检查网络连接
-
-### 2.webViewError 204
+### 1.webViewError 204
 
    webview加载出现的错误
 
-### 3.httpError 205
+### 2.httpError 205
 
    api1接口返回为null，查看api1的参数和地址是否有误，网络保持畅通
 
-### 4.httpError 206
+### 3.httpError 206
 
    gettype接口返回为null，查看gettype的参数和地址是否有误，网络保持畅通
 
-### 5.httpError 207
+### 4.httpError 207
 
    getphp接口返回为null，查看getphp的参数和地址是否有误，网络保持畅通
 
-### 6.httpError 208
+### 5.httpError 208
 
    ajax接口返回返回为null，查看ajax的参数和地址是否有误，网络保持畅通
     
-### 7.httpError 209
+### 6.httpError 209
 
    api2接口返回返回为null，查看api2的参数和地址是否有误，网络保持畅通
 
-### 8.尝试过多 _01
+### 7.尝试过多 _01
 
    连续刷新5次
 
-### 9.尝试过多 _12
+### 8.尝试过多 _12
 
    连续验证错误6次
 
-### 10.web请求错误 _105
+### 9.web请求错误 _105
 
   无网络状态下滑动报错
-    
-### 11.初始化错误 211
 
-   验证码初始化回调用2个接口，找找这里的问题
-
-### 12.服务被forbidden 200
+### 10.服务被forbidden 200
 
    网络请求时，此时服务被forbidden
     
-### 13.challenge错误  _02
+### 11.challenge错误  _02
 
    challenge 过时，或者重复使用
     
-### 14.challenge错误  _22
+### 12.challenge错误  _22
 
   服务器未检测到challenge
     
-### 15.gt错误  _31
+### 13.gt错误  _31
 
   服务器未检测到gt  
 
 以上是常见的错误码
+
+# 混淆规则
+
+极验SDK内部已经做了混淆规则，如果您需要混淆自己的代码则需要在项目proguard-rules.pro中去除极验包
+
+-dontwarn com.geetest.sdk.**
+<br>
+-keep class com.geetest.sdk.** {
+*;
+}
+
 
 # 主要版本迭代 
 
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.5.0** <br>
+1.国际化新增印尼语<br>
+2.部分文件位置跟换（跟换新包时，AS自动导下新路径即可）
 
 **3.4.9** <br>
 1.修改sdk下国际化内部的app_name
