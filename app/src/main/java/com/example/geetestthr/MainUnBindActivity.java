@@ -52,6 +52,7 @@ public class MainUnBindActivity extends AppCompatActivity {
 
             /**
              * 往API1请求中添加参数
+             * 该方法只适用于不使用自定义api1时使用
              * 添加数据为Map集合
              * 添加的数据以get形式提交
              */
@@ -74,7 +75,8 @@ public class MainUnBindActivity extends AppCompatActivity {
             }
 
             /**
-             * 拿到二次验证需要的数据
+             * 拿到第二个url（API2）需要的数据
+             * 该方法只适用于不使用自定义api2时使用
              */
             @Override
             public void gt3GetDialogResult(String result) {
@@ -82,25 +84,42 @@ public class MainUnBindActivity extends AppCompatActivity {
             }
 
             /**
-             * 自定义二次验证，当gtSetIsCustom为ture时执行这里面的代码
+             * 自定义二次验证，也就是当gtSetIsCustom为ture时才执行
+             * 拿到第二个url（API2）需要的数据
+             * 在该回调里面自行请求api2
+             * 对api2的结果进行处理
              */
             @Override
             public void gt3GetDialogResult(boolean status,String result) {
 
                 if (status) {
+
                     /**
-                     *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
-                     * //                JSONObject res_json = new JSONObject(result);
-                     //
-                     //                Map<String, String> validateParams = new HashMap<>();
-                     //
-                     //                validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
-                     //
-                     //                validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
-                     //
-                     //                validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
-                     //  二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
-                     //  二次验证失败调用 gt3GeetestUtils.gt3TestClose();
+                     * 基本使用方法：
+                     *
+                     * 1.取出该接口返回的三个参数用于自定义二次验证
+                     * JSONObject res_json = new JSONObject(result);
+                     *
+                     * Map<String, String> validateParams = new HashMap<>();
+                     *
+                     * validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+                     *
+                     * validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+                     *
+                     * validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+                     *
+                     * 新加参数可以继续比如
+                     *
+                     * validateParams.put("user_key1", "value1");
+                     *
+                     * validateParams.put("user_key2", "value2");
+                     *
+                     * 2.自行做网络请求，请求时用上前面取出来的参数
+                     *
+                     * 3.拿到网络请求后的结果，判断是否成功
+                     *
+                     * 二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
+                     * 二次验证失败调用 gt3GeetestUtils.gt3CloseButton();
                      */
 
                 }
@@ -108,6 +127,7 @@ public class MainUnBindActivity extends AppCompatActivity {
 
             /**
              * 拿到第一个url（API1）返回的数据
+             * 该方法只适用于不使用自定义api1时使用
              */
             @Override
             public void gt3FirstResult(JSONObject jsonObject) {
@@ -115,6 +135,7 @@ public class MainUnBindActivity extends AppCompatActivity {
 
             /**
              * 往二次验证里面put数据
+             * 该方法只适用于不使用自定义api2时使用
              * put类型是map类型
              * 注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
              */
@@ -125,10 +146,11 @@ public class MainUnBindActivity extends AppCompatActivity {
 
             /**
              * 二次验证完成的回调
+             * 该方法只适用于不使用自定义api2时使用
              * result为验证后的数据
              * 根据二次验证返回的数据判断此次验证是否成功
              * 二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
-             * 二次验证失败调用 gt3GeetestUtils.gt3TestClose();
+             * 二次验证失败调用 gt3GeetestUtils.gt3CloseButton();
              */
             //请求成功数据
             @Override
@@ -151,13 +173,13 @@ public class MainUnBindActivity extends AppCompatActivity {
                     gt3GeetestUtils.gt3CloseButton();
                 }
                 Toast.makeText(MainUnBindActivity.this,result,Toast.LENGTH_LONG).show();
-                Gt3GeetestTestMsg.setCandotouch(false);//这里设置验证成功后是否可以关闭
+                Gt3GeetestTestMsg.setCandotouch(true);//这里设置验证成功后是否可以再次点击 true为可以 反之不可以
             }
 
 
             /**
              * 验证码加载准备完成
-             * 此时弹出验证码
+             * 此时将弹出验证码
              */
             @Override
             public void gt3DialogReady() {
@@ -166,8 +188,8 @@ public class MainUnBindActivity extends AppCompatActivity {
 
             /**
              * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
-             * 如果为false这边的的完成走gt3GetDialogResult(String result)
-             * 如果为true这边的的完成走gt3GetDialogResult(boolean a, String result)
+             * 如果为false后续会走gt3GetDialogResult(String result)拿到api2需要的参数
+             * 如果为true后续会走gt3GetDialogResult(boolean a, String result)拿到api2需要的参数
              * result为二次验证所需要的数据
              */
             @Override
@@ -179,7 +201,6 @@ public class MainUnBindActivity extends AppCompatActivity {
             /**
              * 判断自定义按键是否被点击
              */
-
             @Override
             public void gtOnClick(boolean onclick) {
                 if(onclick){
@@ -234,6 +255,9 @@ public class MainUnBindActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        /**
+         * 页面关闭时释放资源
+         */
         gt3GeetestUtils.cancelUtils();
     }
 
@@ -241,6 +265,9 @@ public class MainUnBindActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        /**
+         * 设置后，界面横竖屏不会关闭验证码，推荐设置
+         */
         gt3GeetestUtils.changeDialogLayout();
     }
 

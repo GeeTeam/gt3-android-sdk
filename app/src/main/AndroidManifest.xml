@@ -26,11 +26,13 @@
 
         <activity
             android:name=".MainUnBindActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             >
 
         </activity>
         <activity
             android:name=".MainBindActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             >
 
         </activity>
