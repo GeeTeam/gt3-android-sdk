@@ -471,6 +471,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
 
+**3.5.2** <br>
+1.Demo注释更加详细清晰<br>
+2.修改了部分静态字段<br>
+
 **3.5.1** <br>
 1.国际化新增日语<br>
 
