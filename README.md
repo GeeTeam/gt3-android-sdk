@@ -375,9 +375,11 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
    
 ### 11.请问SDK做过语言适配吗？
 
-答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体,印尼语（后续会陆续新增韩语，日语等）。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
-   例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});
-   
+答：目前安卓控件语言是跟随系统语言变化，支持英语，繁体，简体，印尼语，日语（后续会陆续新增韩语等）。但是验证码webview里面的语言由于是前端页面，所以适配需要传递一个参数给前端，参数是在getGeetest方法第4个表示语言，这里以"en"（英文）为例。
+   例子：gt3GeetestUtils.getGeetest(MainActivity.this,captchaURL, validateURL,"en",new GT3GeetestBindListener(){});<br>
+  传参说明：""--国语，"en"--英文，"id"--印尼语，"ja"--日文。
+  
+
 ### 12.弹出验证框内容显示不全或字体过大导致界面移位
 
 答：该问题是手机开了老人机模式导致，解决方案有2个<br>
@@ -468,6 +470,9 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.5.1** <br>
+1.国际化新增日语<br>
 
 **3.5.0** <br>
 1.国际化新增印尼语<br>
