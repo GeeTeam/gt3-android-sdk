@@ -99,151 +99,174 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 ```java
   gt3GeetestUtils.getGeetest(Activity.this, captchaURL, validateURL, null, new GT3GeetestBindListener() {
-     
-            /**
-             * num 1 点击验证码的关闭按钮来关闭验证码
-             * num 2 点击屏幕关闭验证码
-             * num 3 点击返回键关闭验证码
-             */
-            @Override
-            public void gt3CloseDialog(int  num) {
-            }
 
-            /**
-             * 验证码加载准备完成
-             * 此时弹出验证码
-             */
-            @Override
-            public void gt3DialogReady() {
+/**
+* num 1 点击验证码的关闭按钮来关闭验证码
+* num 2 点击屏幕关闭验证码
+* num 3 点击返回键关闭验证码
+*/
+@Override
+public void gt3CloseDialog(int  num) {
 
-            }
+}
 
-            /**
-             * 拿到第一个url（API1）返回的数据
-             */
-            @Override
-            public void gt3FirstResult(JSONObject jsonObject) {
-            }
+/**
+* 验证码加载准备完成
+* 此时弹出验证码
+*/
+
+@Override
+public void gt3DialogReady() {
+
+}
+
+/**
+* 拿到第一个url（API1）返回的数据
+* 该方法只适用于不使用自定义api1时使用
+*/
+
+@Override
+public void gt3FirstResult(JSONObject jsonObject) {
+
+}
+
+/**
+* 往API1请求中添加参数
+* 该方法只适用于不使用自定义api1时使用
+* 添加数据为Map集合
+* 添加的数据以get形式提交
+*/
+
+@Override
+public Map<String, String> gt3CaptchaApi1() {
+   Map<String, String> map = new HashMap<String, String>();
+   return map;
+}
+
+/**
+* 设置是否自定义第二次验证ture为是 默认为false(不自定义)
+* 如果为false后续会走gt3GetDialogResult(String result)拿到api2需要的参数
+* 如果为true后续会走gt3GetDialogResult(boolean a, String result)拿到api2需要的参数
+* result为二次验证所需要的数据
+*/
+@Override
+public boolean gt3SetIsCustom() {
+   return false;
+}
+
+/**
+* 拿到第二个url（API2）需要的数据
+* 该方法只适用于不使用自定义api2时使用
+*/
+
+@Override
+public void gt3GetDialogResult(String result) {
+
+}
+
+/**
+* 自定义二次验证，也就是当gtSetIsCustom为ture时才执行
+* 拿到第二个url（API2）需要的数据
+* 在该回调里面自行请求api2
+* 对api2的结果进行处理
+*/
+
+@Override
+public void gt3GetDialogResult(boolean status, String result) {
+if (status) {
+/**
+* 基本使用方法：
+*
+* 1.取出该接口返回的三个参数用于自定义二次验证
+* JSONObject res_json = new JSONObject(result);
+*
+* Map<String, String> validateParams = new HashMap<>();
+*
+* validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
+*
+* validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
+*
+* validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
+*
+* 新加参数可以继续比如
+*
+* validateParams.put("user_key1", "value1");
+*
+* validateParams.put("user_key2", "value2");
+*
+* 2.自行做网络请求，请求时用上前面取出来的参数
+*
+* 3.拿到网络请求后的结果，判断是否成功
+*
+* 二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
+* 二次验证失败调用 gt3GeetestUtils.gt3TestClose();
+*/
+}
+}
 
 
-            /**
-             * 往API1请求中添加参数
-             * 添加数据为Map集合
-             * 添加的数据以get形式提交
-             */
-            @Override
-            public Map<String, String> gt3CaptchaApi1() {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("t", System.currentTimeMillis()+"");
-                return map;
-            }
+/**
+* 需要做验证统计的可以打印此处的JSON数据
+* JSON数据包含了极验每一步的运行状态和结果
+*/
 
-            /**
-             * 设置是否自定义第二次验证ture为是 默认为false(不自定义)
-             * 如果为false这边的的完成走gt3GetDialogResult(String result)
-             * 如果为true这边的的完成走gt3GetDialogResult(boolean a, String result)
-             * result为二次验证所需要的数据
-             */
-            @Override
-            public boolean gt3SetIsCustom() {
-                return false;
-            }
+@Override
+public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
 
-            /**
-             * 拿到二次验证需要的数据
-             */
-            @Override
-            public void gt3GetDialogResult(String result) {
-            }
+}
 
+/**
+* 往二次验证里面put数据
+* put类型是map类型
+* 注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
+* 该方法只适用于不使用自定义api2时使用
+*/
+   @Override
+public Map<String, String> gt3SecondResult() {
+   Map<String, String> map = new HashMap<String, String>();
+   map.put("testkey","12315");
+   return map;
+}
 
-            /**
-             * 自定义二次验证，当gtSetIsCustom为ture时执行这里面的代码
-             */
-            @Override
-            public void gt3GetDialogResult(boolean stu, String result) {
+/**
+* 二次验证完成的回调
+* 该方法只适用于不使用自定义api2时使用
+* result为俄二次验证后的数据
+* 根据二次验证返回的数据判断此次验证是否成功
+* 二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
+* 二次验证失败调用 gt3GeetestUtils.gt3TestClose();
+*/
 
-                if (stu) {
-                    /**
-                     *  利用异步进行解析这result进行二次验证，结果成功后调用gt3GeetestUtils.gt3TestFinish()方法调用成功后的动画，然后在gt3DialogSuccess执行成功之后的结果
-                     * //                JSONObject res_json = new JSONObject(result);
-                     //
-                     //                Map<String, String> validateParams = new HashMap<>();
-                     //
-                     //                validateParams.put("geetest_challenge", res_json.getString("geetest_challenge"));
-                     //
-                     //                validateParams.put("geetest_validate", res_json.getString("geetest_validate"));
-                     //
-                     //                validateParams.put("geetest_seccode", res_json.getString("geetest_seccode"));
-                     //  二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
-                     //  二次验证失败调用 gt3GeetestUtils.gt3TestClose();
-                     */
-                }
-            }
+@Override
+public void gt3DialogSuccessResult(String result) {
+     if(!TextUtils.isEmpty(result)) {
+         try {
+   JSONObject jobj = new JSONObject(result);
+   String sta = jobj.getString("status");
+   if ("success".equals(sta)) {
+      gt3GeetestUtils.gt3TestFinish();
+   } else {
+      gt3GeetestUtils.gt3TestClose();
+   }
+   } catch (JSONException e) {
+      e.printStackTrace();
+   }
+   }else
+   {
+   gt3GeetestUtils.gt3TestClose();
+   }
+      }
 
-            /**
-             * 需要做验证统计的可以打印此处的JSON数据
-             * JSON数据包含了极验每一步的运行状态
-             */
-            @Override
-            public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
-            }
+/**
+* 验证过程错误
+* 返回的错误码为判断错误类型的依据
+* 常见错误码可以参考下面--常见错误码
+*/
 
-            /**
-             * 往二次验证里面put数据
-             * put类型是map类型
-             * 注意map的键名不能是以下三个：geetest_challenge，geetest_validate，geetest_seccode
-             */
-            @Override
-            public Map<String, String> gt3SecondResult() {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("testkey","12315");
-                return map;
-            }
+@Override
+public void gt3DialogOnError(String error) {
 
-            /**
-             * 二次验证完成的回调
-             * result为验证后的数据
-             * 根据二次验证返回的数据判断此次验证是否成功
-             * 二次验证成功调用 gt3GeetestUtils.gt3TestFinish();
-             * 二次验证失败调用 gt3GeetestUtils.gt3TestClose();
-             */
-            @Override
-            public void gt3DialogSuccessResult(String result) {
-
-                if(!TextUtils.isEmpty(result)) {
-                    try {
-                        JSONObject jobj = new JSONObject(result);
-                        String sta = jobj.getString("status");
-                        if ("success".equals(sta)) {
-                            gt3GeetestUtils.gt3TestFinish();
-			    //表示验证成功
-                        } else {
-                            gt3GeetestUtils.gt3TestClose();
-			    //表示验证有误
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }else
-                {
-                    gt3GeetestUtils.gt3TestClose();
-		    //表示验证异常，基本上不会执行
-                }
-            }
-
-            /**
-             * 验证过程错误
-             * 返回的错误码为判断错误类型的依据
-	     * 常见错误码可以参考下面--常见错误码
-             */
-
-            @Override
-            public void gt3DialogOnError(String error) {
-                gt3GeetestUtils.cancelAllTask();
-
-            }
-          });          
+          }
         });
     }
 ``` 
@@ -470,6 +493,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 ===版本号以GT3GainIp的getPhoneInfo方法中的gt3参数为主===
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
+
+**3.5.3** <br>
+1.新增unbind模式下手机自带组件webview被删除的错误提示<br>
+2.新增unbind模式下获取字段的完整性<br>
 
 **3.5.2** <br>
 1.Demo注释更加详细清晰<br>
