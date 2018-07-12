@@ -12,7 +12,7 @@
 
 
     <EditText
-        android:id="@+id/et2"
+        android:id="@+id/edt_password"
         android:layout_width="280dp"
         android:layout_height="40dp"
         android:layout_centerInParent="true"
@@ -21,10 +21,10 @@
         android:hint="密码" />
 
     <EditText
-        android:id="@+id/et1"
+        android:id="@+id/edt_username"
         android:layout_width="280dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/et2"
+        android:layout_above="@+id/edt_password"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:background="@drawable/gt3_et2_demo_shape"
@@ -32,10 +32,10 @@
 
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btn_login"
         android:layout_width="280dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/et2"
+        android:layout_below="@+id/edt_password"
         android:layout_centerHorizontal="true"
         android:background="#13a8fe"
         android:text="登录"

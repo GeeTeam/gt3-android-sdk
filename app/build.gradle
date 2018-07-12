@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.example.geetestthr"
+        applicationId "com.example.gt3"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -33,6 +33,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    compile(name: 'geetest_testbutton_android_v3.5.3', ext: 'aar')
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    compile(name: 'geetest_sensebot_android_v3.5.7.4', ext: 'aar')
 }

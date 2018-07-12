@@ -10,20 +10,20 @@
     tools:context=".MainGeetestActivity">
 
     <Button
-        android:id="@+id/btn1"
-        android:layout_centerInParent="true"
-        android:background="@drawable/gt3_et2_demo_shape"
+        android:id="@+id/btn_unbind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn2"
-        android:text="ButtonUnBind验证码" />
+        android:layout_above="@+id/btn_bind"
+        android:layout_centerInParent="true"
+        android:background="@drawable/gt3_et2_demo_shape"
+        android:text="UnBind验证码" />
 
     <Button
-        android:id="@+id/btn2"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/gt3_et2_demo_shape"
+        android:id="@+id/btn_bind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="ButtonBind验证码" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/gt3_et2_demo_shape"
+        android:text="Bind验证码" />
 </RelativeLayout>
