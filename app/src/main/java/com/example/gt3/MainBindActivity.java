@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
+import com.geetest.sdk.GTCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,9 +70,9 @@ public class MainBindActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // 使用默认api1和api2请求
-                // startVerify();
+                startVerify();
                 // 自定义api1及api2，只能二选一
-                startCustomVerify();
+                // startCustomVerify();
             }
         });
     }
@@ -184,6 +185,13 @@ public class MainBindActivity extends Activity {
                         String status = jsonObject.getString("status");
                         if ("success".equals(status)) {
                             gt3GeetestUtils.gt3TestFinish();
+                            // 设置loading消失回调
+                            gt3GeetestUtils.setGtCallBack(new GTCallBack() {
+                                @Override
+                                public void onCallBack() {
+                                    // 跳转其他页面操作等
+                                }
+                            });
                         } else {
                             gt3GeetestUtils.gt3TestClose();
                         }
@@ -253,6 +261,13 @@ public class MainBindActivity extends Activity {
                     String status = jsonObject.getString("status");
                     if ("success".equals(status)) {
                         gt3GeetestUtils.gt3TestFinish();
+                        // 设置loading消失回调
+                        gt3GeetestUtils.setGtCallBack(new GTCallBack() {
+                            @Override
+                            public void onCallBack() {
+                                // 跳转其他页面操作等
+                            }
+                        });
                     } else {
                         gt3GeetestUtils.gt3TestClose();
                     }
@@ -404,6 +419,13 @@ public class MainBindActivity extends Activity {
                         String status = jsonObject.getString("status");
                         if ("success".equals(status)) {
                             gt3GeetestUtils.gt3TestFinish();
+                            // 设置loading消失回调
+                            gt3GeetestUtils.setGtCallBack(new GTCallBack() {
+                                @Override
+                                public void onCallBack() {
+                                    // 跳转其他页面操作等
+                                }
+                            });
                         } else {
                             gt3GeetestUtils.gt3TestClose();
                         }

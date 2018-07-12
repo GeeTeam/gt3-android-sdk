@@ -494,6 +494,25 @@ public void gt3DialogOnError(String error) {
 
 版本说明：0.0.0 --> 接口变更和比较大的该动.新增功能.迭代功能和bug的修复
 
+**3.5.7.4** <br>
+1.适配ldpi,mdpi,hdpi分比率机型<br>
+2.增加debug开关<br>
+3.增加webview超时设置<br>
+4.修复陀螺仪抛出异常数据bug
+5.添加Success Loading页面成功回调
+
+**3.5.6** <br>
+1.rebuild SDK<br>
+
+**3.5.5** <br>
+1.添加gzip优化<br>
+2.添加TLS1.1版本兼容<br>
+3.修复部分bug<br>
+
+**3.5.4** <br>
+1.增添日志输出<br>
+2.修复部分bug<br>
+
 **3.5.3** <br>
 1.新增unbind模式下手机自带组件webview被删除的错误提示<br>
 2.新增unbind模式下获取字段的完整性<br>
