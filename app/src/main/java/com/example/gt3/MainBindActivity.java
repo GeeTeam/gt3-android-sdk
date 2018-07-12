@@ -81,6 +81,8 @@ public class MainBindActivity extends Activity {
      * 开始验证 TODO 非自定义api1及非自定义api2示例
      */
     private void startVerify() {
+        // 第四个参数为语言，若为null 则默认为系统语言
+        // // 第五个参数为回调监听类
         gt3GeetestUtils.getGeetest(MainBindActivity.this, captchaURL, validateURL, null, new GT3GeetestBindListener() {
 
             /**
@@ -294,6 +296,7 @@ public class MainBindActivity extends Activity {
      * 开始验证 TODO 自定义api1及自定义api2示例
      */
     private void continueVerify(JSONObject parmas) {
+        // parmas格式"{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}"
         // 设置api请求结果
         gt3GeetestUtils.gtSetApi1Json(parmas);
         gt3GeetestUtils.getGeetest(MainBindActivity.this, captchaURL, validateURL, null, new GT3GeetestBindListener() {
