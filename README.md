@@ -291,15 +291,15 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 	
 	```
 	{
-	    "gt":"019924a82c70bb123aae90d483087f94", 
-	    "challenge":"340e47b635f855267c222549fa6cab11",
-	    "success":"true", // 不做最终参考标准
+	    "gt":"019924a82c70bb123aae90d483087f94", // 商家标识
+	    "challenge":"340e47b635f855267c222549fa6cab11", // 流水号
+	    "success":"true", // 是否宕机
 	    "a1":"1", // api1接口成功， 0为失败，下同
 	    "t":"1", // gettype接口成功
 	    "g":"1", // get接口成功
-	    "a":"1", // webview加载成功
-	    "r":"1", // webview 显示成功
-	    "re":"slide",
+	    "a":"1", // ajax
+	    "r":"1", // 验证码显示成功
+	    "re":"slide", // 验证类型，若有此字段，表示结果成功
 	    "os":"android",
 	    "mo":"VKY-AL00",
 	    "ver":"8.0.0",
