@@ -19,18 +19,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainUnBindActivity extends AppCompatActivity {
+/**
+ * 一点及过示例
+ */
+public class OnePassActivity extends AppCompatActivity {
 
-    private static String TAG = MainUnBindActivity.class.getSimpleName();
+    private static String TAG = OnePassActivity.class.getSimpleName();
 
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";//http://www.geetest.com/demo/gt/register-fullpage
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-fullpage";
     /**
      * api2，需替换成自己的服务器URL
      */
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
+    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-fullpage";
 
     private GT3GeetestButton geetestButton;
     private GT3GeetestUtils gt3GeetestUtils;
@@ -49,7 +52,7 @@ public class MainUnBindActivity extends AppCompatActivity {
 
         // TODO 本示例为非自定义api1及api2
 
-        gt3GeetestUtils = GT3GeetestUtils.getInstance(MainUnBindActivity.this);
+        gt3GeetestUtils = GT3GeetestUtils.getInstance(OnePassActivity.this);
         // 设置是否可以点击Dialog灰色区域关闭验证码
         gt3GeetestUtils.setDialogTouch(true);
         // 设置debug模式，开代理抓包可使用，默认关闭，TODO 生产环境务必设置为false

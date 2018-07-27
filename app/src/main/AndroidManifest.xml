@@ -28,6 +28,9 @@
         <activity
             android:name="com.example.gt3.MainBindActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity
+            android:name="com.example.gt3.OnePassActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>

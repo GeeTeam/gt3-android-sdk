@@ -466,8 +466,8 @@ public Resources getResources() {
 1.适配ldpi,mdpi,hdpi分比率机型<br>
 2.增加debug开关<br>
 3.增加webview超时设置<br>
-4.修复陀螺仪抛出异常数据bug
-5.添加Success Loading页面成功回调
+4.修复陀螺仪抛出异常数据bug<br>
+5.加Success Loading页面成功回调
 
 **3.5.6** <br>
 1.rebuild SDK<br>

@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainGeetestActivity extends AppCompatActivity {
 
     private Button unbindBtn;
     private Button bindBtn;
+    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class MainGeetestActivity extends AppCompatActivity {
 
         unbindBtn = (Button) findViewById(R.id.btn_unbind);
         bindBtn = (Button) findViewById(R.id.btn_bind);
+        text = (TextView) findViewById(R.id.textview_onepass);
 
         unbindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +37,12 @@ public class MainGeetestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // bind模式
                 startActivity(new Intent(getApplicationContext(), MainBindActivity.class));
+            }
+        });
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),OnePassActivity.class));
             }
         });
 

@@ -26,4 +26,15 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/gt3_et2_demo_shape"
         android:text="Bind验证码" />
+
+    <TextView
+        android:id="@+id/textview_onepass"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#444444"
+        android:text="体验一点就过>>" />
 </RelativeLayout>
