@@ -26,7 +26,7 @@ public class MainUnBindActivity extends AppCompatActivity {
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";//http://www.geetest.com/demo/gt/register-fullpage
+    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
     /**
      * api2，需替换成自己的服务器URL
      */
@@ -43,7 +43,7 @@ public class MainUnBindActivity extends AppCompatActivity {
         geetestButton = (GT3GeetestButton) findViewById(R.id.btn_geetest);
 
         // TODO 若使用默认API1请求 则无需多余设置
-        // TODO 若使用自定义api2请求 则调用gt3GeetestUtils.getISonto()，且在gtOnClick回调开启api1
+        // TODO 若使用自定义api1请求 则调用gt3GeetestUtils.getISonto()，且在gtOnClick回调开启api1
         // TODO 若使用默认api2请求 则gt3SetIsCustom设置为false
         // TODO 若要开启自定义api2 则需 gt3SetIsCustom设置为true，且实现gt3GetDialogResult(boolean status, String result)方法内逻辑
 
@@ -51,9 +51,9 @@ public class MainUnBindActivity extends AppCompatActivity {
 
         gt3GeetestUtils = GT3GeetestUtils.getInstance(MainUnBindActivity.this);
         // 设置是否可以点击Dialog灰色区域关闭验证码
-        gt3GeetestUtils.setDialogTouch(true);
+        gt3GeetestUtils.setDialogTouch(false);
         // 设置debug模式，开代理抓包可使用，默认关闭，TODO 生产环境务必设置为false
-        gt3GeetestUtils.setDebug(true);
+        gt3GeetestUtils.setDebug(false);
         // 设置加载webview超时时间，单位毫秒，默认15000，仅且webview加载静态文件超时，不包括之前的http请求
         gt3GeetestUtils.setTimeout(15000);
         // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
@@ -94,13 +94,6 @@ public class MainUnBindActivity extends AppCompatActivity {
             @Override
             public void gt3DialogReady() {
                 Log.i(TAG, "gt3DialogReady");
-            }
-
-            /**
-             * 数据统计，从开启验证到成功加载验证码结束，具体解释详见GitHub文档
-             */
-            public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
-                Log.i(TAG, "gt3GeetestStatisticsJson-->" + jsonObject);
             }
 
             /**

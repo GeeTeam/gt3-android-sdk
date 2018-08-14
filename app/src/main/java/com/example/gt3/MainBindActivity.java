@@ -55,10 +55,8 @@ public class MainBindActivity extends Activity {
      */
     private void init() {
         gt3GeetestUtils = new GT3GeetestUtilsBind(MainBindActivity.this);
-        // 设置是否可以点击Dialog灰色区域关闭验证码
-        gt3GeetestUtils.setDialogTouch(true);
         // 设置debug模式，开代理抓包可使用，默认关闭，TODO 生产环境务必设置为false
-        gt3GeetestUtils.setDebug(true);
+        gt3GeetestUtils.setDebug(false);
         // 设置加载webview超时时间，单位毫秒，默认15000，仅且webview加载静态文件超时，不包括之前的http请求
         gt3GeetestUtils.setTimeout(15000);
         // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
@@ -70,9 +68,9 @@ public class MainBindActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // 使用默认api1和api2请求
-                startVerify();
+                // startVerify();
                 // 自定义api1及api2，只能二选一
-                // startCustomVerify();
+                startCustomVerify();
             }
         });
     }
@@ -213,6 +211,8 @@ public class MainBindActivity extends Activity {
                 Log.i(TAG, "gt3DialogOnError-->" + error);
             }
         });
+        // 设置是否可以点击Dialog灰色区域关闭验证码
+        gt3GeetestUtils.setDialogTouch(false);
     }
 
     /**
@@ -288,6 +288,8 @@ public class MainBindActivity extends Activity {
     private void startCustomVerify() {
         // 开启LoadDialog 第二个参数为lang（语言，如果为null则为系统语言）
         gt3GeetestUtils.showLoadingDialog(this, null);
+        // 设置是否可以点击Dialog灰色区域关闭验证码
+        gt3GeetestUtils.setDialogTouch(false);
         new RequestAPI1().execute();
     }
 
