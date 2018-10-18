@@ -12,7 +12,6 @@ import com.geetest.sdk.GT3GeetestListener;
 import com.geetest.sdk.GT3GeetestUtils;
 import com.geetest.sdk.Gt3GeetestTestMsg;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -26,11 +25,11 @@ public class MainUnBindActivity extends AppCompatActivity {
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-click";
+    private static final String captchaURL = "https://www.geetest.com/demo/gt/register-click";
     /**
      * api2，需替换成自己的服务器URL
      */
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-click";
+    private static final String validateURL = "https://www.geetest.com/demo/gt/validate-click";
 
     private GT3GeetestButton geetestButton;
     private GT3GeetestUtils gt3GeetestUtils;
@@ -47,7 +46,7 @@ public class MainUnBindActivity extends AppCompatActivity {
         // TODO 若使用默认api2请求 则gt3SetIsCustom设置为false
         // TODO 若要开启自定义api2 则需 gt3SetIsCustom设置为true，且实现gt3GetDialogResult(boolean status, String result)方法内逻辑
 
-        // TODO 本示例为非自定义api1及api2
+        // TODO 本示例为自定义api1及api2
 
         gt3GeetestUtils = GT3GeetestUtils.getInstance(MainUnBindActivity.this);
         // 设置是否可以点击Dialog灰色区域关闭验证码
@@ -58,7 +57,8 @@ public class MainUnBindActivity extends AppCompatActivity {
         gt3GeetestUtils.setTimeout(15000);
         // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
         gt3GeetestUtils.setWebviewTimeout(10000);
-        // gt3GeetestUtils.getISonto();
+        // 开启自定义api1
+        gt3GeetestUtils.getISonto();
         gt3GeetestUtils.getGeetest(captchaURL, validateURL, null, new GT3GeetestListener() {
             /**
              * @param num 1: 点击验证码的关闭按钮, 2: 点击屏幕关闭验证码, 3: 点击返回键关闭验证码
@@ -76,7 +76,7 @@ public class MainUnBindActivity extends AppCompatActivity {
                 Log.i(TAG, "gt3CaptchaApi1");
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("time", "" + System.currentTimeMillis());
-                return map;
+                return null;
             }
 
             /**
@@ -104,7 +104,7 @@ public class MainUnBindActivity extends AppCompatActivity {
             @Override
             public boolean gt3SetIsCustom() {
                 Log.i(TAG, "gt3SetIsCustom");
-                return false;
+                return true;
             }
 
             /**
@@ -176,7 +176,7 @@ public class MainUnBindActivity extends AppCompatActivity {
                         } else {
                             gt3GeetestUtils.gt3CloseButton();
                         }
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -201,7 +201,7 @@ public class MainUnBindActivity extends AppCompatActivity {
             public void gtOnClick(boolean onclick) {
                 if (onclick) {
                     // 开启自定义API1
-                    // new RequestAPI1().execute();
+                    new RequestAPI1().execute();
                 }
             }
         });
@@ -218,7 +218,7 @@ public class MainUnBindActivity extends AppCompatActivity {
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(string);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return jsonObject;
@@ -259,7 +259,7 @@ public class MainUnBindActivity extends AppCompatActivity {
                     } else {
                         gt3GeetestUtils.gt3CloseButton();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {

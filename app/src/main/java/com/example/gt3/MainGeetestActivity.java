@@ -42,6 +42,7 @@ public class MainGeetestActivity extends AppCompatActivity {
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 一键通过展示
                 startActivity(new Intent(getApplicationContext(),OnePassActivity.class));
             }
         });

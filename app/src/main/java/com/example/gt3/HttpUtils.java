@@ -19,6 +19,8 @@ import okhttp3.Response;
 
 public class HttpUtils {
 
+    private static OkHttpClient okHttpClient = new OkHttpClient();
+
     public static String requsetUrl(String urlString) {
         try {
             URL url = new URL(urlString);
@@ -54,7 +56,8 @@ public class HttpUtils {
     }
 
     public static String requestPost(String urlString, String postParam){
-        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.followRedirects();
+        okHttpClient.followSslRedirects();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody requestBody = RequestBody.create(mediaType,postParam);
         Request request = new Request
@@ -72,10 +75,11 @@ public class HttpUtils {
     }
 
     public static String requestGet(String urlString){
-        OkHttpClient client = new OkHttpClient();
+        okHttpClient.followRedirects();
+        okHttpClient.followSslRedirects();
         Request request = new Request.Builder().url(urlString).build();
         try {
-            Response response = client.newCall(request).execute();
+            Response response = okHttpClient.newCall(request).execute();
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();

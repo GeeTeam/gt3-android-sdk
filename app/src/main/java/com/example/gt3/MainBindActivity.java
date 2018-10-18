@@ -28,11 +28,11 @@ public class MainBindActivity extends Activity {
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-slide";
+    private static final String captchaURL = "https://www.geetest.com/demo/gt/register-slide";
     /**
      * api2，需替换成自己的服务器URL
      */
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-slide";
+    private static final String validateURL = "https://www.geetest.com/demo/gt/validate-slide";
     private EditText userNameEdt;
     private EditText passwordEdt;
     private Button loginBtn;
@@ -135,7 +135,7 @@ public class MainBindActivity extends Activity {
             @Override
             public boolean gt3SetIsCustom() {
                 Log.i(TAG, "gt3SetIsCustom");
-                return false;
+                return true;
             }
 
             /**
@@ -222,11 +222,12 @@ public class MainBindActivity extends Activity {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            String string = HttpUtils.requsetUrl(captchaURL);
+            String string = HttpUtils.requestGet(captchaURL);
+            Log.e(TAG, "doInBackground: "+string);
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(string);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return jsonObject;
@@ -257,6 +258,8 @@ public class MainBindActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             Log.i(TAG, "RequestAPI2-->onPostExecute: " + result);
+
+
             if (!TextUtils.isEmpty(result)) {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -273,8 +276,9 @@ public class MainBindActivity extends Activity {
                     } else {
                         gt3GeetestUtils.gt3TestClose();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    gt3GeetestUtils.gt3TestClose();
                 }
             } else {
                 gt3GeetestUtils.gt3TestClose();
@@ -434,7 +438,7 @@ public class MainBindActivity extends Activity {
                         } else {
                             gt3GeetestUtils.gt3TestClose();
                         }
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -471,6 +475,15 @@ public class MainBindActivity extends Activity {
          */
         gt3GeetestUtils.changeDialogLayout();
     }
+
+//    @Override
+//    public Resources getResources() {
+//        Resources res = super.getResources();
+//        Configuration config = new Configuration();
+//        config.setToDefaults();
+//        res.updateConfiguration(config, res.getDisplayMetrics());
+//        return res;
+//    }
 
 }
 

@@ -12,7 +12,6 @@ import com.geetest.sdk.GT3GeetestListener;
 import com.geetest.sdk.GT3GeetestUtils;
 import com.geetest.sdk.Gt3GeetestTestMsg;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 
 /**
- * 一点及过示例
+ * 一点即过示例
  */
 public class OnePassActivity extends AppCompatActivity {
 
@@ -29,11 +28,11 @@ public class OnePassActivity extends AppCompatActivity {
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String captchaURL = "http://www.geetest.com/demo/gt/register-fullpage";
+    private static final String captchaURL = "https://www.geetest.com/demo/gt/register-fullpage";
     /**
      * api2，需替换成自己的服务器URL
      */
-    private static final String validateURL = "http://www.geetest.com/demo/gt/validate-fullpage";
+    private static final String validateURL = "https://www.geetest.com/demo/gt/validate-fullpage";
 
     private GT3GeetestButton geetestButton;
     private GT3GeetestUtils gt3GeetestUtils;
@@ -61,7 +60,7 @@ public class OnePassActivity extends AppCompatActivity {
         gt3GeetestUtils.setTimeout(15000);
         // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
         gt3GeetestUtils.setWebviewTimeout(10000);
-        // gt3GeetestUtils.getISonto();
+        gt3GeetestUtils.getISonto();
         gt3GeetestUtils.getGeetest(captchaURL, validateURL, null, new GT3GeetestListener() {
             /**
              * @param num 1: 点击验证码的关闭按钮, 2: 点击屏幕关闭验证码, 3: 点击返回键关闭验证码
@@ -90,20 +89,12 @@ public class OnePassActivity extends AppCompatActivity {
                 Log.i(TAG, "gt3FirstResult-->" + jsonObject);
             }
 
-
             /**
              * 准备完成，即将弹出验证码
              */
             @Override
             public void gt3DialogReady() {
                 Log.i(TAG, "gt3DialogReady");
-            }
-
-            /**
-             * 数据统计，从开启验证到成功加载验证码结束，具体解释详见GitHub文档
-             */
-            public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
-                Log.i(TAG, "gt3GeetestStatisticsJson-->" + jsonObject);
             }
 
             /**
@@ -114,7 +105,7 @@ public class OnePassActivity extends AppCompatActivity {
             @Override
             public boolean gt3SetIsCustom() {
                 Log.i(TAG, "gt3SetIsCustom");
-                return false;
+                return true;
             }
 
             /**
@@ -186,7 +177,7 @@ public class OnePassActivity extends AppCompatActivity {
                         } else {
                             gt3GeetestUtils.gt3CloseButton();
                         }
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -211,7 +202,7 @@ public class OnePassActivity extends AppCompatActivity {
             public void gtOnClick(boolean onclick) {
                 if (onclick) {
                     // 开启自定义API1
-                    // new RequestAPI1().execute();
+                    new RequestAPI1().execute();
                 }
             }
         });
@@ -228,7 +219,7 @@ public class OnePassActivity extends AppCompatActivity {
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(string);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return jsonObject;
@@ -269,7 +260,7 @@ public class OnePassActivity extends AppCompatActivity {
                     } else {
                         gt3GeetestUtils.gt3CloseButton();
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
