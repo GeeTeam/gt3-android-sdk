@@ -33,5 +33,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation(name: 'geetest_sensebot_android_v3.5.7.6', ext: 'aar')
+//    implementation(name: 'geetest_sensebot_android_v3.5.7.6', ext: 'aar')
+    implementation(name: 'geetest_sensebot_android_v4.0.3_20181214', ext: 'aar')
 }

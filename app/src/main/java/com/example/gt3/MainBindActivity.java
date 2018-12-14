@@ -10,15 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.geetest.sdk.Bind.GT3GeetestBindListener;
-import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
-import com.geetest.sdk.GTCallBack;
+import com.geetest.sdk.GT3ConfigBean;
+import com.geetest.sdk.GT3ErrorBean;
+import com.geetest.sdk.GT3GeetestUtils;
+import com.geetest.sdk.GT3Listener;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainBindActivity extends Activity {
@@ -36,183 +33,135 @@ public class MainBindActivity extends Activity {
     private EditText userNameEdt;
     private EditText passwordEdt;
     private Button loginBtn;
-    private GT3GeetestUtilsBind gt3GeetestUtils;
+    private GT3GeetestUtils gt3GeetestUtils;
+    private GT3ConfigBean gt3ConfigBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main_bind);
-
-        userNameEdt = (EditText) findViewById(R.id.edt_username);
-        passwordEdt = (EditText) findViewById(R.id.edt_password);
         loginBtn = (Button) findViewById(R.id.btn_login);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customVerity();
+            }
+        });
+
         init();
 
     }
 
-    /**
-     * 务必在oncreate里初始化
-     */
     private void init() {
-        gt3GeetestUtils = new GT3GeetestUtilsBind(MainBindActivity.this);
-        // 设置debug模式，开代理抓包可使用，默认关闭，TODO 生产环境务必设置为false
-        gt3GeetestUtils.setDebug(false);
-        // 设置加载webview超时时间，单位毫秒，默认15000，仅且webview加载静态文件超时，不包括之前的http请求
-        gt3GeetestUtils.setTimeout(15000);
-        // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
-        gt3GeetestUtils.setWebviewTimeout(10000);
-        /**
-         * 点击调起验证
-         */
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 使用默认api1和api2请求
-                // startVerify();
-                // 自定义api1及api2，只能二选一
-                startCustomVerify();
-            }
-        });
+        // TODO 务必在oncreate方法里初始化
+        gt3GeetestUtils = new GT3GeetestUtils(this);
     }
 
-    /**
-     * 开始验证 TODO 非自定义api1及非自定义api2示例
-     */
-    private void startVerify() {
-        // 第四个参数为语言，若为null 则默认为系统语言
-        // // 第五个参数为回调监听类
-        gt3GeetestUtils.getGeetest(MainBindActivity.this, captchaURL, validateURL, null, new GT3GeetestBindListener() {
+    private void customVerity() {
+        // 配置bean文件，也可在oncreate初始化
+        gt3ConfigBean = new GT3ConfigBean();
+        // 设置验证模式，1：bind，2：unbind
+        gt3ConfigBean.setPattern(1);
+        // 设置点击灰色区域是否消失，默认不消息
+        gt3ConfigBean.setCanceledOnTouchOutside(false);
+        // 设置debug模式，开代理可调试 TODO 线上版本关闭
+        gt3ConfigBean.setDebug(false);
+        // 设置语言，如果为null则使用系统默认语言
+        gt3ConfigBean.setLang(null);
+        // 设置webview加载超时
+        gt3ConfigBean.setTimeout(9000);
+        // 设置webview请求超时
+        gt3ConfigBean.setWebviewTimeout(6000);
+        // 设置回调监听
+        gt3ConfigBean.setListener(new GT3Listener() {
 
             /**
-             * @param num 1: 点击验证码的关闭按钮, 2: 点击屏幕关闭验证码, 3: 点击返回键关闭验证码
+             * api1结果回调
+             * @param result
              */
             @Override
-            public void gt3CloseDialog(int num) {
-                Log.i(TAG, "gt3CloseDialog-->num: " + num);
+            public void onApi1Result(String result) {
+                Log.e(TAG, "GT3BaseListener-->onApi1Result-->" + result);
             }
 
             /**
-             * 为API1接口添加数据，数据拼接在URL后，API1接口默认get请求
+             * 验证码加载完成
+             * @param duration 加载时间和版本等信息，为json格式
              */
             @Override
-            public Map<String, String> gt3CaptchaApi1() {
-                Log.i(TAG, "gt3CaptchaApi1");
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("time", "" + System.currentTimeMillis());
-                return map;
+            public void onDialogReady(String duration) {
+                Log.e(TAG, "GT3BaseListener-->onDialogReady-->" + duration);
             }
 
             /**
-             * api1接口返回数据
+             * 验证结果
+             * @param result
              */
             @Override
-            public void gt3FirstResult(JSONObject jsonObject) {
-                Log.i(TAG, "gt3FirstResult-->" + jsonObject);
-            }
-
-
-            /**
-             * 准备完成，即将弹出验证码
-             */
-            @Override
-            public void gt3DialogReady() {
-                Log.i(TAG, "gt3DialogReady");
+            public void onDialogResult(String result) {
+                Log.e(TAG, "GT3BaseListener-->onDialogResult-->" + result);
+                // 开启api2逻辑
+                new RequestAPI2().execute(result);
             }
 
             /**
-             * 数据统计，从开启验证到成功加载验证码结束，具体解释详见GitHub文档
+             * api2回调
+             * @param result
              */
             @Override
-            public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
-                Log.i(TAG, "gt3GeetestStatisticsJson-->" + jsonObject);
+            public void onApi2Result(String result) {
+                Log.e(TAG, "GT3BaseListener-->onApi2Result-->" + result);
             }
 
             /**
-             * 返回是否自定义api2，true为自定义api2
-             * false： gt3GetDialogResult(String result)，返回api2需要参数
-             * true： gt3GetDialogResult(boolean a, String result)，返回api2需要的参数
+             * 统计信息，参考接入文档
+             * @param result
              */
             @Override
-            public boolean gt3SetIsCustom() {
-                Log.i(TAG, "gt3SetIsCustom");
-                return true;
+            public void onStatistics(String result) {
+                Log.e(TAG, "GT3BaseListener-->onStatistics-->" + result);
             }
 
             /**
-             * 用户滑动或点选完成后触发，gt3SetIsCustom配置为false才走此接口
-             *
-             * @param result api2接口需要参数
+             * 验证码被关闭
+             * @param num 1 点击验证码的关闭按钮来关闭验证码, 2 点击屏幕关闭验证码, 3 点击返回键关闭验证码
              */
             @Override
-            public void gt3GetDialogResult(String result) {
-                Log.i(TAG, "gt3GetDialogResult-->" + result);
+            public void onClosed(int num) {
+                Log.e(TAG, "GT3BaseListener-->onClosed-->" + num);
             }
 
             /**
-             * 用户滑动或点选完成后触发，gt3SetIsCustom配置为true才走此接口
-             *
-             * @param status 验证是否成功
-             * @param result api2接口需要参数
+             * 验证成功回调
+             * @param result
              */
             @Override
-            public void gt3GetDialogResult(boolean status, String result) {
+            public void onSuccess(String result) {
+                Log.e(TAG, "GT3BaseListener-->onSuccess-->" + result);
             }
 
             /**
-             * 为API2接口添加数据，数据拼接在URL后，API2接口默认get请求
-             * 默认已有数据：geetest_challenge，geetest_validate，geetest_seccode
-             * TODO 注意： 切勿重复添加以上数据
+             * 验证失败回调
+             * @param errorBean 版本号，错误码，错误描述等信息
              */
             @Override
-            public Map<String, String> gt3SecondResult() {
-                Log.i(TAG, "gt3SecondResult");
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("test", "test");
-                return map;
+            public void onFailed(GT3ErrorBean errorBean) {
+                Log.e(TAG, "GT3BaseListener-->onFailed-->" + errorBean.toString());
             }
 
             /**
-             * api2完成回调，判断是否验证成功，且成功调用gt3TestFinish，失败调用gt3TestClose
-             *
-             * @param result api2接口返回数据
+             * api1回调
              */
             @Override
-            public void gt3DialogSuccessResult(String result) {
-                Log.i(TAG, "gt3DialogSuccessResult-->" + result);
-                if (!TextUtils.isEmpty(result)) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        String status = jsonObject.getString("status");
-                        if ("success".equals(status)) {
-                            gt3GeetestUtils.gt3TestFinish();
-                            // 设置loading消失回调
-                            gt3GeetestUtils.setGtCallBack(new GTCallBack() {
-                                @Override
-                                public void onCallBack() {
-                                    // 跳转其他页面操作等
-                                }
-                            });
-                        } else {
-                            gt3GeetestUtils.gt3TestClose();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    gt3GeetestUtils.gt3TestClose();
-                }
-            }
-
-            /**
-             * @param error 返回错误码，具体解释见GitHub文档
-             */
-            @Override
-            public void gt3DialogOnError(String error) {
-                Log.i(TAG, "gt3DialogOnError-->" + error);
+            public void onButtonClick() {
+                new RequestAPI1().execute();
             }
         });
-        // 设置是否可以点击Dialog灰色区域关闭验证码
-        gt3GeetestUtils.setDialogTouch(false);
+        gt3GeetestUtils.init(gt3ConfigBean);
+        // 开启验证
+        gt3GeetestUtils.startCustomFlow();
     }
 
     /**
@@ -223,7 +172,7 @@ public class MainBindActivity extends Activity {
         @Override
         protected JSONObject doInBackground(Void... params) {
             String string = HttpUtils.requestGet(captchaURL);
-            Log.e(TAG, "doInBackground: "+string);
+            Log.e(TAG, "doInBackground: " + string);
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(string);
@@ -237,7 +186,12 @@ public class MainBindActivity extends Activity {
         protected void onPostExecute(JSONObject parmas) {
             // 继续验证
             Log.i(TAG, "RequestAPI1-->onPostExecute: " + parmas);
-            continueVerify(parmas);
+            // SDK可识别格式为
+            // {"success":1,"challenge":"06fbb267def3c3c9530d62aa2d56d018","gt":"019924a82c70bb123aae90d483087f94","new_captcha":true}
+            // TODO 设置返回api1数据，即使为null也要设置，SDK内部已处理
+            gt3ConfigBean.setApi1Json(parmas);
+            // 继续api验证
+            gt3GeetestUtils.getGeetest();
         }
     }
 
@@ -250,7 +204,7 @@ public class MainBindActivity extends Activity {
         protected String doInBackground(String... params) {
             if (!TextUtils.isEmpty(params[0])) {
                 return HttpUtils.requestPost(validateURL, params[0]);
-            }else {
+            } else {
                 return null;
             }
         }
@@ -258,232 +212,39 @@ public class MainBindActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             Log.i(TAG, "RequestAPI2-->onPostExecute: " + result);
-
-
             if (!TextUtils.isEmpty(result)) {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String status = jsonObject.getString("status");
                     if ("success".equals(status)) {
-                        gt3GeetestUtils.gt3TestFinish();
-                        // 设置loading消失回调
-                        gt3GeetestUtils.setGtCallBack(new GTCallBack() {
-                            @Override
-                            public void onCallBack() {
-                                // 跳转其他页面操作等
-                            }
-                        });
+                        gt3GeetestUtils.showSuccessDialog();
                     } else {
-                        gt3GeetestUtils.gt3TestClose();
+                        gt3GeetestUtils.showFailedDialog();
                     }
                 } catch (Exception e) {
+                    gt3GeetestUtils.showFailedDialog();
                     e.printStackTrace();
-                    gt3GeetestUtils.gt3TestClose();
                 }
             } else {
-                gt3GeetestUtils.gt3TestClose();
+                gt3GeetestUtils.showFailedDialog();
             }
         }
     }
 
-    /**
-     * 开始验证 TODO 自定义api1及自定义api2示例
-     */
-    private void startCustomVerify() {
-        // 开启LoadDialog 第二个参数为lang（语言，如果为null则为系统语言）
-        gt3GeetestUtils.showLoadingDialog(this, null);
-        // 设置是否可以点击Dialog灰色区域关闭验证码
-        gt3GeetestUtils.setDialogTouch(false);
-        new RequestAPI1().execute();
-    }
-
-
-    /**
-     * 开始验证 TODO 自定义api1及自定义api2示例
-     */
-    private void continueVerify(JSONObject parmas) {
-        // parmas格式"{\"success\":1,\"challenge\":\"4a5cef77243baa51b2090f7258bf1368\",\"gt\":\"019924a82c70bb123aae90d483087f94\",\"new_captcha\":true}"
-        // 设置api请求结果
-        gt3GeetestUtils.gtSetApi1Json(parmas);
-        gt3GeetestUtils.getGeetest(MainBindActivity.this, captchaURL, validateURL, null, new GT3GeetestBindListener() {
-
-            /**
-             * @param num 1: 点击验证码的关闭按钮, 2: 点击屏幕关闭验证码, 3: 点击返回键关闭验证码
-             */
-            @Override
-            public void gt3CloseDialog(int num) {
-                Log.i(TAG, "gt3CloseDialog-->num: " + num);
-            }
-
-            /**
-             * 为API1接口添加数据，数据拼接在URL后，API1接口默认get请求
-             */
-            @Override
-            public Map<String, String> gt3CaptchaApi1() {
-                Log.i(TAG, "gt3CaptchaApi1");
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("time", "" + System.currentTimeMillis());
-                return map;
-            }
-
-            /**
-             * api1接口返回数据
-             */
-            @Override
-            public void gt3FirstResult(JSONObject jsonObject) {
-                Log.i(TAG, "gt3FirstResult-->" + jsonObject);
-            }
-
-
-            /**
-             * 准备完成，即将弹出验证码
-             */
-            @Override
-            public void gt3DialogReady() {
-                Log.i(TAG, "gt3DialogReady");
-            }
-
-            /**
-             * 数据统计，从开启验证到成功加载验证码结束，具体解释详见GitHub文档
-             */
-            @Override
-            public void gt3GeetestStatisticsJson(JSONObject jsonObject) {
-                Log.i(TAG, "gt3GeetestStatisticsJson-->" + jsonObject);
-            }
-
-            /**
-             * 返回是否自定义api2，true为自定义api2
-             * false： gt3GetDialogResult(String result)，返回api2需要参数
-             * true： gt3GetDialogResult(boolean a, String result)，返回api2需要的参数
-             */
-            @Override
-            public boolean gt3SetIsCustom() {
-                Log.i(TAG, "gt3SetIsCustom");
-                return true;
-            }
-
-            /**
-             * 用户滑动或点选完成后触发，gt3SetIsCustom配置为false才走此接口
-             *
-             * @param result api2接口需要参数
-             */
-            @Override
-            public void gt3GetDialogResult(String result) {
-                Log.i(TAG, "gt3GetDialogResult-->" + result);
-            }
-
-            /**
-             * 用户滑动或点选完成后触发，gt3SetIsCustom配置为true才走此接口
-             *
-             * @param status 验证是否成功
-             * @param result api2接口需要参数
-             */
-            @Override
-            public void gt3GetDialogResult(boolean status, String result) {
-                Log.i(TAG, "gt3GetDialogResult-->status: " + status + "result: " + result);
-                if (status) {
-                    try {
-                        // 1.取出该接口返回的三个参数用于自定义二次验证
-                        JSONObject jsonObject = new JSONObject(result);
-                        Map<String, String> validateParams = new HashMap<>();
-                        validateParams.put("geetest_challenge", jsonObject.getString("geetest_challenge"));
-                        validateParams.put("geetest_validate", jsonObject.getString("geetest_validate"));
-                        validateParams.put("geetest_seccode", jsonObject.getString("geetest_seccode"));
-                        // 可继续添加其余参数
-                        validateParams.put("test", "test");
-                        // 开启自定义请求api2
-                        new RequestAPI2().execute(jsonObject.toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    gt3GeetestUtils.gt3TestClose();
-                }
-            }
-
-            /**
-             * 为API2接口添加数据，数据拼接在URL后，API2接口默认get请求
-             * 默认已有数据：geetest_challenge，geetest_validate，geetest_seccode
-             * TODO 注意： 切勿重复添加以上数据
-             */
-            @Override
-            public Map<String, String> gt3SecondResult() {
-                Log.i(TAG, "gt3SecondResult");
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("test", "test");
-                return map;
-            }
-
-            /**
-             * api2完成回调，判断是否验证成功，且成功调用gt3TestFinish，失败调用gt3TestClose
-             *
-             * @param result api2接口返回数据
-             */
-            @Override
-            public void gt3DialogSuccessResult(String result) {
-                Log.i(TAG, "gt3DialogSuccessResult-->" + result);
-                if (!TextUtils.isEmpty(result)) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        String status = jsonObject.getString("status");
-                        if ("success".equals(status)) {
-                            gt3GeetestUtils.gt3TestFinish();
-                            // 设置loading消失回调
-                            gt3GeetestUtils.setGtCallBack(new GTCallBack() {
-                                @Override
-                                public void onCallBack() {
-                                    // 跳转其他页面操作等
-                                }
-                            });
-                        } else {
-                            gt3GeetestUtils.gt3TestClose();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    gt3GeetestUtils.gt3TestClose();
-                }
-            }
-
-            /**
-             * @param error 返回错误码，具体解释见GitHub文档
-             */
-            @Override
-            public void gt3DialogOnError(String error) {
-                Log.i(TAG, "gt3DialogOnError-->" + error);
-            }
-        });
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /**
-         * TODO 务必调用
-         * 页面关闭时释放资源
-         */
-        gt3GeetestUtils.cancelUtils();
+        // TODO 销毁资源，务必添加
+        gt3GeetestUtils.destory();
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        /**
-         * 横竖屏切换适配
-         */
+        // 横竖屏切换
         gt3GeetestUtils.changeDialogLayout();
     }
-
-//    @Override
-//    public Resources getResources() {
-//        Resources res = super.getResources();
-//        Configuration config = new Configuration();
-//        config.setToDefaults();
-//        res.updateConfiguration(config, res.getDisplayMetrics());
-//        return res;
-//    }
 
 }
 
