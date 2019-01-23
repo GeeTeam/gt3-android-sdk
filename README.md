@@ -5,14 +5,12 @@
 极验验证3.0 Android SDK提供给集成Android原生客户端开发的开发者使用。
 集成极验验证3.0的时，需要先了解极验验证3.0的 [产品结构](http://docs.geetest.com/install/overview/#产品结构)。并且必须要先在您的后端搭建相应的**服务端SDK**，并配置从[极验后台]()获取的`<gt_captcha_id>`和`<geetest_key>`用来配置您集成了极验服务端sdk的后台。
 
-> 注意：相对3.X.X版本改动较大
-
 # 环境需求
 
 条目	|资源
 ------	|------------
 开发目标|4.0以上
-开发环境|Android Studio 2.1.3
+开发环境|Android Studio 3.2.0
 编译版本|25以上
 系统依赖|`v7包`
 sdk三方依赖|无
@@ -22,22 +20,13 @@ sdk三方依赖|无
 
 ## 获取SDK
 
-### 使用`git`命令从Github获取
-
-```
-git clone https://github.com/GeeTeam/gt3-android-sdk.git
-```
-
 ### 手动下载获取
 
-使用从github下载`.zip`文件获取最新的sdk。
-
-[Github: gt3-android-sdk](https://github.com/GeeTeam/gt3-android-sdk)
+[官网下载](https//docs.geetest.com/install/deploy/client/android)
 
 ## 手动导入SDK
 
-从github上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
-[Github: aar](https://github.com/GeeTeam/gt3-android-sdk/tree/master/app/libs)
+从官网上获取到`.aar`文件，同时将获取的`.aar`文件拖拽到工程中的libs文件夹下。
 
 1. 在拖入`.aar`到libs文件夹后, 还要检查`.aar`是否被添加到**Library**,要在项目的build.gradle下添加如下代码：
 
@@ -62,7 +51,6 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	```
 
@@ -75,16 +63,14 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 	```
 
-
-
 ## 名词解释
-1. api1 & api2: [见数据通信流程图](https://docs.geetest.com/install/overview/flowchart)
+1. api1 & api2: 开发者在 自己服务端搭建服务，开放的接口。[见数据通信流程图](https://docs.geetest.com/install/overview/flowchart)
 2. Bind模式: 以需要触发按钮为参考，将极验逻辑绑定在此按钮上
 3. UnBind模式: 将极验验证逻辑绑定在极验自定义Button上
 
 ## 配置接口
 
-开发者集成客户端sdk前, 必须先在您的服务器上搭建相应的 **服务端SDK** ，配置 **api1及api2** 。这里以服务端 **api1及api2** 配置成功，客户端开发步骤为例，如下以Bind模式，非自定义api1及2为例：
+开发者集成客户端sdk前, 必须先在您的服务器上搭建相应的 **服务端SDK** ，配置 **api1及api2** 。这里以服务端 **api1及api2** 配置成功，客户端开发步骤为例，如下以Bind模式为例：
 
 1. 定义服务端配置好API1&API2
 
@@ -121,14 +107,10 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 	gt3ConfigBean.setDebug(false);
 	// 设置语言，如果为null则使用系统默认语言
 	gt3ConfigBean.setLang(null);
-	// 设置webview加载超时
-	gt3ConfigBean.setTimeout(9000);
-	// 设置webview请求超时
-	gt3ConfigBean.setWebviewTimeout(6000);
-	// 设置api1地址
-	gt3ConfigBean.setApi1(captchaURL);
-	// 设置api2地址
-	gt3ConfigBean.setApi2(validateURL);
+	// 设置加载webview超时时间，单位毫秒，默认10000，仅且webview加载静态文件超时，不包括之前的http请求
+	gt3ConfigBean.setTimeout(10000);
+	// 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
+	gt3ConfigBean.setWebviewTimeout(10000);
 	// 设置回调监听
 	gt3ConfigBean.setListener(new GT3Listener());
 	gt3GeetestUtils.init(gt3ConfigBean);
@@ -140,7 +122,7 @@ git clone https://github.com/GeeTeam/gt3-android-sdk.git
 
 	```java
 	// 开启验证
-   gt3GeetestUtils.getGeetest();
+   gt3GeetestUtils.startCustomFlow();
 
 	```
 5. 回调监听接口实现
@@ -320,8 +302,7 @@ SDK提供部分日志，TAG为Geetest。且输出在sd卡的 Geetest/sensebot_lo
 
 ### 4. SDK语言适配如何处理 ？
 
-答：gt3ConfigBean.setLang(null);为使用系统语言。
-  若不为null，如："zh"--简体中文,"zh-rHK","zh-tw"-繁体中文，"en"--英文，"id"--印尼语，"ja"--日文。  
+答：SDK默认支持11种语言，简体中文(zh-cn)、繁体中文(zh-tw,zh-hk)、英文(en)、日文(ja)、印尼(id)、韩语(ko)、俄语(ru)、阿拉伯语(ar)、西班牙语(es)、葡萄牙语(pt)、法语(fr)、德语(de)，默认语言为英语。gt3ConfigBean.setLang()方法控制验证码前端显示语言。  
 
 ### 5. 弹出验证框内容显示不全或字体过大导致界面移位 ？
 
@@ -369,38 +350,35 @@ _XX | 后端错误 |
 _1XX | 前端报错 |
 
 # 更新日志
-- **4.0.3:** 适配beeline验证形式
-- **4.0.2:** rebuild SDK
-- **3.5.7.4:** 适配ldpi、mdpi、hdpi分辨率机型；增加debug调试开关；增加webview超时设置；修复陀螺仪异常；添加Loading成功回调<br>
-- **3.5.6:** rebuild SDK<br>
-- **3.5.5:** 添加`gzip`优化；添加`TLS1.1`版本兼容；修复部分bug<br>
-- **3.5.4:** 增加日志输出；修复部分bug
-- **3.5.3:** 新增webview组件被删除提示；新增unbind模式获取字段完整性
-- **3.5.2:** 完善demo注释；
-- **3.5.1:** 国际化新增日语
-- **3.5.0:** 国际化新增印尼语；
-- **3.4.9:** 删除国际化语言appname
-- **3.4.8:** 修改重试多次文案；修复部分bug
-- **3.4.7:** 修复部分bug
-- **3.4.6:** 参数加密
-- **3.4.5:** 增加解析字段判断，防止异常
-- **3.4.4:** 修复部分bug
-- **3.4.3:** 修复部分bug
-- **3.4.2:** 英文适配；webview生命周期优化；修改ajax部分参数；接口回调切换到主线程；新增加载loading接口；优化SDK
-- **3.3.2:** 优化webview，防止白屏
-- **3.3.1:** 优化SDK
-- **3.3.0:** 优化网络框架；优化混淆；新增销毁资源接口；优化SDK对外接口
-- **3.2.12:** 数据采集限制条数；新增webview设置
-- **3.2.11:** 优化GT3CallBacks，防止更多消耗资源
-- **3.2.10:** 修复部分bug；
-- **3.2.9:** 修复5.0以下崩溃问题；修复横竖屏切换内存泄露；去掉部分接口
-- **3.2.8:** 新增统计接口`getGeetestStatisticsJson()`；新增debug接口
-- **3.2.7:** 新增获取版本号接口`getVersion`;新增加载webview超时；跳转网络超时为5s；取消`gt3DialogSuccess()`接口
-- **3.2.6:** 修复横竖屏切换异常；优化SDK防止内存泄露；缓存`uuid`
-- **3.2.5:** 新增上行androidID及uuid；修复部分bug
-- **3.2.4:** api1及api2新增cookie
-- **3.1.3:** 优化UI线程
-- **3.1.2:** 修改为只请求一次api1
-- **3.0.2:** 添加api1接口
+版本|更新内容|更新日期
+-----|-----|-----
+**4.0.5:** | 新增网络鉴权代理，新增网络异常报告，修复部分问题 | 2019-01-22
+**4.0.3:** | 适配beeline验证形式 |
+**3.5.7.4:** | 适配ldpi、mdpi、hdpi分辨率机型；增加debug调试开关；增加webview超时设置；修复陀螺仪异常；添加Loading成功回调
+**3.5.5:** | 添加`gzip`优化；添加`TLS1.1`版本兼容；修复部分bug
+**3.5.4:** | 增加日志输出；修复部分bug
+**3.5.3:** | 新增webview组件被删除提示；新增unbind模式获取字段完整性
+**3.5.1:** | 国际化新增日语
+**3.5.0:** | 国际化新增印尼语；
+**3.4.9:** | 紧急修复未支持语言APPName被修改问题
+**3.4.8:** | 修改重试多次文案；修复部分bug
+**3.4.6:** | 新增参数加密
+**3.4.5:** | 新增解析字段判断，防止异常
+**3.4.4:** | 修复部分bug，增加健壮性
+**3.4.2:** | 英文适配；webview生命周期优化；修改ajax部分参数；接口回调切换到主线程；新增加载loading接口；优化SDK
+**3.3.2:** | 优化webview，防止白屏
+**3.3.0:** | 优化网络框架；优化混淆；新增销毁资源接口；优化SDK对外接口
+**3.2.12:** | 数据采集限制条数；新增webview设置
+**3.2.11:** | 优化GT3CallBacks，防止更多消耗资源
+**3.2.10:** | 修复部分bug；
+**3.2.9:** | 修复5.0以下崩溃问题；修复横竖屏切换内存泄露；去掉部分接口
+**3.2.8:** | 新增统计接口`getGeetestStatisticsJson()`；新增debug接口
+**3.2.7:** | 新增获取版本号接口`getVersion`;新增加载webview超时；跳转网络超时为5s；取消`gt3DialogSuccess()`接口
+**3.2.6:** | 修复横竖屏切换异常；优化SDK防止内存泄露；缓存`uuid`
+**3.2.5:** | 新增上行androidID及uuid；修复部分bug
+**3.2.4:** | api1及api2新增cookie
+**3.1.3:** | 优化UI线程
+**3.1.2:** | 修改为只请求一次api1
+**3.0.2:** | 添加api1接口
 
 > 极验会继续努力，给予您更好的服务

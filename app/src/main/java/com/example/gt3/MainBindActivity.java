@@ -64,16 +64,16 @@ public class MainBindActivity extends Activity {
         gt3ConfigBean = new GT3ConfigBean();
         // 设置验证模式，1：bind，2：unbind
         gt3ConfigBean.setPattern(1);
-        // 设置点击灰色区域是否消失，默认不消息
+        // 设置点击灰色区域是否消失，默认不消失
         gt3ConfigBean.setCanceledOnTouchOutside(false);
         // 设置debug模式，开代理可调试 TODO 线上版本关闭
         gt3ConfigBean.setDebug(false);
         // 设置语言，如果为null则使用系统默认语言
         gt3ConfigBean.setLang(null);
-        // 设置webview加载超时
-        gt3ConfigBean.setTimeout(9000);
-        // 设置webview请求超时
-        gt3ConfigBean.setWebviewTimeout(6000);
+        // 设置加载webview超时时间，单位毫秒，默认10000，仅且webview加载静态文件超时，不包括之前的http请求
+        gt3ConfigBean.setTimeout(10000);
+        // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
+        gt3ConfigBean.setWebviewTimeout(10000);
         // 设置回调监听
         gt3ConfigBean.setListener(new GT3Listener() {
 
@@ -247,5 +247,3 @@ public class MainBindActivity extends Activity {
     }
 
 }
-
-
