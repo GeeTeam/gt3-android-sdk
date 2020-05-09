@@ -1,3 +1,5 @@
+**本仓库已停止维护。通过依赖管理或手动方式获取最新 SDK 请访问 [Android SDK 及 Demo 下载地址](https://docs.geetest.com/sensebot/deploy/client/android#安装)**
+
 # gt3-android-sdk
 
 # 概述与资源
